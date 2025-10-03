@@ -79,3 +79,54 @@ export class Longitude extends Function.pipe(
  * @category Geography schemas
  */
 export class LatLong extends Schema.Tuple(Latitude, Longitude) {}
+
+/**
+ * @since 1.0.0
+ * @category Geography schemas
+ */
+export class PostalCode extends Function.pipe(
+    Schema.String,
+    Schema.pattern(/^\d{5}(-\d{4})?$/, {
+        title: "postalCode",
+        description: "A US postal code in the format 12345 or 12345-6789",
+        message: () => `a postal code in the format 12345 or 12345-6789`,
+        arbitrary: () => (fc) =>
+            fc.oneof(
+                fc.string({
+                    minLength: 5,
+                    maxLength: 5,
+                    unit: fc
+                        .integer({
+                            min: 0,
+                            max: 9,
+                        })
+                        .map((x) => `${x}`),
+                }),
+                fc
+                    .tuple(
+                        fc.string({
+                            minLength: 5,
+                            maxLength: 5,
+                            unit: fc
+                                .integer({
+                                    min: 0,
+                                    max: 9,
+                                })
+                                .map((x) => `${x}`),
+                        }),
+                        fc.string({
+                            minLength: 4,
+                            maxLength: 4,
+                            unit: fc
+                                .integer({
+                                    min: 0,
+                                    max: 9,
+                                })
+                                .map((x) => `${x}`),
+                        })
+                    )
+                    .map(([part1, part2]) => `${part1}-${part2}`)
+            ),
+    }),
+    Schema.brand("PostalCode")
+) {}

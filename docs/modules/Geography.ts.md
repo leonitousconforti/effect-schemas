@@ -21,6 +21,7 @@ Since v1.0.0
   - [LatLong (class)](#latlong-class)
   - [Latitude (class)](#latitude-class)
   - [Longitude (class)](#longitude-class)
+  - [PostalCode (class)](#postalcode-class)
 
 ---
 
@@ -93,5 +94,17 @@ declare class Longitude
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L63)
+
+Since v1.0.0
+
+## PostalCode (class)
+
+**Signature**
+
+```ts
+declare class PostalCode
+```
+
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L87)
 
 Since v1.0.0
