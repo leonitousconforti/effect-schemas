@@ -1,3 +1,9 @@
+/**
+ * Internet related schemas and filters
+ *
+ * @since 1.0.0
+ */
+
 import { Array, Effect, Function, Order, Schema, Stream, String, type ParseResult } from "effect";
 
 /** @internal */

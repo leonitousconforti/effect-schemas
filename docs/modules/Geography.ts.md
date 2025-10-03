@@ -6,6 +6,10 @@ parent: Modules
 
 ## Geography.ts overview
 
+Geography related schemas and filters
+
+Since v1.0.0
+
 ---
 
 ## Exports Grouped by Category
@@ -34,7 +38,7 @@ declare const latitude: <S extends Schema.Schema.Any>(
 ) => Schema.filter<S>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L7)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L13)
 
 Since v1.0.0
 
@@ -50,7 +54,7 @@ declare const longitude: <S extends Schema.Schema.Any>(
 ) => Schema.filter<S>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L41)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L47)
 
 Since v1.0.0
 
@@ -64,7 +68,7 @@ Since v1.0.0
 declare class LatLong
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L75)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L81)
 
 Since v1.0.0
 
@@ -76,7 +80,7 @@ Since v1.0.0
 declare class Latitude
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L23)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L29)
 
 Since v1.0.0
 
@@ -88,6 +92,6 @@ Since v1.0.0
 declare class Longitude
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L57)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L63)
 
 Since v1.0.0

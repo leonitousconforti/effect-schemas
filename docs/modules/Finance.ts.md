@@ -6,6 +6,10 @@ parent: Modules
 
 ## Finance.ts overview
 
+Finance related schemas and filters
+
+Since v1.0.0
+
 ---
 
 ## Exports Grouped by Category
@@ -41,7 +45,7 @@ declare const bic: <S extends Schema.Schema.Any>(
 ) => Schema.filter<S>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L10)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L16)
 
 Since v1.0.0
 
@@ -57,7 +61,7 @@ declare const bitcoinAddress: <S extends Schema.Schema.Any>(
 ) => Schema.filter<S>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L57)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L63)
 
 Since v1.0.0
 
@@ -73,7 +77,7 @@ declare const ethereumAddress: <S extends Schema.Schema.Any>(
 ) => Schema.filter<S>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L35)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L41)
 
 Since v1.0.0
 
@@ -93,7 +97,7 @@ A Business Identifier Code (BIC)
 declare class BIC
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L29)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L35)
 
 Since v1.0.0
 
@@ -105,7 +109,7 @@ Since v1.0.0
 declare class BitcoinAddress
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L73)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L79)
 
 Since v1.0.0
 
@@ -117,6 +121,6 @@ Since v1.0.0
 declare class EthereumAddress
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L51)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L57)
 
 Since v1.0.0

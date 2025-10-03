@@ -6,6 +6,10 @@ parent: Modules
 
 ## Person.ts overview
 
+Person related schemas and filters
+
+Since v1.0.0
+
 ---
 
 ## Exports Grouped by Category
@@ -29,7 +33,7 @@ parent: Modules
 declare class FirstName
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L20)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L26)
 
 Since v1.0.0
 
@@ -41,7 +45,7 @@ Since v1.0.0
 declare class LastName
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L46)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L52)
 
 Since v1.0.0
 
@@ -53,7 +57,7 @@ Since v1.0.0
 declare class MiddleName
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L33)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L39)
 
 Since v1.0.0
 
@@ -65,7 +69,7 @@ Since v1.0.0
 declare class Name
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L59)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L65)
 
 Since v1.0.0
 
@@ -77,6 +81,6 @@ Since v1.0.0
 declare class Sex
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L7)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L13)
 
 Since v1.0.0

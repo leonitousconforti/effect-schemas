@@ -1,3 +1,9 @@
+/**
+ * Finance related schemas and filters
+ *
+ * @since 1.0.0
+ */
+
 import { Function, Schema } from "effect";
 
 /**

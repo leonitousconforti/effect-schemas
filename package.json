@@ -51,16 +51,9 @@
         "@babel/core": "7.28.4",
         "@changesets/cli": "2.29.7",
         "@effect/build-utils": "0.8.9",
-        "@effect/cluster": "0.50.2",
         "@effect/docgen": "https://pkg.pr.new/Effect-TS/docgen/@effect/docgen@49e99a2",
-        "@effect/experimental": "0.56.0",
         "@effect/language-service": "0.41.1",
-        "@effect/platform": "0.92.1",
-        "@effect/platform-node": "0.98.2",
-        "@effect/rpc": "0.71.0",
-        "@effect/sql": "0.46.0",
         "@effect/vitest": "0.26.0",
-        "@effect/workflow": "0.11.2",
         "@eslint/js": "9.36.0",
         "@types/node": "24.6.2",
         "@typescript-eslint/parser": "8.45.0",
@@ -89,8 +82,6 @@
         "vitest": "3.2.4"
     },
     "peerDependencies": {
-        "@effect/experimental": "0.56.0",
-        "@effect/platform": "0.92.1",
         "effect": "3.18.1"
     },
     "packageManager": "pnpm@9.15.9",

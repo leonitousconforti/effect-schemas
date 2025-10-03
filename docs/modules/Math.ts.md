@@ -6,6 +6,10 @@ parent: Modules
 
 ## Math.ts overview
 
+Math related schemas and filters
+
+Since v1.0.0
+
 ---
 
 ## Exports Grouped by Category
@@ -26,7 +30,7 @@ parent: Modules
 declare class Operation
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Math.ts#L7)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Math.ts#L13)
 
 Since v1.0.0
 
@@ -38,6 +42,6 @@ Since v1.0.0
 declare class Operator
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Math.ts#L26)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Math.ts#L32)
 
 Since v1.0.0

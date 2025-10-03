@@ -6,6 +6,10 @@ parent: Modules
 
 ## Number.ts overview
 
+Number related schemas and filters
+
+Since v1.0.0
+
 ---
 
 ## Exports Grouped by Category
@@ -47,7 +51,7 @@ declare const i16: (
 ) => Schema.filter<Schema.filter<Schema.Schema.Any>>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L115)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L121)
 
 Since v1.0.0
 
@@ -65,7 +69,7 @@ declare const i32: (
 ) => Schema.filter<Schema.filter<Schema.Schema.Any>>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L131)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L137)
 
 Since v1.0.0
 
@@ -83,7 +87,7 @@ declare const i64: (
 ) => Schema.filter<Schema.filter<Schema.Schema.Any>>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L147)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L153)
 
 Since v1.0.0
 
@@ -101,7 +105,7 @@ declare const i8: (
 ) => Schema.filter<Schema.filter<Schema.Schema.Any>>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L99)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L105)
 
 Since v1.0.0
 
@@ -119,7 +123,7 @@ declare const u16: (
 ) => Schema.filter<Schema.filter<Schema.Schema.Any>>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L51)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L57)
 
 Since v1.0.0
 
@@ -137,7 +141,7 @@ declare const u32: (
 ) => Schema.filter<Schema.filter<Schema.Schema.Any>>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L67)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L73)
 
 Since v1.0.0
 
@@ -155,7 +159,7 @@ declare const u64: (
 ) => Schema.filter<Schema.filter<Schema.Schema.Any>>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L83)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L89)
 
 Since v1.0.0
 
@@ -173,7 +177,7 @@ declare const u8: (
 ) => Schema.filter<Schema.filter<Schema.Schema.Any>>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L35)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L41)
 
 Since v1.0.0
 
@@ -189,7 +193,7 @@ A signed 16 bit integer
 declare class I16
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L123)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L129)
 
 Since v1.0.0
 
@@ -203,7 +207,7 @@ A signed 32 bit integer
 declare class I32
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L139)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L145)
 
 Since v1.0.0
 
@@ -217,7 +221,7 @@ A signed 64 bit integer
 declare class I64
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L155)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L161)
 
 Since v1.0.0
 
@@ -231,7 +235,7 @@ A signed 8 bit integer
 declare class I8
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L107)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L113)
 
 Since v1.0.0
 
@@ -245,7 +249,7 @@ An unsigned 16 bit integer
 declare class U16
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L59)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L65)
 
 Since v1.0.0
 
@@ -259,7 +263,7 @@ An unsigned 32 bit integer
 declare class U32
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L75)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L81)
 
 Since v1.0.0
 
@@ -273,7 +277,7 @@ An unsigned 64 bit integer
 declare class U64
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L91)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L97)
 
 Since v1.0.0
 
@@ -287,6 +291,6 @@ An unsigned 8 bit integer
 declare class U8
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L43)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Number.ts#L49)
 
 Since v1.0.0

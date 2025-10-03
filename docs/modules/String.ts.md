@@ -6,6 +6,10 @@ parent: Modules
 
 ## String.ts overview
 
+String related schemas and filters
+
+Since v1.0.0
+
 ---
 
 ## Exports Grouped by Category
@@ -35,7 +39,7 @@ declare const ascii: <S extends Schema.Schema.Any>(
 ) => Schema.filter<S>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L7)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L13)
 
 Since v1.0.0
 
@@ -51,7 +55,7 @@ declare const hexadecimal: <S extends Schema.Schema.Any>(
 ) => Schema.filter<S>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L39)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L45)
 
 Since v1.0.0
 
@@ -67,7 +71,7 @@ declare const octal: <S extends Schema.Schema.Any>(
 ) => Schema.filter<S>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L70)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L76)
 
 Since v1.0.0
 
@@ -81,7 +85,7 @@ Since v1.0.0
 declare class Ascii
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L24)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L30)
 
 Since v1.0.0
 
@@ -93,7 +97,7 @@ Since v1.0.0
 declare class Hexadecimal
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L55)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L61)
 
 Since v1.0.0
 
@@ -105,6 +109,6 @@ Since v1.0.0
 declare class Octal
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L86)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L92)
 
 Since v1.0.0

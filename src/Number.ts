@@ -1,3 +1,9 @@
+/**
+ * Number related schemas and filters
+ *
+ * @since 1.0.0
+ */
+
 import { Function, Schema } from "effect";
 
 const unsignedMax = (n: number) => 2 ** n - 1;
