@@ -12,8 +12,8 @@
         "rewriteRelativeImportExtensions": true,
         "allowImportingTsExtensions": true,
         "paths": {
-            "effect-schemas": ["../../src/index.ts"],
-            "effect-schemas/*": ["../../src/*.ts"]
+            "@leonitousconforti/effect-schemas": ["../../src/index.ts"],
+            "@leonitousconforti/effect-schemas/*": ["../../src/*.ts"]
         }
     }
 }

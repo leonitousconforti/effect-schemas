@@ -25,14 +25,17 @@ const splitLiteral = <const Str extends string, const Delimiter extends string>(
  * @since 1.0.0
  * @category Schemas
  * @example
+ *     ```ts
+ *
+ *     import * as assert from "node:assert"
  *     import * as Schema from "effect/Schema";
- *     import { Port } from "the-moby-effect/schemas/index.js";
  *
+ *     import { Port } from "@leonitousconforti/effect-schemas/Internet";
  *     const decodePort = Schema.decodeSync(Port);
- *     assert.strictEqual(decodePort(8080), 8080);
  *
+ *     assert.strictEqual(decodePort(8080), 8080);
  *     assert.throws(() => decodePort(65536));
- *     assert.doesNotThrow(() => decodePort(8080));
+ *     ```;
  */
 export class Port extends Function.pipe(
     Schema.Int,
@@ -49,15 +52,40 @@ export class Port extends Function.pipe(
  *
  * @since 1.0.0
  * @category Schemas
+ * @example
+ *     ```ts
+ *
+ *     import * as assert from "node:assert"
+ *     import * as Schema from "effect/Schema";
+ *
+ *     import { PortWithMaybeProtocol } from "@leonitousconforti/effect-schemas/Internet";
+ *     const decodePortWithMaybeProtocol = Schema.decodeUnknownSync(PortWithMaybeProtocol);
+ *
+ *     assert.strictEqual(decodePortWithMaybeProtocol("8080"), "8080");
+ *     assert.strictEqual(decodePortWithMaybeProtocol("8080/tcp"), "8080/tcp");
+ *     assert.strictEqual(decodePortWithMaybeProtocol("8080/udp"), "8080/udp");
+ *     assert.throws(() => decodePortWithMaybeProtocol("8080/icmp"));
+ *     assert.throws(() => decodePortWithMaybeProtocol("70000"));
+ *     ```;
  */
-export class PortWithMaybeProtocol extends Schema.Union(
-    Schema.TemplateLiteral(Schema.Number),
-    Schema.TemplateLiteral(Schema.Number, "/", Schema.Literal("tcp")),
-    Schema.TemplateLiteral(Schema.Number, "/", Schema.Literal("udp"))
-).annotations({
-    title: "An OS port number with an optional protocol",
-    description: "An operating system's port number with an optional protocol",
-}) {}
+export class PortWithMaybeProtocol extends Schema.transform(
+    Schema.Union(
+        Schema.TemplateLiteral(Port),
+        Schema.TemplateLiteral(Port, "/", Schema.Literal("tcp")),
+        Schema.TemplateLiteral(Port, "/", Schema.Literal("udp"))
+    ),
+    Schema.Struct({
+        port: Schema.compose(Schema.NumberFromString, Port),
+        protocol: Schema.optional(Schema.Union(Schema.Literal("tcp"), Schema.Literal("udp"))),
+    }),
+    {
+        encode: ({ protocol }, { port }) => (protocol ? (`${port}/${protocol}` as const) : (`${port}` as const)),
+        decode: (str) => {
+            const split = splitLiteral(str, "/");
+            return { port: split[0], protocol: split[1] };
+        },
+    }
+) {}
 
 /**
  * @since 1.0.0
@@ -123,17 +151,21 @@ export const IPv4String = Schema.String.pipe(Schema.pattern(IPv4Regex));
  * @since 1.0.0
  * @category Schemas
  * @example
- *     import * as Schema from "effect/Schema";
- *     import { IPv4 } from "the-moby-effect/schemas/index.js";
+ *     ```ts
  *
+ *     import * as assert from "node:assert"
+ *     import * as Schema from "effect/Schema";
+ *
+ *     import { IPv4 } from "@leonitousconforti/effect-schemas/Internet";
  *     const decodeIPv4 = Schema.decodeSync(IPv4);
+ *
  *     assert.deepEqual(decodeIPv4("1.1.1.1"), {
  *         family: "ipv4",
  *         ip: "1.1.1.1",
  *     });
- *
  *     assert.throws(() => decodeIPv4("1.1.a.1"));
  *     assert.doesNotThrow(() => decodeIPv4("1.1.1.2"));
+ *     ```;
  */
 export class IPv4 extends Schema.transform(
     IPv4String,
@@ -155,39 +187,6 @@ export class IPv4 extends Schema.transform(
  *
  * @since 1.0.0
  * @category Schemas
- * @example
- *     import * as Schema from "effect/Schema";
- *     import { IPv4Bigint, IPv4BigintBrand } from "the-moby-effect/schemas/js";
- *
- *     const x: IPv4BigintBrand = IPv4BigintBrand(748392749382n);
- *     assert.strictEqual(x, 748392749382n);
- *
- *     const decodeIPv4Bigint = Schema.decodeSync(IPv4Bigint);
- *     const encodeIPv4Bigint = Schema.encodeSync(IPv4Bigint);
- *
- *     assert.deepEqual(decodeIPv4Bigint("1.1.1.1"), {
- *         family: "ipv4",
- *         value: 16843009n,
- *     });
- *     assert.deepEqual(decodeIPv4Bigint("254.254.254.254"), {
- *         family: "ipv4",
- *         value: 4278124286n,
- *     });
- *
- *     assert.strictEqual(
- *         encodeIPv4Bigint({
- *             value: IPv4BigintBrand(16843009n),
- *             family: "ipv4",
- *         }),
- *         "1.1.1.1"
- *     );
- *     assert.strictEqual(
- *         encodeIPv4Bigint({
- *             value: IPv4BigintBrand(4278124286n),
- *             family: "ipv4",
- *         }),
- *         "254.254.254.254"
- *     );
  */
 export class IPv4Bigint extends Schema.transformOrFail(
     IPv4,
@@ -268,15 +267,18 @@ export const IPv6String = Schema.String.pipe(Schema.pattern(IPv6Regex));
  * @since 1.0.0
  * @category Schemas
  * @example
- *     import * as Schema from "effect/Schema";
- *     import { IPv6 } from "the-moby-effect/schemas/index.js";
+ *     ```ts
  *
+ *     import * as assert from "node:assert"
+ *     import * as Schema from "effect/Schema";
+ *
+ *     import { IPv6 } from "@leonitousconforti/effect-schemas/Internet";
  *     const decodeIPv6 = Schema.decodeSync(IPv6);
+ *
  *     assert.deepEqual(decodeIPv6("2001:0db8:85a3:0000:0000:8a2e:0370:7334"), {
  *         family: "ipv6",
  *         ip: "2001:0db8:85a3:0000:0000:8a2e:0370:7334",
  *     });
- *
  *     assert.throws(() =>
  *         decodeIPv6("2001:0db8:85a3:0000:0000:8a2e:0370:7334:")
  *     );
@@ -284,6 +286,7 @@ export const IPv6String = Schema.String.pipe(Schema.pattern(IPv6Regex));
  *     assert.doesNotThrow(() =>
  *         decodeIPv6("2001:0db8:85a3:0000:0000:8a2e:0370:7334")
  *     );
+ *     ```;
  */
 export class IPv6 extends Schema.transform(
     IPv6String,
@@ -304,39 +307,6 @@ export class IPv6 extends Schema.transform(
  *
  * @since 1.0.0
  * @category Schemas
- * @example
- *     import * as Schema from "effect/Schema";
- *     import { IPv6Bigint, IPv6BigintBrand } from "the-moby-effect/schemas/js";
- *
- *     const y: IPv6BigintBrand = IPv6BigintBrand(748392749382n);
- *     assert.strictEqual(y, 748392749382n);
- *
- *     const decodeIPv6Bigint = Schema.decodeSync(IPv6Bigint);
- *     const encodeIPv6Bigint = Schema.encodeSync(IPv6Bigint);
- *
- *     assert.deepEqual(
- *         decodeIPv6Bigint("4cbd:ff70:e62b:a048:686c:4e7e:a68a:c377"),
- *         { value: 102007852745154114519525620108359287671n, family: "ipv6" }
- *     );
- *     assert.deepEqual(
- *         decodeIPv6Bigint("d8c6:3feb:46e6:b80c:5a07:6227:ac19:caf6"),
- *         { value: 288142618299897818094313964584331496182n, family: "ipv6" }
- *     );
- *
- *     assert.deepEqual(
- *         encodeIPv6Bigint({
- *             value: IPv6BigintBrand(102007852745154114519525620108359287671n),
- *             family: "ipv6",
- *         }),
- *         "4cbd:ff70:e62b:a048:686c:4e7e:a68a:c377"
- *     );
- *     assert.deepEqual(
- *         encodeIPv6Bigint({
- *             value: IPv6BigintBrand(288142618299897818094313964584331496182n),
- *             family: "ipv6",
- *         }),
- *         "d8c6:3feb:46e6:b80c:5a07:6227:ac19:caf6"
- *     );
  */
 export class IPv6Bigint extends Schema.transformOrFail(
     IPv6,
@@ -426,20 +396,20 @@ export class AddressString extends Schema.Union(IPv4String, IPv6String).annotati
  * @since 1.0.0
  * @category Schemas
  * @example
- *     import * as Schema from "effect/Schema";
- *     import { Address } from "the-moby-effect/schemas/index.js";
+ *     ```ts
  *
+ *     import * as assert from "node:assert"
+ *     import * as Schema from "effect/Schema";
+ *
+ *     import { Address } from "@leonitousconforti/effect-schemas/Internet";
  *     const decodeAddress = Schema.decodeSync(Address);
  *
  *     assert.throws(() => decodeAddress("1.1.b.1"));
- *     assert.throws(() =>
- *         decodeAddress("2001:0db8:85a3:0000:0000:8a2e:0370:7334:")
- *     );
+ *     assert.throws(() => decodeAddress("2001:0db8:85a3:0000:0000:8a2e:0370:7334:"));
  *
  *     assert.doesNotThrow(() => decodeAddress("1.1.1.2"));
- *     assert.doesNotThrow(() =>
- *         decodeAddress("2001:0db8:85a3:0000:0000:8a2e:0370:7334")
- *     );
+ *     assert.doesNotThrow(() => decodeAddress("2001:0db8:85a3:0000:0000:8a2e:0370:7334"));
+ *     ```;
  *
  * @see {@link IPv4}
  * @see {@link IPv6}
@@ -463,22 +433,6 @@ export class AddressBigint extends Schema.Union(IPv4Bigint, IPv6Bigint).annotati
  *
  * @since 1.0.0
  * @category Schemas
- * @example
- *     import * as Schema from "effect/Schema";
- *     import {
- *         IPv4CidrMask,
- *         IPv4CidrMaskBrand,
- *     } from "the-moby-effect/schemas/CidrBlockMask.js";
- *
- *     const mask: IPv4CidrMaskBrand = IPv4CidrMaskBrand(24);
- *     assert.strictEqual(mask, 24);
- *
- *     const decodeMask = Schema.decodeSync(IPv4CidrMask);
- *     assert.strictEqual(decodeMask(24), 24);
- *
- *     assert.throws(() => decodeMask(33));
- *     assert.doesNotThrow(() => decodeMask(0));
- *     assert.doesNotThrow(() => decodeMask(32));
  */
 export class IPv4CidrMask extends Schema.Int.pipe(Schema.between(0, 32))
     .pipe(Schema.brand("IPv4CidrMask"))
@@ -491,22 +445,6 @@ export class IPv4CidrMask extends Schema.Int.pipe(Schema.between(0, 32))
  *
  * @since 1.0.0
  * @category Schemas
- * @example
- *     import * as Schema from "effect/Schema";
- *     import {
- *         IPv6CidrMask,
- *         IPv6CidrMaskBrand,
- *     } from "the-moby-effect/schemas/CidrBlockMask.js";
- *
- *     const mask: IPv6CidrMaskBrand = IPv6CidrMaskBrand(64);
- *     assert.strictEqual(mask, 64);
- *
- *     const decodeMask = Schema.decodeSync(IPv6CidrMask);
- *     assert.strictEqual(decodeMask(64), 64);
- *
- *     assert.throws(() => decodeMask(129));
- *     assert.doesNotThrow(() => decodeMask(0));
- *     assert.doesNotThrow(() => decodeMask(128));
  */
 export class IPv6CidrMask extends Schema.Int.pipe(Schema.between(0, 128))
     .pipe(Schema.brand("IPv6CidrMask"))
