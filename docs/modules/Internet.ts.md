@@ -78,7 +78,7 @@ Since v1.0.0
 declare const IPv4Regex: RegExp
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L105)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L102)
 
 Since v1.0.0
 
@@ -94,7 +94,7 @@ Since v1.0.0
 declare const IPv4Segment: "(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])"
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L93)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L90)
 
 Since v1.0.0
 
@@ -106,7 +106,7 @@ Since v1.0.0
 declare const IPv4StringRegex: "(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])"
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L99)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L96)
 
 Since v1.0.0
 
@@ -118,7 +118,7 @@ Since v1.0.0
 declare const IPv6Regex: RegExp
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L242)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L236)
 
 Since v1.0.0
 
@@ -134,7 +134,7 @@ Since v1.0.0
 declare const IPv6Segment: "(?:[0-9a-fA-F]{1,4})"
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L236)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L230)
 
 Since v1.0.0
 
@@ -150,7 +150,7 @@ Since v1.0.0
 declare const MacAddressRegex: RegExp
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L69)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L67)
 
 Since v1.0.0
 
@@ -186,7 +186,7 @@ assert.doesNotThrow(() => decodeAddress("2001:0db8:85a3:0000:0000:8a2e:0370:7334
 declare class Address
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L458)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L447)
 
 Since v1.0.0
 
@@ -200,7 +200,7 @@ An IP address as a bigint.
 declare class AddressBigint
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L469)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L457)
 
 Since v1.0.0
 
@@ -214,7 +214,7 @@ An IP address in string format, which is either an IPv4 or IPv6 address.
 declare class AddressString
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L429)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L419)
 
 Since v1.0.0
 
@@ -226,7 +226,7 @@ Since v1.0.0
 declare class CidrBlock
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L934)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L915)
 
 Since v1.0.0
 
@@ -240,7 +240,7 @@ A schema that transforms a `string` into a `CidrBlock`.
 declare class CidrBlockFromString
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L942)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L923)
 
 Since v1.0.0
 
@@ -257,7 +257,7 @@ Since v1.0.0
 declare class Family
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L418)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L409)
 
 Since v1.0.0
 
@@ -287,7 +287,7 @@ assert.doesNotThrow(() => decodeIPv4("1.1.1.2"))
 declare class IPv4
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L142)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L138)
 
 Since v1.0.0
 
@@ -338,7 +338,7 @@ assert.strictEqual(
 declare class IPv4Bigint
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L197)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L192)
 
 Since v1.0.0
 
@@ -350,7 +350,7 @@ Since v1.0.0
 declare class IPv4CidrBlock
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L770)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L755)
 
 Since v1.0.0
 
@@ -365,7 +365,7 @@ referred to as the Network Address.
 networkAddressAsBigint: this extends IPv4CidrBlock ? { readonly value: bigint & Brand<"IPv4Bigint">; readonly family: "ipv4"; } : this extends IPv6CidrBlock ? { readonly value: bigint & Brand<"IPv6Bigint">; readonly family: "ipv6"; } : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L786)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L770)
 
 Since v1.0.0
 
@@ -380,7 +380,7 @@ referred to as the Network Address.
 networkAddress: this extends IPv4CidrBlock ? { readonly family: "ipv4"; readonly ip: string & Brand<"IPv4">; } : this extends IPv6CidrBlock ? { readonly family: "ipv6"; readonly ip: string & Brand<"IPv6">; } : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L794)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L778)
 
 Since v1.0.0
 
@@ -395,7 +395,7 @@ referred to as the Broadcast Address.
 broadcastAddressAsBigint: this extends IPv4CidrBlock ? { readonly value: bigint & Brand<"IPv4Bigint">; readonly family: "ipv4"; } : this extends IPv6CidrBlock ? { readonly value: bigint & Brand<"IPv6Bigint">; readonly family: "ipv6"; } : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L802)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L786)
 
 Since v1.0.0
 
@@ -410,7 +410,7 @@ referred to as the Broadcast Address.
 broadcastAddress: this extends IPv4CidrBlock ? { readonly family: "ipv4"; readonly ip: string & Brand<"IPv4">; } : this extends IPv6CidrBlock ? { readonly family: "ipv6"; readonly ip: string & Brand<"IPv6">; } : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L810)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L794)
 
 Since v1.0.0
 
@@ -424,7 +424,7 @@ A stream of all addresses in the range given by this address' subnet.
 range: this extends IPv4CidrBlock ? Stream.Stream<{ readonly family: "ipv4"; readonly ip: string & Brand<"IPv4">; }, ParseResult.ParseError, never> : this extends IPv6CidrBlock ? Stream.Stream<{ readonly family: "ipv6"; readonly ip: string & Brand<"IPv6">; }, ParseResult.ParseError, never> : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L817)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L801)
 
 Since v1.0.0
 
@@ -438,7 +438,7 @@ The total number of addresses in the range given by this address' subnet.
 total: bigint
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L824)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L808)
 
 Since v1.0.0
 
@@ -452,7 +452,7 @@ A schema that transforms a `string` into a `CidrBlock`.
 declare class IPv4CidrBlockFromString
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L833)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L817)
 
 Since v1.0.0
 
@@ -483,7 +483,7 @@ assert.doesNotThrow(() => decodeMask(32))
 declare class IPv4CidrMask
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L496)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L483)
 
 Since v1.0.0
 
@@ -495,7 +495,7 @@ Since v1.0.0
 declare class IPv4Family
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L111)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L108)
 
 Since v1.0.0
 
@@ -509,7 +509,7 @@ An IPv4 address in dot-decimal notation with no leading zeros.
 declare const IPv4String: Schema.filter<typeof Schema.String>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L122)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L118)
 
 Since v1.0.0
 
@@ -540,7 +540,7 @@ assert.doesNotThrow(() => decodeIPv6("2001:0db8:85a3:0000:0000:8a2e:0370:7334"))
 declare class IPv6
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L295)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L288)
 
 Since v1.0.0
 
@@ -591,7 +591,7 @@ assert.deepEqual(
 declare class IPv6Bigint
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L349)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L341)
 
 Since v1.0.0
 
@@ -603,7 +603,7 @@ Since v1.0.0
 declare class IPv6CidrBlock
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L852)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L835)
 
 Since v1.0.0
 
@@ -618,7 +618,7 @@ referred to as the Network Address.
 networkAddressAsBigint: { readonly value: bigint & Brand<"IPv6Bigint">; readonly family: "ipv6"; }
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L868)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L850)
 
 Since v1.0.0
 
@@ -633,7 +633,7 @@ referred to as the Network Address.
 networkAddress: this extends IPv4CidrBlock ? { readonly family: "ipv4"; readonly ip: string & Brand<"IPv4">; } : this extends IPv6CidrBlock ? { readonly family: "ipv6"; readonly ip: string & Brand<"IPv6">; } : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L876)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L858)
 
 Since v1.0.0
 
@@ -648,7 +648,7 @@ referred to as the Broadcast Address.
 broadcastAddressAsBigint: this extends IPv4CidrBlock ? { readonly value: bigint & Brand<"IPv4Bigint">; readonly family: "ipv4"; } : this extends IPv6CidrBlock ? { readonly value: bigint & Brand<"IPv6Bigint">; readonly family: "ipv6"; } : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L884)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L866)
 
 Since v1.0.0
 
@@ -663,7 +663,7 @@ referred to as the Broadcast Address.
 broadcastAddress: this extends IPv4CidrBlock ? { readonly family: "ipv4"; readonly ip: string & Brand<"IPv4">; } : this extends IPv6CidrBlock ? { readonly family: "ipv6"; readonly ip: string & Brand<"IPv6">; } : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L892)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L874)
 
 Since v1.0.0
 
@@ -677,7 +677,7 @@ A stream of all addresses in the range given by this address' subnet.
 range: this extends IPv4CidrBlock ? Stream.Stream<{ readonly family: "ipv4"; readonly ip: string & Brand<"IPv4">; }, ParseResult.ParseError, never> : this extends IPv6CidrBlock ? Stream.Stream<{ readonly family: "ipv6"; readonly ip: string & Brand<"IPv6">; }, ParseResult.ParseError, never> : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L899)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L881)
 
 Since v1.0.0
 
@@ -691,7 +691,7 @@ The total number of addresses in the range given by this address' subnet.
 total: bigint
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L906)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L888)
 
 Since v1.0.0
 
@@ -705,7 +705,7 @@ A schema that transforms a `string` into a `CidrBlock`.
 declare class IPv6CidrBlockFromString
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L915)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L897)
 
 Since v1.0.0
 
@@ -736,7 +736,7 @@ assert.doesNotThrow(() => decodeMask(128))
 declare class IPv6CidrMask
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L525)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L511)
 
 Since v1.0.0
 
@@ -748,7 +748,7 @@ Since v1.0.0
 declare class IPv6Family
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L259)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L253)
 
 Since v1.0.0
 
@@ -762,7 +762,7 @@ An IPv6 address in string format.
 declare const IPv6String: Schema.filter<typeof Schema.String>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L270)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L263)
 
 Since v1.0.0
 
@@ -776,7 +776,7 @@ A Mac Address.
 declare class MacAddress
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L77)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L75)
 
 Since v1.0.0
 
@@ -817,7 +817,7 @@ An operating system port number with an optional protocol.
 declare class PortWithMaybeProtocol
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L54)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L53)
 
 Since v1.0.0
 
@@ -840,7 +840,7 @@ declare const broadcastAddress: <Input extends IPv4CidrBlock | IPv6CidrBlock>(
     : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L665)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L650)
 
 Since v1.0.0
 
@@ -861,7 +861,7 @@ declare const broadcastAddressAsBigint: <Input extends IPv4CidrBlock | IPv6CidrB
     : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L632)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L617)
 
 Since v1.0.0
 
@@ -881,7 +881,7 @@ declare const cidrBlockForRange: <
 ) => IPv4CidrBlock | IPv6CidrBlock
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L726)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L711)
 
 Since v1.0.0
 
@@ -902,7 +902,7 @@ declare const networkAddress: <Input extends IPv4CidrBlock | IPv6CidrBlock>(
     : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L615)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L600)
 
 Since v1.0.0
 
@@ -923,7 +923,7 @@ declare const networkAddressAsBigint: <Input extends IPv4CidrBlock | IPv6CidrBlo
     : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L582)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L567)
 
 Since v1.0.0
 
@@ -943,7 +943,7 @@ declare const range: <Input extends IPv4CidrBlock | IPv6CidrBlock>(
     : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L681)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L666)
 
 Since v1.0.0
 
@@ -957,6 +957,6 @@ The total number of addresses in the range given by this address' subnet.
 declare const total: (input: IPv4CidrBlock | IPv6CidrBlock) => bigint
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L715)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Internet.ts#L700)
 
 Since v1.0.0
