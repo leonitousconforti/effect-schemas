@@ -39,7 +39,6 @@ export class Port extends Function.pipe(
     Schema.between(0, 2 ** 16 - 1),
     Schema.brand("Port"),
     Schema.annotations({
-        identifier: "Port",
         title: "An OS port number",
         description: "An operating system's port number between 0 and 65535 (inclusive)",
     })
@@ -56,7 +55,6 @@ export class PortWithMaybeProtocol extends Schema.Union(
     Schema.TemplateLiteral(Schema.Number, "/", Schema.Literal("tcp")),
     Schema.TemplateLiteral(Schema.Number, "/", Schema.Literal("udp"))
 ).annotations({
-    identifier: "PortWithMaybeProtocol",
     title: "An OS port number with an optional protocol",
     description: "An operating system's port number with an optional protocol",
 }) {}
@@ -79,7 +77,6 @@ export class MacAddress extends Function.pipe(
     Schema.pattern(MacAddressRegex),
     Schema.brand("MacAddress"),
     Schema.annotations({
-        identifier: "MacAddress",
         title: "A MacAddress",
         description: "A network interface's MacAddress",
     })
@@ -109,7 +106,6 @@ export const IPv4Regex = new RegExp(`^${IPv4StringRegex}$`);
  * @category Schemas
  */
 export class IPv4Family extends Schema.Literal("ipv4").annotations({
-    identifier: "IPv4Family",
     description: "An ipv4 family",
 }) {}
 
@@ -150,7 +146,6 @@ export class IPv4 extends Schema.transform(
         decode: (ip) => ({ ip, family: "ipv4" }) as const,
     }
 ).annotations({
-    identifier: "IPv4",
     title: "An ipv4 address",
     description: "An ipv4 address in dot-decimal notation with no leading zeros",
 }) {}
@@ -224,7 +219,6 @@ export class IPv4Bigint extends Schema.transformOrFail(
             ),
     }
 ).annotations({
-    identifier: "IPv4Bigint",
     description: "An ipv4 address as a bigint",
 }) {}
 
@@ -242,13 +236,13 @@ export const IPv6Segment = "(?:[0-9a-fA-F]{1,4})";
 export const IPv6Regex = new RegExp(
     "^(?:" +
         `(?:${IPv6Segment}:){7}(?:${IPv6Segment}|:)|` +
-        `(?:${IPv6Segment}:){6}(?:${IPv4String}|:${IPv6Segment}|:)|` +
-        `(?:${IPv6Segment}:){5}(?::${IPv4String}|(?::${IPv6Segment}){1,2}|:)|` +
-        `(?:${IPv6Segment}:){4}(?:(?::${IPv6Segment}){0,1}:${IPv4String}|(?::${IPv6Segment}){1,3}|:)|` +
-        `(?:${IPv6Segment}:){3}(?:(?::${IPv6Segment}){0,2}:${IPv4String}|(?::${IPv6Segment}){1,4}|:)|` +
-        `(?:${IPv6Segment}:){2}(?:(?::${IPv6Segment}){0,3}:${IPv4String}|(?::${IPv6Segment}){1,5}|:)|` +
-        `(?:${IPv6Segment}:){1}(?:(?::${IPv6Segment}){0,4}:${IPv4String}|(?::${IPv6Segment}){1,6}|:)|` +
-        `(?::(?:(?::${IPv6Segment}){0,5}:${IPv4String}|(?::${IPv6Segment}){1,7}|:))` +
+        `(?:${IPv6Segment}:){6}(?:${IPv4StringRegex}|:${IPv6Segment}|:)|` +
+        `(?:${IPv6Segment}:){5}(?::${IPv4StringRegex}|(?::${IPv6Segment}){1,2}|:)|` +
+        `(?:${IPv6Segment}:){4}(?:(?::${IPv6Segment}){0,1}:${IPv4StringRegex}|(?::${IPv6Segment}){1,3}|:)|` +
+        `(?:${IPv6Segment}:){3}(?:(?::${IPv6Segment}){0,2}:${IPv4StringRegex}|(?::${IPv6Segment}){1,4}|:)|` +
+        `(?:${IPv6Segment}:){2}(?:(?::${IPv6Segment}){0,3}:${IPv4StringRegex}|(?::${IPv6Segment}){1,5}|:)|` +
+        `(?:${IPv6Segment}:){1}(?:(?::${IPv6Segment}){0,4}:${IPv4StringRegex}|(?::${IPv6Segment}){1,6}|:)|` +
+        `(?::(?:(?::${IPv6Segment}){0,5}:${IPv4StringRegex}|(?::${IPv6Segment}){1,7}|:))` +
         ")(?:%[0-9a-zA-Z-.:]{1,})?$"
 );
 
@@ -257,7 +251,6 @@ export const IPv6Regex = new RegExp(
  * @category Schemas
  */
 export class IPv6Family extends Schema.Literal("ipv6").annotations({
-    identifier: "IPv6Family",
     description: "An ipv6 family",
 }) {}
 
@@ -303,7 +296,6 @@ export class IPv6 extends Schema.transform(
         decode: (ip) => ({ ip, family: "ipv6" }) as const,
     }
 ).annotations({
-    identifier: "IPv6",
     description: "An ipv6 address",
 }) {}
 
@@ -405,7 +397,6 @@ export class IPv6Bigint extends Schema.transformOrFail(
         },
     }
 ).annotations({
-    identifier: "IPv6Bigint",
     description: "An ipv6 address as a bigint",
 }) {}
 
@@ -416,7 +407,6 @@ export class IPv6Bigint extends Schema.transformOrFail(
  * @see {@link IPv6Family}
  */
 export class Family extends Schema.Union(IPv4Family, IPv6Family).annotations({
-    identifier: "Family",
     description: "An ipv4 or ipv6 family",
 }) {}
 
@@ -427,7 +417,6 @@ export class Family extends Schema.Union(IPv4Family, IPv6Family).annotations({
  * @category Schemas
  */
 export class AddressString extends Schema.Union(IPv4String, IPv6String).annotations({
-    identifier: "AddressString",
     description: "An ipv4 or ipv6 address in string format",
 }) {}
 
@@ -456,7 +445,6 @@ export class AddressString extends Schema.Union(IPv4String, IPv6String).annotati
  * @see {@link IPv6}
  */
 export class Address extends Schema.Union(IPv4, IPv6).annotations({
-    identifier: "Address",
     description: "An ipv4 or ipv6 address",
 }) {}
 
@@ -467,7 +455,6 @@ export class Address extends Schema.Union(IPv4, IPv6).annotations({
  * @category Schemas
  */
 export class AddressBigint extends Schema.Union(IPv4Bigint, IPv6Bigint).annotations({
-    identifier: "AddressBigint",
     description: "An ipv4 or ipv6 address as a bigint",
 }) {}
 
@@ -496,7 +483,6 @@ export class AddressBigint extends Schema.Union(IPv4Bigint, IPv6Bigint).annotati
 export class IPv4CidrMask extends Schema.Int.pipe(Schema.between(0, 32))
     .pipe(Schema.brand("IPv4CidrMask"))
     .annotations({
-        identifier: "IPv4CidrMask",
         description: "An ipv4 cidr mask",
     }) {}
 
@@ -525,7 +511,6 @@ export class IPv4CidrMask extends Schema.Int.pipe(Schema.between(0, 32))
 export class IPv6CidrMask extends Schema.Int.pipe(Schema.between(0, 128))
     .pipe(Schema.brand("IPv6CidrMask"))
     .annotations({
-        identifier: "IPv6CidrMask",
         description: "An ipv6 cidr mask",
     }) {}
 
@@ -773,7 +758,6 @@ export class IPv4CidrBlock extends Schema.Class<IPv4CidrBlock>("IPv4CidrBlock")(
         mask: IPv4CidrMask,
     },
     {
-        identifier: "IPv4CidrBlock",
         description: "An ipv4 cidr block",
     }
 ) {
@@ -841,7 +825,6 @@ export class IPv4CidrBlockFromString extends Schema.transform(
         encode: ({ address, mask }) => `${address}/${mask}` as const,
     }
 ).annotations({
-    identifier: "IPv4CidrBlockFromString",
     description: "An ipv4 cidr block from string",
 }) {}
 
@@ -855,7 +838,6 @@ export class IPv6CidrBlock extends Schema.Class<IPv6CidrBlock>("IPv6CidrBlock")(
         mask: IPv6CidrMask,
     },
     {
-        identifier: "IPv6CidrBlock",
         description: "An ipv6 cidr block",
     }
 ) {
@@ -923,7 +905,6 @@ export class IPv6CidrBlockFromString extends Schema.transform(
         encode: ({ address, mask }) => `${address}/${mask}` as const,
     }
 ).annotations({
-    identifier: "IPv6CidrBlockFromString",
     description: "An ipv6 cidr block from string",
 }) {}
 
@@ -950,6 +931,5 @@ export class CidrBlockFromString extends Schema.transform(
         encode: ({ address, mask }) => `${address}/${mask}` as const,
     }
 ).annotations({
-    identifier: "CidrBlockFromString",
     description: "A cidr block",
 }) {}
