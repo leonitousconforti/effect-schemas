@@ -70,12 +70,12 @@ export class Port extends Function.pipe(
  */
 export class PortWithMaybeProtocol extends Schema.transform(
     Schema.Union(
-        Schema.TemplateLiteral(Port),
-        Schema.TemplateLiteral(Port, "/", Schema.Literal("tcp")),
-        Schema.TemplateLiteral(Port, "/", Schema.Literal("udp"))
+        Schema.TemplateLiteral(Schema.Number),
+        Schema.TemplateLiteral(Schema.Number, "/", Schema.Literal("tcp")),
+        Schema.TemplateLiteral(Schema.Number, "/", Schema.Literal("udp"))
     ),
     Schema.Struct({
-        port: Schema.compose(Schema.NumberFromString, Port),
+        port: Schema.Union(Port, Schema.compose(Schema.NumberFromString, Port)),
         protocol: Schema.optional(Schema.Union(Schema.Literal("tcp"), Schema.Literal("udp"))),
     }),
     {
