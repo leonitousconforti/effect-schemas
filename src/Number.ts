@@ -40,6 +40,40 @@ const i =
             })
         );
 
+const unsignedMaxBigint = (n: number) => 2n ** BigInt(n) - 1n;
+const signedMinBigint = (n: number) => -(2n ** BigInt(n - 1));
+const signedMaxBigint = (n: number) => 2n ** BigInt(n - 1) - 1n;
+
+const ub =
+    (n: number) =>
+    (
+        annotations?: Schema.Annotations.Filter<Schema.Schema.Type<Schema.BigInt>> | undefined
+    ): Schema.filter<typeof Schema.BigInt> =>
+        Function.pipe(
+            Schema.BigInt,
+            Schema.betweenBigInt(0n, BigInt(unsignedMaxBigint(n)), {
+                message: () => `an unsigned ${n} bit integer`,
+                identifier: `U${n}`,
+                description: `An unsigned ${n} bit integer`,
+                ...annotations,
+            })
+        );
+
+const ib =
+    (n: number) =>
+    (
+        annotations?: Schema.Annotations.Filter<Schema.Schema.Type<Schema.BigInt>> | undefined
+    ): Schema.filter<typeof Schema.BigInt> =>
+        Function.pipe(
+            Schema.BigInt,
+            Schema.betweenBigInt(BigInt(signedMinBigint(n)), BigInt(signedMaxBigint(n)), {
+                message: () => `a signed ${n} bit integer`,
+                identifier: `I${n}`,
+                description: `A signed ${n} bit integer`,
+                ...annotations,
+            })
+        );
+
 /**
  * An unsigned 8 bit integer
  *
@@ -94,7 +128,7 @@ export class U32 extends Function.pipe(u32(), Schema.brand("U32")) {}
  * @since 1.0.0
  * @category Number filters
  */
-export const u64 = u(64);
+export const u64 = ub(64);
 
 /**
  * An unsigned 64 bit integer
@@ -158,7 +192,7 @@ export class I32 extends Function.pipe(i32(), Schema.brand("I32")) {}
  * @since 1.0.0
  * @category Number filters
  */
-export const i64 = i(64);
+export const i64 = ib(64);
 
 /**
  * A signed 64 bit integer
@@ -167,7 +201,3 @@ export const i64 = i(64);
  * @category Number schemas
  */
 export class I64 extends Function.pipe(i64(), Schema.brand("I64")) {}
-
-// type t1 = Schema.Schema.Type<U8>;
-// type t2 = Schema.Schema.Encoded<U8>;
-// type t3 = Schema.Schema.Context<U8>;
