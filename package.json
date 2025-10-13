@@ -1,6 +1,6 @@
 {
     "name": "effect-schemas",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "GNU ustar tar implementation written using effect-ts",
     "keywords": [
         "tar",

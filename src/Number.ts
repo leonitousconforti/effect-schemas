@@ -47,10 +47,14 @@ const signedMaxBigint = (n: number) => 2n ** BigInt(n - 1) - 1n;
 const ub =
     (n: number) =>
     (
-        annotations?: Schema.Annotations.Filter<Schema.Schema.Type<Schema.BigInt>> | undefined
-    ): Schema.filter<typeof Schema.BigInt> =>
+        annotations?:
+            | Schema.Annotations.Filter<
+                  Schema.Schema.Type<Schema.Union<[typeof Schema.BigIntFromNumber, typeof Schema.BigInt]>>
+              >
+            | undefined
+    ): Schema.filter<Schema.Union<[typeof Schema.BigIntFromNumber, typeof Schema.BigInt]>> =>
         Function.pipe(
-            Schema.BigInt,
+            Schema.Union(Schema.BigIntFromNumber, Schema.BigInt),
             Schema.betweenBigInt(0n, BigInt(unsignedMaxBigint(n)), {
                 message: () => `an unsigned ${n} bit integer`,
                 identifier: `U${n}`,
@@ -62,10 +66,14 @@ const ub =
 const ib =
     (n: number) =>
     (
-        annotations?: Schema.Annotations.Filter<Schema.Schema.Type<Schema.BigInt>> | undefined
-    ): Schema.filter<typeof Schema.BigInt> =>
+        annotations?:
+            | Schema.Annotations.Filter<
+                  Schema.Schema.Type<Schema.Union<[typeof Schema.BigIntFromNumber, typeof Schema.BigInt]>>
+              >
+            | undefined
+    ): Schema.filter<Schema.Union<[typeof Schema.BigIntFromNumber, typeof Schema.BigInt]>> =>
         Function.pipe(
-            Schema.BigInt,
+            Schema.Union(Schema.BigIntFromNumber, Schema.BigInt),
             Schema.betweenBigInt(BigInt(signedMinBigint(n)), BigInt(signedMaxBigint(n)), {
                 message: () => `a signed ${n} bit integer`,
                 identifier: `I${n}`,
