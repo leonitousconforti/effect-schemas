@@ -50,3 +50,10 @@ export * as Person from "./Person.ts"
  * @since 1.0.0
  */
 export * as String from "./String.ts"
+
+/**
+ * Temperature schemas to decode and encode different units.
+ *
+ * @since 1.0.0
+ */
+export * as Temperature from "./Temperature.ts"

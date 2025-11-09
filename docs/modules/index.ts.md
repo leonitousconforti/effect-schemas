@@ -20,6 +20,7 @@ Since v1.0.0
   - [Number (namespace export)](#number-namespace-export)
   - [Person (namespace export)](#person-namespace-export)
   - [String (namespace export)](#string-namespace-export)
+  - [Temperature (namespace export)](#temperature-namespace-export)
 
 ---
 
@@ -120,5 +121,19 @@ export * as String from "./String.ts"
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/index.ts#L52)
+
+Since v1.0.0
+
+## Temperature (namespace export)
+
+Re-exports all named exports from the "./Temperature.ts" module as `Temperature`.
+
+**Signature**
+
+```ts
+export * as Temperature from "./Temperature.ts"
+```
+
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/index.ts#L59)
 
 Since v1.0.0

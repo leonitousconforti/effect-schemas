@@ -18,7 +18,8 @@ Since v1.0.0
   - [latitude](#latitude)
   - [longitude](#longitude)
 - [Geography schemas](#geography-schemas)
-  - [LatLong (class)](#latlong-class)
+  - [AlphanumericGeocode (class)](#alphanumericgeocode-class)
+  - [LatLon (class)](#latlon-class)
   - [Latitude (class)](#latitude-class)
   - [Longitude (class)](#longitude-class)
   - [PostalCode (class)](#postalcode-class)
@@ -61,12 +62,24 @@ Since v1.0.0
 
 # Geography schemas
 
-## LatLong (class)
+## AlphanumericGeocode (class)
 
 **Signature**
 
 ```ts
-declare class LatLong
+declare class AlphanumericGeocode
+```
+
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L138)
+
+Since v1.0.0
+
+## LatLon (class)
+
+**Signature**
+
+```ts
+declare class LatLon
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L81)

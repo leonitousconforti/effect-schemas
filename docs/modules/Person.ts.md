@@ -14,7 +14,7 @@ Since v1.0.0
 
 ## Exports Grouped by Category
 
-- [Person](#person)
+- [Person Schemas](#person-schemas)
   - [FirstName (class)](#firstname-class)
   - [LastName (class)](#lastname-class)
   - [MiddleName (class)](#middlename-class)
@@ -23,7 +23,7 @@ Since v1.0.0
 
 ---
 
-# Person
+# Person Schemas
 
 ## FirstName (class)
 

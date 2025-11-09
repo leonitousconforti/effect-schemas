@@ -8,7 +8,7 @@ import { Function, Schema } from "effect";
 
 /**
  * @since 1.0.0
- * @category Person
+ * @category Person Schemas
  */
 export class Sex extends Function.pipe(
     Schema.Literal("male", "female"),
@@ -21,7 +21,7 @@ export class Sex extends Function.pipe(
 
 /**
  * @since 1.0.0
- * @category Person
+ * @category Person Schemas
  */
 export class FirstName extends Function.pipe(
     Schema.String,
@@ -34,7 +34,7 @@ export class FirstName extends Function.pipe(
 
 /**
  * @since 1.0.0
- * @category Person
+ * @category Person Schemas
  */
 export class MiddleName extends Function.pipe(
     Schema.String,
@@ -47,7 +47,7 @@ export class MiddleName extends Function.pipe(
 
 /**
  * @since 1.0.0
- * @category Person
+ * @category Person Schemas
  */
 export class LastName extends Function.pipe(
     Schema.String,
@@ -60,7 +60,7 @@ export class LastName extends Function.pipe(
 
 /**
  * @since 1.0.0
- * @category Person
+ * @category Person Schemas
  */
 export class Name extends Function.pipe(
     Schema.String,
