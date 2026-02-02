@@ -11,9 +11,9 @@ import { Function, Schema } from "effect";
  * @category String filters
  */
 export const ascii = <S extends Schema.Schema.Any>(
-    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
+    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined,
 ): (<A extends string>(
-    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
+    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>,
 ) => Schema.filter<S>) =>
     // eslint-disable-next-line no-control-regex
     Schema.pattern(/^[\x00-\x7F]+$/, {
@@ -35,7 +35,7 @@ export class Ascii extends Function.pipe(
                 unit: "binary-ascii",
             }),
     }),
-    Schema.brand("Ascii")
+    Schema.brand("Ascii"),
 ) {}
 
 /**
@@ -43,9 +43,9 @@ export class Ascii extends Function.pipe(
  * @category String filters
  */
 export const hexadecimal = <S extends Schema.Schema.Any>(
-    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
+    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined,
 ): (<A extends string>(
-    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
+    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>,
 ) => Schema.filter<S>) =>
     Schema.pattern(/^(0x|0h)?[0-9A-F]+$/i, {
         title: "hexadecimal",
@@ -66,7 +66,7 @@ export class Hexadecimal extends Function.pipe(
                 unit: fc.constantFrom(..."0123456789abcdef"),
             }),
     }),
-    Schema.brand("Hexadecimal")
+    Schema.brand("Hexadecimal"),
 ) {}
 
 /**
@@ -74,9 +74,9 @@ export class Hexadecimal extends Function.pipe(
  * @category String filters
  */
 export const octal = <S extends Schema.Schema.Any>(
-    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
+    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined,
 ): (<A extends string>(
-    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
+    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>,
 ) => Schema.filter<S>) =>
     Schema.pattern(/^(0o)?[0-7]+$/i, {
         title: "octal",
@@ -97,5 +97,5 @@ export class Octal extends Function.pipe(
                 unit: fc.constantFrom(..."01234567"),
             }),
     }),
-    Schema.brand("Octal")
+    Schema.brand("Octal"),
 ) {}

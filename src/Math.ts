@@ -20,9 +20,9 @@ export class Operation extends Function.pipe(
                 "addition" as const,
                 "subtraction" as const,
                 "multiplication" as const,
-                "division" as const
+                "division" as const,
             ),
-    })
+    }),
 ) {}
 
 /**
@@ -33,7 +33,7 @@ export class Operator extends Schema.transformLiterals(
     ["addition", "+"],
     ["subtraction", "-"],
     ["multiplication", "*"],
-    ["division", "/"]
+    ["division", "/"],
 ).annotations({
     title: "Operator",
     description: "A mathematical operator",

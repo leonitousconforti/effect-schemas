@@ -14,9 +14,9 @@ import { Function, Schema } from "effect";
  * @see https://en.wikipedia.org/wiki/ISO_9362
  */
 export const bic = <S extends Schema.Schema.Any>(
-    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
+    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined,
 ): (<A extends string>(
-    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
+    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>,
 ) => Schema.filter<S>) =>
     Schema.pattern(/^[A-Za-z]{6}[A-Za-z0-9]{2}([A-Za-z0-9]{3})?$/, {
         title: "BIC",
@@ -26,7 +26,7 @@ export const bic = <S extends Schema.Schema.Any>(
     });
 
 /**
- * A Business Identifier Code (BIC)
+ * A Business Identifier Code (BIC).
  *
  * @since 1.0.0
  * @category Finance schemas
@@ -39,9 +39,9 @@ export class BIC extends Function.pipe(Schema.String, bic(), Schema.brand("BIC")
  * @category Finance filters
  */
 export const ethereumAddress = <S extends Schema.Schema.Any>(
-    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
+    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined,
 ): (<A extends string>(
-    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
+    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>,
 ) => Schema.filter<S>) =>
     Schema.pattern(/^(0x)[0-9a-f]{40}$/i, {
         title: `EthereumAddress`,
@@ -61,9 +61,9 @@ export class EthereumAddress extends Function.pipe(Schema.String, ethereumAddres
  * @category Finance filters
  */
 export const bitcoinAddress = <S extends Schema.Schema.Any>(
-    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
+    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined,
 ): (<A extends string>(
-    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
+    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>,
 ) => Schema.filter<S>) =>
     Schema.pattern(/^(bc1)[a-z0-9]{25,39}$|^(1|3)[A-HJ-NP-Za-km-z1-9]{25,39}$/, {
         title: `BitcoinAddress`,

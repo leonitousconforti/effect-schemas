@@ -6,6 +6,8 @@ parent: Modules
 
 ## index.ts overview
 
+Finance related schemas and filters
+
 Since v1.0.0
 
 ---

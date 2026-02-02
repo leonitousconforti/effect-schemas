@@ -85,7 +85,7 @@ Since v1.0.0
 
 ## BIC (class)
 
-A Business Identifier Code (BIC)
+A Business Identifier Code (BIC).
 
 **See**
 

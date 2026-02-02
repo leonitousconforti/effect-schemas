@@ -1,10 +1,8 @@
 {
     "$schema": "http://json.schemastore.org/tsconfig",
-    "extends": "./tsconfig.src.json",
+    "extends": "./tsconfig.base.json",
+    "include": ["src"],
     "compilerOptions": {
-        "tsBuildInfoFile": ".tsbuildinfo/build.tsbuildinfo",
-        "outDir": "dist",
-        "types": ["node"],
-        "stripInternal": true
+        "types": ["node"]
     }
 }

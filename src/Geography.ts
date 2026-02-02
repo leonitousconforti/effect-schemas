@@ -11,9 +11,9 @@ import { Chunk, Function, ParseResult, Schema, type Brand } from "effect";
  * @category Geography filters
  */
 export const latitude = <S extends Schema.Schema.Any>(
-    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
+    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined,
 ): (<A extends number>(
-    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
+    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>,
 ) => Schema.filter<S>) =>
     Schema.between(-90, 90, {
         title: "latitude",
@@ -37,7 +37,7 @@ export class Latitude extends Function.pipe(
                 maxExcluded: false,
             }),
     }),
-    Schema.brand("Latitude")
+    Schema.brand("Latitude"),
 ) {}
 
 /**
@@ -45,9 +45,9 @@ export class Latitude extends Function.pipe(
  * @category Geography filters
  */
 export const longitude = <S extends Schema.Schema.Any>(
-    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
+    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined,
 ): (<A extends number>(
-    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
+    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>,
 ) => Schema.filter<S>) =>
     Schema.between(-180, 180, {
         title: "longitude",
@@ -71,7 +71,7 @@ export class Longitude extends Function.pipe(
                 maxExcluded: false,
             }),
     }),
-    Schema.brand("Longitude")
+    Schema.brand("Longitude"),
 ) {}
 
 /**
@@ -123,12 +123,12 @@ export class PostalCode extends Function.pipe(
                                     max: 9,
                                 })
                                 .map((x) => `${x}`),
-                        })
+                        }),
                     )
-                    .map(([part1, part2]) => `${part1}-${part2}`)
+                    .map(([part1, part2]) => `${part1}-${part2}`),
             ),
     }),
-    Schema.brand("PostalCode")
+    Schema.brand("PostalCode"),
 ) {}
 
 /**
@@ -179,7 +179,7 @@ export class AlphanumericGeocode extends Schema.transformOrFail(
             const str = Chunk.join(chars, "");
             return ParseResult.succeed(str as string & Brand.Brand<"AlphanumericGeocode">);
         },
-    }
+    },
 ) {
     public static readonly Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public static readonly AlphabetBase = BigInt(AlphanumericGeocode.Alphabet.length);
@@ -190,7 +190,7 @@ export class AlphanumericGeocode extends Schema.transformOrFail(
      */
     public static DistanceBetween = (
         self: Schema.Schema.Type<AlphanumericGeocode>,
-        other: Schema.Schema.Type<AlphanumericGeocode>
+        other: Schema.Schema.Type<AlphanumericGeocode>,
     ): number => {
         const [lat1, lon1] = self;
         const [lat2, lon2] = other;

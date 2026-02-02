@@ -1,6 +1,9 @@
 {
     "$schema": "http://json.schemastore.org/tsconfig",
+    "include": [],
     "compilerOptions": {
+        "outDir": "${configDir}/dist",
+        "rootDir": "${configDir}/src",
         // Use incremental builds with project references.
         "incremental": true,
         "composite": true,
@@ -8,7 +11,6 @@
         "target": "ES2022",
         "module": "NodeNext",
         "moduleDetection": "force", // Treat every non-declaration file as a module.
-        "esModuleInterop": false, // Do not fiddle with import/export statements
         "verbatimModuleSyntax": true, // Only transform/eliminate type-only import/export statements.
         "allowJs": false, // If you touch this, a puppy dies.
         "rewriteRelativeImportExtensions": true, // Rewrite `.ts` imports to `.js` at build time.
@@ -20,9 +22,11 @@
         "strict": true,
         "exactOptionalPropertyTypes": true,
         "noUnusedLocals": true,
+        "noUnusedParameters": true,
         "noImplicitOverride": true,
         "noFallthroughCasesInSwitch": true,
-        // Miscellaneoaus
+        // Miscellaneous
+        "stripInternal": false, // We temporarily override this to `true` when publishing packages.
         "skipLibCheck": true, // Skip type checking of third party libraries.
         "noErrorTruncation": true, // Do not truncate error messages.
         "types": [], // Disable automatic loading of `@types/*` packages.
@@ -30,8 +34,8 @@
             {
                 "name": "@effect/language-service",
                 "transform": "@effect/language-service/transform",
-                "namespaceImportPackages": ["effect", "@effect/*"],
-            },
-        ],
-    },
+                "namespaceImportPackages": ["effect", "@effect/*"]
+            }
+        ]
+    }
 }

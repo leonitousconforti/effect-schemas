@@ -1,12 +1,13 @@
-import * as path from "node:path";
-import viteTsconfigPaths from "vite-tsconfig-paths";
-import { defineConfig } from "vitest/config";
+import type { ViteUserConfig } from "vitest/config";
 
-export default defineConfig({
-    plugins: [viteTsconfigPaths()],
+import path from "node:path";
+import aliases from "vite-tsconfig-paths";
+
+const config: ViteUserConfig = {
     esbuild: {
         target: "es2020",
     },
+    plugins: [aliases()],
     test: {
         setupFiles: [path.join(__dirname, "test", "vitest.setup.ts")],
         fakeTimers: {
@@ -25,4 +26,6 @@ export default defineConfig({
             reportsDirectory: "coverage",
         },
     },
-});
+};
+
+export default config;
