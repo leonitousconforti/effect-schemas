@@ -10,6 +10,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions: {}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,9 +22,12 @@ jobs:
       - uses: pnpm/action-setup@v4
       - run: pnpm install
       - run: pnpm clean
+      - run: pnpm codegen
+      - run: pnpm docgen
+      - run: git restore docs/_config.yml
+      - run: git add src && git diff-index --cached HEAD --exit-code src
       - run: pnpm check
-      - run: pnpm lint
       - run: pnpm circular
+      - run: pnpm lint
       - run: pnpm build
-      - run: tar --version
-      - run: pnpm coverage --run
+      - run: pnpm coverage

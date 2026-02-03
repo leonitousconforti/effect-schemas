@@ -16,7 +16,7 @@ type Split<Str extends string, Delimiter extends string> = string extends Str | 
 /** @internal */
 const splitLiteral = <Str extends string, Delimiter extends string>(
     str: Str,
-    delimiter: Delimiter
+    delimiter: Delimiter,
 ): Split<Str, Delimiter> => str.split(delimiter) as Split<Str, Delimiter>;
 
 /**
@@ -98,7 +98,7 @@ export class KelvinFromString extends Schema.transform(
             const [value] = splitLiteral(valueStr, "k");
             return Number(value);
         },
-    }
+    },
 ) {}
 
 /**
@@ -114,7 +114,7 @@ export class CelsiusFromString extends Schema.transform(
             const [value] = splitLiteral(valueStr, "c");
             return Number(value);
         },
-    }
+    },
 ) {}
 
 /**
@@ -130,7 +130,7 @@ export class FahrenheitFromString extends Schema.transform(
             const [value] = splitLiteral(valueStr, "f");
             return Number(value);
         },
-    }
+    },
 ) {}
 
 /**
@@ -155,5 +155,5 @@ export class TemperatureFromString extends Schema.transformOrFail(
                     return ParseResult.succeed(Temperature.fahrenheitToKelvin(Fahrenheit.make(num)));
             }
         },
-    }
+    },
 ) {}

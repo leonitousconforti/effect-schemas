@@ -16,7 +16,7 @@ export class Sex extends Function.pipe(
         title: "Sex",
         arbitrary: () => (fc) => fc.constantFrom("male" as const, "female" as const),
     }),
-    Schema.brand("Sex")
+    Schema.brand("Sex"),
 ) {}
 
 /**
@@ -29,7 +29,7 @@ export class FirstName extends Function.pipe(
         title: "FirstName",
         description: "A person's first name",
     }),
-    Schema.brand("FirstName")
+    Schema.brand("FirstName"),
 ) {}
 
 /**
@@ -42,7 +42,7 @@ export class MiddleName extends Function.pipe(
         title: "MiddleName",
         description: "A person's middle name",
     }),
-    Schema.brand("MiddleName")
+    Schema.brand("MiddleName"),
 ) {}
 
 /**
@@ -55,7 +55,7 @@ export class LastName extends Function.pipe(
         title: "LastName",
         description: "A person's last name",
     }),
-    Schema.brand("LastName")
+    Schema.brand("LastName"),
 ) {}
 
 /**
@@ -68,5 +68,5 @@ export class Name extends Function.pipe(
         title: "Name",
         description: "A person's full name",
     }),
-    Schema.brand("Name")
+    Schema.brand("Name"),
 ) {}

@@ -13,7 +13,7 @@ const signedMax = (n: number) => 2 ** (n - 1) - 1;
 const u =
     (n: number) =>
     (
-        annotations?: Schema.Annotations.Filter<Schema.Schema.Type<Schema.Int>> | undefined
+        annotations?: Schema.Annotations.Filter<Schema.Schema.Type<Schema.Int>> | undefined,
     ): Schema.filter<typeof Schema.Int> =>
         Function.pipe(
             Schema.Int,
@@ -22,13 +22,13 @@ const u =
                 identifier: `U${n}`,
                 description: `An unsigned ${n} bit integer`,
                 ...annotations,
-            })
+            }),
         );
 
 const i =
     (n: number) =>
     (
-        annotations?: Schema.Annotations.Filter<Schema.Schema.Type<Schema.Int>> | undefined
+        annotations?: Schema.Annotations.Filter<Schema.Schema.Type<Schema.Int>> | undefined,
     ): Schema.filter<typeof Schema.Int> =>
         Function.pipe(
             Schema.Int,
@@ -37,7 +37,7 @@ const i =
                 identifier: `I${n}`,
                 description: `A signed ${n} bit integer`,
                 ...annotations,
-            })
+            }),
         );
 
 const unsignedMaxBigint = (n: number) => 2n ** BigInt(n) - 1n;
@@ -51,7 +51,7 @@ const ub =
             | Schema.Annotations.Filter<
                   Schema.Schema.Type<Schema.Union<[typeof Schema.BigIntFromNumber, typeof Schema.BigInt]>>
               >
-            | undefined
+            | undefined,
     ): Schema.filter<Schema.Union<[typeof Schema.BigIntFromNumber, typeof Schema.BigInt]>> =>
         Function.pipe(
             Schema.Union(Schema.BigIntFromNumber, Schema.BigInt),
@@ -60,7 +60,7 @@ const ub =
                 identifier: `U${n}`,
                 description: `An unsigned ${n} bit integer`,
                 ...annotations,
-            })
+            }),
         );
 
 const ib =
@@ -70,7 +70,7 @@ const ib =
             | Schema.Annotations.Filter<
                   Schema.Schema.Type<Schema.Union<[typeof Schema.BigIntFromNumber, typeof Schema.BigInt]>>
               >
-            | undefined
+            | undefined,
     ): Schema.filter<Schema.Union<[typeof Schema.BigIntFromNumber, typeof Schema.BigInt]>> =>
         Function.pipe(
             Schema.Union(Schema.BigIntFromNumber, Schema.BigInt),
@@ -79,7 +79,7 @@ const ib =
                 identifier: `I${n}`,
                 description: `A signed ${n} bit integer`,
                 ...annotations,
-            })
+            }),
         );
 
 /**

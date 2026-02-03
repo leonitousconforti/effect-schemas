@@ -16,7 +16,7 @@ type Split<Str extends string, Delimiter extends string> = string extends Str | 
 /** @internal */
 const splitLiteral = <const Str extends string, const Delimiter extends string>(
     str: Str,
-    delimiter: Delimiter
+    delimiter: Delimiter,
 ): Split<Str, Delimiter> => str.split(delimiter) as Split<Str, Delimiter>;
 
 /**
@@ -44,7 +44,7 @@ export class Port extends Function.pipe(
     Schema.annotations({
         title: "An OS port number",
         description: "An operating system's port number between 0 and 65535 (inclusive)",
-    })
+    }),
 ) {}
 
 /**
@@ -72,7 +72,7 @@ export class PortWithMaybeProtocol extends Schema.transform(
     Schema.Union(
         Schema.TemplateLiteral(Schema.Number),
         Schema.TemplateLiteral(Schema.Number, "/", Schema.Literal("tcp")),
-        Schema.TemplateLiteral(Schema.Number, "/", Schema.Literal("udp"))
+        Schema.TemplateLiteral(Schema.Number, "/", Schema.Literal("udp")),
     ),
     Schema.Struct({
         port: Schema.Union(Port, Schema.compose(Schema.NumberFromString, Port)),
@@ -84,7 +84,7 @@ export class PortWithMaybeProtocol extends Schema.transform(
             const split = splitLiteral(str, "/");
             return { port: split[0], protocol: split[1] };
         },
-    }
+    },
 ) {}
 
 /**
@@ -107,7 +107,7 @@ export class MacAddress extends Function.pipe(
     Schema.annotations({
         title: "A MacAddress",
         description: "A network interface's MacAddress",
-    })
+    }),
 ) {}
 
 /**
@@ -176,7 +176,7 @@ export class IPv4 extends Schema.transform(
     {
         encode: ({ ip }) => ip,
         decode: (ip) => ({ ip, family: "ipv4" }) as const,
-    }
+    },
 ).annotations({
     title: "An ipv4 address",
     description: "An ipv4 address in dot-decimal notation with no leading zeros",
@@ -214,9 +214,9 @@ export class IPv4Bigint extends Schema.transformOrFail(
                 Array.join(""),
                 (hex) => BigInt(`0x${hex}`),
                 (value) => ({ value, family: "ipv4" }) as const,
-                Effect.succeed
+                Effect.succeed,
             ),
-    }
+    },
 ).annotations({
     description: "An ipv4 address as a bigint",
 }) {}
@@ -242,7 +242,7 @@ export const IPv6Regex = new RegExp(
         `(?:${IPv6Segment}:){2}(?:(?::${IPv6Segment}){0,3}:${IPv4StringRegex}|(?::${IPv6Segment}){1,5}|:)|` +
         `(?:${IPv6Segment}:){1}(?:(?::${IPv6Segment}){0,4}:${IPv4StringRegex}|(?::${IPv6Segment}){1,6}|:)|` +
         `(?::(?:(?::${IPv6Segment}){0,5}:${IPv4StringRegex}|(?::${IPv6Segment}){1,7}|:))` +
-        ")(?:%[0-9a-zA-Z-.:]{1,})?$"
+        ")(?:%[0-9a-zA-Z-.:]{1,})?$",
 );
 
 /**
@@ -297,7 +297,7 @@ export class IPv6 extends Schema.transform(
     {
         encode: ({ ip }) => ip,
         decode: (ip) => ({ ip, family: "ipv6" }) as const,
-    }
+    },
 ).annotations({
     description: "An ipv6 address",
 }) {}
@@ -365,7 +365,7 @@ export class IPv6Bigint extends Schema.transformOrFail(
 
             return Effect.succeed({ value: BigInt(`0x${groups.map(paddedHex).join("")}`), family: "ipv6" } as const);
         },
-    }
+    },
 ).annotations({
     description: "An ipv6 address as a bigint",
 }) {}
@@ -461,7 +461,7 @@ const onFamily = Function.dual<
         onIPv4: (self: IPv4CidrBlock) => OnIPv4;
         onIPv6: (self: IPv6CidrBlock) => OnIPv6;
     }) => <Input extends IPv4CidrBlock | IPv6CidrBlock>(
-        input: Input
+        input: Input,
     ) => Input extends IPv4CidrBlock ? OnIPv4 : Input extends IPv6CidrBlock ? OnIPv6 : never,
     <Input extends IPv4CidrBlock | IPv6CidrBlock, OnIPv4, OnIPv6>(
         input: Input,
@@ -471,7 +471,7 @@ const onFamily = Function.dual<
         }: {
             onIPv4: (self: IPv4CidrBlock) => OnIPv4;
             onIPv6: (self: IPv6CidrBlock) => OnIPv6;
-        }
+        },
     ) => Input extends IPv4CidrBlock ? OnIPv4 : Input extends IPv6CidrBlock ? OnIPv6 : never
 >(
     2,
@@ -483,7 +483,7 @@ const onFamily = Function.dual<
         }: {
             onIPv4: (self: IPv4CidrBlock) => OnIPv4;
             onIPv6: (self: IPv6CidrBlock) => OnIPv6;
-        }
+        },
     ): Input extends IPv4CidrBlock ? OnIPv4 : Input extends IPv6CidrBlock ? OnIPv6 : never => {
         switch (input.address.family) {
             case "ipv4":
@@ -493,7 +493,7 @@ const onFamily = Function.dual<
             default:
                 return Function.absurd<any>(input.address);
         }
-    }
+    },
 );
 
 /**
@@ -503,7 +503,7 @@ const onFamily = Function.dual<
  * @since 1.0.0
  */
 export const networkAddressAsBigint = <Input extends IPv4CidrBlock | IPv6CidrBlock>(
-    input: Input
+    input: Input,
 ): Input extends IPv4CidrBlock
     ? Schema.Schema.Type<IPv4Bigint>
     : Input extends IPv6CidrBlock
@@ -536,7 +536,7 @@ export const networkAddressAsBigint = <Input extends IPv4CidrBlock | IPv6CidrBlo
  * @since 1.0.0
  */
 export const networkAddress: <Input extends IPv4CidrBlock | IPv6CidrBlock>(
-    input: Input
+    input: Input,
 ) => Input extends IPv4CidrBlock
     ? Schema.Schema.Type<IPv4>
     : Input extends IPv6CidrBlock
@@ -553,7 +553,7 @@ export const networkAddress: <Input extends IPv4CidrBlock | IPv6CidrBlock>(
  * @since 1.0.0
  */
 export const broadcastAddressAsBigint = <Input extends IPv4CidrBlock | IPv6CidrBlock>(
-    input: Input
+    input: Input,
 ): Input extends IPv4CidrBlock
     ? Schema.Schema.Type<IPv4Bigint>
     : Input extends IPv6CidrBlock
@@ -586,7 +586,7 @@ export const broadcastAddressAsBigint = <Input extends IPv4CidrBlock | IPv6CidrB
  * @since 1.0.0
  */
 export const broadcastAddress: <Input extends IPv4CidrBlock | IPv6CidrBlock>(
-    input: Input
+    input: Input,
 ) => Input extends IPv4CidrBlock
     ? Schema.Schema.Type<IPv4>
     : Input extends IPv6CidrBlock
@@ -602,7 +602,7 @@ export const broadcastAddress: <Input extends IPv4CidrBlock | IPv6CidrBlock>(
  * @since 1.0.0
  */
 export const range: <Input extends IPv4CidrBlock | IPv6CidrBlock>(
-    input: Input
+    input: Input,
 ) => Input extends IPv4CidrBlock
     ? Stream.Stream<Schema.Schema.Type<IPv4>, ParseResult.ParseError, never>
     : Input extends IPv6CidrBlock
@@ -615,7 +615,7 @@ export const range: <Input extends IPv4CidrBlock | IPv6CidrBlock>(
             Stream.iterate(minValue, (x) => IPv4Bigint.to["fields"]["value"].make(x + 1n)),
             Stream.takeWhile((n) => n <= maxValue),
             Stream.flatMap((value) => Schema.encode(IPv4Bigint)({ value, family: "ipv4" })),
-            Stream.mapEffect(Schema.decode(IPv4))
+            Stream.mapEffect(Schema.decode(IPv4)),
         );
     },
     onIPv6: (self) => {
@@ -625,7 +625,7 @@ export const range: <Input extends IPv4CidrBlock | IPv6CidrBlock>(
             Stream.iterate(minValue, (x) => IPv6Bigint.to["fields"]["value"].make(x + 1n)),
             Stream.takeWhile((n) => n <= maxValue),
             Stream.flatMap((value) => Schema.encode(IPv6Bigint)({ value, family: "ipv6" })),
-            Stream.mapEffect(Schema.decode(IPv6))
+            Stream.mapEffect(Schema.decode(IPv6)),
         );
     },
 });
@@ -651,7 +651,7 @@ export const cidrBlockForRange = <
         | Array.NonEmptyReadonlyArray<Schema.Schema.Type<IPv4>>
         | Array.NonEmptyReadonlyArray<Schema.Schema.Type<IPv6>>,
 >(
-    inputs: Input
+    inputs: Input,
 ) => {
     const AddressBigintOrder = Order.make(
         (a: Schema.Schema.Type<AddressBigint>, b: Schema.Schema.Type<AddressBigint>) => {
@@ -662,14 +662,14 @@ export const cidrBlockForRange = <
             } else {
                 return 0;
             }
-        }
+        },
     );
 
     const heterogenousInputs = inputs as Array.NonEmptyReadonlyArray<Schema.Schema.Type<Address>>;
     const bigints = Array.map(heterogenousInputs, (address) =>
         address.family === "ipv4"
             ? Schema.decodeSync(IPv4Bigint)(address.ip)
-            : Schema.decodeSync(IPv6Bigint)(address.ip)
+            : Schema.decodeSync(IPv6Bigint)(address.ip),
     );
 
     const bits = heterogenousInputs[0].family === "ipv4" ? 32 : 128;
@@ -697,7 +697,7 @@ export class IPv4CidrBlock extends Schema.Class<IPv4CidrBlock>("IPv4CidrBlock")(
     },
     {
         description: "An ipv4 cidr block",
-    }
+    },
 ) {
     /**
      * The first address in the range given by this address' subnet, often
@@ -761,7 +761,7 @@ export class IPv4CidrBlockFromString extends Schema.transform(
             return { address, mask: Number.parseInt(mask, 10) } as const;
         },
         encode: ({ address, mask }) => `${address}/${mask}` as const,
-    }
+    },
 ).annotations({
     description: "An ipv4 cidr block from string",
 }) {}
@@ -777,7 +777,7 @@ export class IPv6CidrBlock extends Schema.Class<IPv6CidrBlock>("IPv6CidrBlock")(
     },
     {
         description: "An ipv6 cidr block",
-    }
+    },
 ) {
     /**
      * The first address in the range given by this address' subnet, often
@@ -841,7 +841,7 @@ export class IPv6CidrBlockFromString extends Schema.transform(
             return { address, mask: Number.parseInt(mask, 10) } as const;
         },
         encode: ({ address, mask }) => `${address}/${mask}` as const,
-    }
+    },
 ).annotations({
     description: "An ipv6 cidr block from string",
 }) {}
@@ -867,7 +867,7 @@ export class CidrBlockFromString extends Schema.transform(
             return { address, mask: Number.parseInt(mask, 10) } as const;
         },
         encode: ({ address, mask }) => `${address}/${mask}` as const,
-    }
+    },
 ).annotations({
     description: "A cidr block",
 }) {}

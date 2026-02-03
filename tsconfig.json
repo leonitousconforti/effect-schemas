@@ -1,6 +1,23 @@
 {
     "$schema": "http://json.schemastore.org/tsconfig",
-    "extends": "./tsconfig.base.jsonc",
-    "include": [],
-    "references": [{ "path": "tsconfig.src.json" }, { "path": "tsconfig.test.json" }]
+    "extends": "./tsconfig.base.json",
+    "references": [{ "path": "tsconfig.build.json" }],
+    "include": ["**/vitest.*.ts", "./test/**/*.ts"],
+    "compilerOptions": {
+        "rootDir": ".",
+        "noEmit": true,
+        "erasableSyntaxOnly": false,
+        "resolveJsonModule": true,
+        "types": ["node"],
+        "paths": {
+            "effect-schemas": ["./src/index.ts"],
+            "effect-schemas/*": ["./src/*.ts"]
+        },
+        "plugins": [
+            {
+                "name": "@effect/language-service",
+                "namespaceImportPackages": []
+            }
+        ]
+    }
 }
