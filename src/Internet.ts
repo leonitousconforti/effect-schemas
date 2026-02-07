@@ -92,7 +92,7 @@ export class PortWithMaybeProtocol extends Schema.transform(
  * @category Regular expressions
  * @see https://stackoverflow.com/questions/4260467/what-is-a-regular-expression-for-a-mac-address
  */
-export const MacAddressRegex = new RegExp("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$");
+const MacAddressRegex = new RegExp("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$");
 
 /**
  * A Mac Address.
@@ -115,19 +115,19 @@ export class MacAddress extends Function.pipe(
  * @category Regular expressions
  * @see https://github.com/nodejs/node/blob/e08a654fae0ecc91678819e0b62a2e014bad3339/lib/internal/net.js#L16-L18
  */
-export const IPv4Segment = "(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])";
+const IPv4Segment = "(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])";
 
 /**
  * @since 1.0.0
  * @category Regular expressions
  */
-export const IPv4StringRegex = `(?:${IPv4Segment}\\.){3}${IPv4Segment}`;
+const IPv4StringRegex = `(?:${IPv4Segment}\\.){3}${IPv4Segment}`;
 
 /**
  * @since 1.0.0
  * @category Regular expressions
  */
-export const IPv4Regex = new RegExp(`^${IPv4StringRegex}$`);
+const IPv4Regex = new RegExp(`^${IPv4StringRegex}$`);
 
 /**
  * @since 1.0.0
@@ -226,13 +226,13 @@ export class IPv4Bigint extends Schema.transformOrFail(
  * @category Regular expressions
  * @see https://github.com/nodejs/node/blob/e08a654fae0ecc91678819e0b62a2e014bad3339/lib/internal/net.js#L21-L31
  */
-export const IPv6Segment = "(?:[0-9a-fA-F]{1,4})";
+const IPv6Segment = "(?:[0-9a-fA-F]{1,4})";
 
 /**
  * @since 1.0.0
  * @category Regular expressions
  */
-export const IPv6Regex = new RegExp(
+const IPv6Regex = new RegExp(
     "^(?:" +
         `(?:${IPv6Segment}:){7}(?:${IPv6Segment}|:)|` +
         `(?:${IPv6Segment}:){6}(?:${IPv4StringRegex}|:${IPv6Segment}|:)|` +
