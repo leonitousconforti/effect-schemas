@@ -140,12 +140,11 @@ const JwkCommonFields = Schema.Struct({
     x5u: Schema.optional(Schema.String),
 
     /**
-     * "x5c" (X.509 Certificate Chain) Parameter. Array of base64-encoded (NOT
-     * base64url) DER PKIX certificate values.
+     * "x5c" (X.509 Certificate Chain) Parameter. Array of DER PKIX certificate values.
      *
      * @see https://www.rfc-editor.org/rfc/rfc7517#section-4.7
      */
-    x5c: Schema.optional(Schema.Array(Schema.String)),
+    x5c: Schema.optional(Schema.Array(Schema.StringFromBase64)),
 
     /**
      * "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter
@@ -165,7 +164,7 @@ const JwkCommonFields = Schema.Struct({
 /**
  * An Elliptic Curve public key represented as a JWK.
  *
- * Members "kty", "crv", "x", and "y" are REQUIRED for EC public keys.
+ * Members "kty", "crv", "x", and "y" are required for EC public keys.
  *
  * @since 1.0.0
  * @category Elliptic Curve
@@ -227,22 +226,21 @@ export class EcPrivateKey extends Schema.Struct({
      *
      * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.2
      */
-    x: Schema.String,
+    x: Schema.StringFromBase64Url,
 
     /**
      * "y" (Y Coordinate)
      *
      * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.3
      */
-    y: Schema.String,
+    y: Schema.StringFromBase64Url,
 
     /**
-     * "d" (ECC Private Key) — REQUIRED for private keys Base64urlUInt-encoded
-     * private key value.
+     * "d" (ECC Private Key)
      *
      * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.2.1
      */
-    d: Schema.String,
+    d: Schema.StringFromBase64Url,
 
     ...JwkCommonFields.fields,
 }).annotations({
@@ -272,7 +270,7 @@ const OtherPrimeInfo = Schema.Struct({
 /**
  * An RSA public key represented as a JWK.
  *
- * Members "kty", "n", and "e" are REQUIRED for RSA public keys.
+ * Members "kty", "n", and "e" are required for RSA public keys.
  *
  * @since 1.0.0
  * @category RSA
@@ -305,84 +303,120 @@ export class RsaPublicKey extends Schema.Struct({
 
 /**
  * An RSA private key represented as a JWK. Extends the public key with private
- * key parameters. The "d" parameter is REQUIRED; the remaining CRT parameters
- * ("p", "q", "dp", "dq", "qi") SHOULD be included and if any one of them is
- * present then ALL of them MUST be present.
+ * key parameters. The "d" parameter is required; the remaining CRT parameters
+ * ("p", "q", "dp", "dq", "qi") should be included and if any one of them is
+ * present then all of them must be present.
  *
  * @since 1.0.0
  * @category RSA
  * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2
  */
-export class RsaPrivateKey extends Schema.Struct({
-    /** Key Type — MUST be "RSA" */
-    kty: Schema.Literal("RSA"),
+export class RsaPrivateKey extends Schema.Union(
+    Schema.Struct({
+        /** Key Type — MUST be "RSA" */
+        kty: Schema.Literal("RSA"),
 
-    /**
-     * "n" (Modulus)
-     *
-     * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.1
-     */
-    n: Schema.String,
+        /**
+         * "n" (Modulus)
+         *
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.1
+         */
+        n: Schema.StringFromBase64Url,
 
-    /**
-     * "e" (Exponent)
-     *
-     * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.2
-     */
-    e: Schema.String,
+        /**
+         * "e" (Exponent)
+         *
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.2
+         */
+        e: Schema.StringFromBase64Url,
 
-    /**
-     * "d" (Private Exponent)
-     *
-     * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.1
-     */
-    d: Schema.String,
+        /**
+         * "d" (Private Exponent)
+         *
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.1
+         */
+        d: Schema.StringFromBase64Url,
 
-    /**
-     * "p" (First Prime Factor) — optional but should be present
-     *
-     * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.2
-     */
-    p: Schema.optional(Schema.String),
+        /**
+         * "oth" (Other Primes Info) — optional, must only be present when more than
+         * two prime factors were used.
+         *
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.7
+         */
+        oth: Schema.optional(Schema.Array(OtherPrimeInfo)),
 
-    /**
-     * "q" (Second Prime Factor) — optional but should be present
-     *
-     * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.3
-     */
-    q: Schema.optional(Schema.String),
+        ...JwkCommonFields.fields,
+    }),
+    Schema.Struct({
+        /** Key Type — MUST be "RSA" */
+        kty: Schema.Literal("RSA"),
 
-    /**
-     * "dp" (First Factor CRT Exponent) — optional but should be present
-     *
-     * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.4
-     */
-    dp: Schema.optional(Schema.String),
+        /**
+         * "n" (Modulus)
+         *
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.1
+         */
+        n: Schema.StringFromBase64Url,
 
-    /**
-     * "dq" (Second Factor CRT Exponent) — optional but should be present
-     *
-     * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.5
-     */
-    dq: Schema.optional(Schema.String),
+        /**
+         * "e" (Exponent)
+         *
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.2
+         */
+        e: Schema.StringFromBase64Url,
 
-    /**
-     * "qi" (First CRT Coefficient) — optional but should be present
-     *
-     * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.6
-     */
-    qi: Schema.optional(Schema.String),
+        /**
+         * "d" (Private Exponent)
+         *
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.1
+         */
+        d: Schema.StringFromBase64Url,
+        /**
+         * "p" (First Prime Factor) — optional but should be present
+         *
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.2
+         */
+        p: Schema.StringFromBase64Url,
 
-    /**
-     * "oth" (Other Primes Info) — optional, must only be present when more than
-     * two prime factors were used.
-     *
-     * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.7
-     */
-    oth: Schema.optional(Schema.Array(OtherPrimeInfo)),
+        /**
+         * "q" (Second Prime Factor) — optional but should be present
+         *
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.3
+         */
+        q: Schema.StringFromBase64Url,
 
-    ...JwkCommonFields.fields,
-}).annotations({
+        /**
+         * "dp" (First Factor CRT Exponent) — optional but should be present
+         *
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.4
+         */
+        dp: Schema.StringFromBase64Url,
+
+        /**
+         * "dq" (Second Factor CRT Exponent) — optional but should be present
+         *
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.5
+         */
+        dq: Schema.StringFromBase64Url,
+
+        /**
+         * "qi" (First CRT Coefficient) — optional but should be present
+         *
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.6
+         */
+        qi: Schema.StringFromBase64Url,
+
+        /**
+         * "oth" (Other Primes Info) — optional, must only be present when more than
+         * two prime factors were used.
+         *
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.7
+         */
+        oth: Schema.optional(Schema.Array(OtherPrimeInfo)),
+
+        ...JwkCommonFields.fields,
+    }),
+).annotations({
     identifier: "RsaPrivateKey",
     title: "RSA Private Key",
     description: "An RSA private key as defined in RFC 7518 Section 6.3.2",
@@ -391,7 +425,7 @@ export class RsaPrivateKey extends Schema.Struct({
 /**
  * A symmetric key (octet sequence) represented as a JWK.
  *
- * Members "kty" and "k" are REQUIRED for symmetric keys.
+ * Members "kty" and "k" are required for symmetric keys.
  *
  * @since 1.0.0
  * @category Symmetric
@@ -402,12 +436,11 @@ export class OctKey extends Schema.Struct({
     kty: Schema.Literal("oct"),
 
     /**
-     * "k" (Key Value) Base64url-encoded octet sequence containing the key
-     * value.
+     * "k" (Key Value)
      *
      * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.4.1
      */
-    k: Schema.String,
+    k: Schema.StringFromBase64Url,
 
     ...JwkCommonFields.fields,
 }).annotations({
