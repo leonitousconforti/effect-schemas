@@ -177,391 +177,482 @@ describe("Jwk", () => {
         );
     });
 
-    // describe("RSA keys generated via WebCrypto", () => {
-    //     describe("RSASSA-PKCS1-v1_5", () => {
-    //         const algorithms = ["RS256", "RS384", "RS512"] as const;
-
-    //         for (const alg of algorithms) {
-    //             describe(`${alg}`, () => {
-    //                 it(`public key decodes as RsaPublicKey`, async () => {
-    //                     const { publicJwk } = await exportKeyPair(await generateRsaSsaKeyPair(alg));
-    //                     const decoded = Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk);
-    //                     expect(decoded.kty).toBe("RSA");
-    //                     expect(decoded.n).toBeTypeOf("string");
-    //                     expect(decoded.e).toBeTypeOf("string");
-    //                 });
-
-    //                 it(`private key decodes as RsaPrivateKey`, async () => {
-    //                     const { privateJwk } = await exportKeyPair(await generateRsaSsaKeyPair(alg));
-    //                     const decoded = Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk);
-    //                     expect(decoded.kty).toBe("RSA");
-    //                 });
-
-    //                 it(`private key includes CRT parameters`, async () => {
-    //                     const { privateJwk } = await exportKeyPair(await generateRsaSsaKeyPair(alg));
-    //                     // WebCrypto always exports with CRT parameters
-    //                     expect(privateJwk).toHaveProperty("p");
-    //                     expect(privateJwk).toHaveProperty("q");
-    //                     expect(privateJwk).toHaveProperty("dp");
-    //                     expect(privateJwk).toHaveProperty("dq");
-    //                     expect(privateJwk).toHaveProperty("qi");
-    //                     // Should still decode fine
-    //                     expect(() => Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk)).not.toThrow();
-    //                 });
-
-    //                 it(`public key does NOT decode as RsaPrivateKey`, async () => {
-    //                     const { publicJwk } = await exportKeyPair(await generateRsaSsaKeyPair(alg));
-    //                     expect(() => Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(publicJwk)).toThrow();
-    //                 });
-    //             });
-    //         }
-    //     });
-
-    //     describe("RSA-PSS", () => {
-    //         const algorithms = ["PS256", "PS384", "PS512"] as const;
-
-    //         for (const alg of algorithms) {
-    //             it(`${alg} public key decodes as RsaPublicKey`, async () => {
-    //                 const { publicJwk } = await exportKeyPair(await generateRsaPssKeyPair(alg));
-    //                 expect(() => Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk)).not.toThrow();
-    //             });
-
-    //             it(`${alg} private key decodes as RsaPrivateKey`, async () => {
-    //                 const { privateJwk } = await exportKeyPair(await generateRsaPssKeyPair(alg));
-    //                 expect(() => Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk)).not.toThrow();
-    //             });
-    //         }
-    //     });
-
-    //     describe("RSA-OAEP (encryption)", () => {
-    //         for (const hash of ["SHA-1", "SHA-256"] as const) {
-    //             it(`RSA-OAEP with ${hash} public key decodes as RsaPublicKey`, async () => {
-    //                 const { publicJwk } = await exportKeyPair(await generateRsaOaepKeyPair(hash));
-    //                 expect(() => Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk)).not.toThrow();
-    //             });
-
-    //             it(`RSA-OAEP with ${hash} private key decodes as RsaPrivateKey`, async () => {
-    //                 const { privateJwk } = await exportKeyPair(await generateRsaOaepKeyPair(hash));
-    //                 expect(() => Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk)).not.toThrow();
-    //             });
-    //         }
-    //     });
-
-    //     it(`RSA private key round-trips through encode/decode`, async () => {
-    //         const { privateJwk } = await exportKeyPair(await generateRsaSsaKeyPair("RS256"));
-    //         const decoded = Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk);
-    //         const encoded = Schema.encodeUnknownSync(Jwk.RsaPrivateKey)(decoded);
-    //         const redecoded = Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(encoded);
-    //         expect(redecoded.kty).toBe("RSA");
-    //     });
-    // });
-
-    // describe("Symmetric (oct) keys generated via WebCrypto", () => {
-    //     describe("HMAC keys", () => {
-    //         const algorithms = ["HS256", "HS384", "HS512"] as const;
-
-    //         for (const alg of algorithms) {
-    //             it(`${alg} key decodes as OctKey`, async () => {
-    //                 const key = await generateHmacKey(alg);
-    //                 const jwk = await exportJwk(key);
-    //                 const decoded = Schema.decodeUnknownSync(Jwk.OctKey)(jwk);
-    //                 expect(decoded.kty).toBe("oct");
-    //                 expect(decoded.k).toBeDefined();
-    //             });
-
-    //             it(`${alg} key round-trips through encode/decode`, async () => {
-    //                 const key = await generateHmacKey(alg);
-    //                 const jwk = await exportJwk(key);
-    //                 const decoded = Schema.decodeUnknownSync(Jwk.OctKey)(jwk);
-    //                 const encoded = Schema.encodeUnknownSync(Jwk.OctKey)(decoded);
-    //                 const redecoded = Schema.decodeUnknownSync(Jwk.OctKey)(encoded);
-    //                 expect(redecoded.kty).toBe("oct");
-    //             });
-    //         }
-    //     });
-
-    //     describe("AES keys", () => {
-    //         const bitSizes = [128, 192, 256] as const;
-
-    //         for (const bits of bitSizes) {
-    //             it(`AES-${bits} key decodes as OctKey`, async () => {
-    //                 const key = await generateAesKey(bits, "gcm");
-    //                 const jwk = await exportJwk(key);
-    //                 const decoded = Schema.decodeUnknownSync(Jwk.OctKey)(jwk);
-    //                 expect(decoded.kty).toBe("oct");
-    //                 expect(decoded.k).toBeDefined();
-    //             });
-    //         }
-    //     });
-
-    //     it(`oct key decodes through the top-level Jwk union`, async () => {
-    //         const key = await generateHmacKey("HS256");
-    //         const jwk = await exportJwk(key);
-    //         expect(() => Schema.decodeUnknownSync(Jwk.Jwk)(jwk)).not.toThrow();
-    //     });
-    // });
-
-    // describe("JWK with optional common fields", () => {
-    //     it(`accepts an EC key with "kid" and "use" fields`, async () => {
-    //         const { publicJwk } = await exportKeyPair(await generateEcdsaKeyPair("ES256"));
-    //         const jwkWithMeta = { ...publicJwk, kid: "my-key-1", use: "sig" };
-    //         const decoded = Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwkWithMeta);
-    //         expect(decoded.kid).toBe("my-key-1");
-    //         expect(decoded.use).toBe("sig");
-    //     });
-
-    //     it(`accepts an EC key with "key_ops"`, async () => {
-    //         const { publicJwk } = await exportKeyPair(await generateEcdsaKeyPair("ES256"));
-    //         const jwkWithOps = { ...publicJwk, key_ops: ["verify"] };
-    //         const decoded = Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwkWithOps);
-    //         expect(decoded.key_ops).toEqual(["verify"]);
-    //     });
-
-    //     it(`accepts an RSA key with "alg" field`, async () => {
-    //         const { publicJwk } = await exportKeyPair(await generateRsaSsaKeyPair("RS256"));
-    //         const jwkWithAlg = { ...publicJwk, alg: "RS256" };
-    //         const decoded = Schema.decodeUnknownSync(Jwk.RsaPublicKey)(jwkWithAlg);
-    //         expect(decoded.alg).toBe("RS256");
-    //     });
-
-    //     it(`rejects an unknown "use" value`, async () => {
-    //         const { publicJwk } = await exportKeyPair(await generateEcdsaKeyPair("ES256"));
-    //         const jwkBadUse = { ...publicJwk, use: "bad" };
-    //         expect(() => Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwkBadUse)).toThrow();
-    //     });
-
-    //     it(`rejects an unknown "key_ops" value`, async () => {
-    //         const { publicJwk } = await exportKeyPair(await generateEcdsaKeyPair("ES256"));
-    //         const jwkBadOps = { ...publicJwk, key_ops: ["launch_missiles"] };
-    //         expect(() => Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwkBadOps)).toThrow();
-    //     });
-    // });
-
-    // describe("JwkSet", () => {
-    //     it(`decodes a set with mixed key types`, async () => {
-    //         const ecPair = await exportKeyPair(await generateEcdsaKeyPair("ES256"));
-    //         const rsaPair = await exportKeyPair(await generateRsaSsaKeyPair("RS256"));
-    //         const hmacJwk = await exportJwk(await generateHmacKey("HS256"));
-
-    //         const jwkSet = {
-    //             keys: [ecPair.publicJwk, rsaPair.publicJwk, hmacJwk],
-    //         };
-
-    //         const decoded = Schema.decodeUnknownSync(Jwk.JwkSet)(jwkSet);
-    //         expect(decoded.keys).toHaveLength(3);
-    //     });
-
-    //     it(`decodes a set containing both public and private keys`, async () => {
-    //         const ecPair = await exportKeyPair(await generateEcdsaKeyPair("ES384"));
-    //         const rsaPair = await exportKeyPair(await generateRsaSsaKeyPair("RS512"));
-
-    //         const jwkSet = {
-    //             keys: [ecPair.publicJwk, ecPair.privateJwk, rsaPair.publicJwk, rsaPair.privateJwk],
-    //         };
-
-    //         const decoded = Schema.decodeUnknownSync(Jwk.JwkSet)(jwkSet);
-    //         expect(decoded.keys).toHaveLength(4);
-    //     });
-
-    //     it(`decodes an empty key set`, () => {
-    //         const decoded = Schema.decodeUnknownSync(Jwk.JwkSet)({ keys: [] });
-    //         expect(decoded.keys).toHaveLength(0);
-    //     });
-
-    //     it(`rejects a set with an invalid key`, async () => {
-    //         const ecPair = await exportKeyPair(await generateEcdsaKeyPair("ES256"));
-    //         const badKey = { kty: "FAKE", n: "abc" };
-    //         const jwkSet = { keys: [ecPair.publicJwk, badKey] };
-    //         expect(() => Schema.decodeUnknownSync(Jwk.JwkSet)(jwkSet)).toThrow();
-    //     });
-
-    //     it(`rejects a jwk set missing the "keys" member`, () => {
-    //         expect(() => Schema.decodeUnknownSync(Jwk.JwkSet)({})).toThrow();
-    //     });
-
-    //     it(`round-trips a key set through encode/decode`, async () => {
-    //         const ecPair = await exportKeyPair(await generateEcdsaKeyPair("ES256"));
-    //         const hmacJwk = await exportJwk(await generateHmacKey("HS512"));
-
-    //         const jwkSet = { keys: [ecPair.publicJwk, hmacJwk] };
-    //         const decoded = Schema.decodeUnknownSync(Jwk.JwkSet)(jwkSet);
-    //         const encoded = Schema.encodeUnknownSync(Jwk.JwkSet)(decoded);
-    //         const redecoded = Schema.decodeUnknownSync(Jwk.JwkSet)(encoded);
-    //         expect(redecoded.keys).toHaveLength(2);
-    //     });
-    // });
-
-    // describe("Jwk union discrimination", () => {
-    //     it(`correctly discriminates EC vs RSA vs oct from real keys`, async () => {
-    //         const ec = await exportKeyPair(await generateEcdsaKeyPair("ES256"));
-    //         const rsa = await exportKeyPair(await generateRsaSsaKeyPair("RS256"));
-    //         const oct = await exportJwk(await generateHmacKey("HS256"));
-
-    //         const decodedEc = Schema.decodeUnknownSync(Jwk.Jwk)(ec.publicJwk);
-    //         const decodedRsa = Schema.decodeUnknownSync(Jwk.Jwk)(rsa.publicJwk);
-    //         const decodedOct = Schema.decodeUnknownSync(Jwk.Jwk)(oct);
-
-    //         expect(decodedEc.kty).toBe("EC");
-    //         expect(decodedRsa.kty).toBe("RSA");
-    //         expect(decodedOct.kty).toBe("oct");
-    //     });
-    // });
-
-    // describe("WebCrypto round-trip interoperability", () => {
-    //     it(`EC key survives schema decode → encode → WebCrypto re-import`, async () => {
-    //         const pair = await generateEcdsaKeyPair("ES256");
-    //         const jwk = await exportJwk(pair.publicKey);
-
-    //         // Decode through schema, encode back
-    //         const decoded = Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwk);
-    //         const encoded = Schema.encodeUnknownSync(Jwk.EcPublicKey)(decoded);
-
-    //         // Re-import into WebCrypto — this would fail if the schema mangled any fields
-    //         const reimported = await crypto.subtle.importKey(
-    //             "jwk",
-    //             encoded as JsonWebKey,
-    //             { name: "ECDSA", namedCurve: "P-256" },
-    //             true,
-    //             ["verify"],
-    //         );
-    //         expect(reimported.type).toBe("public");
-    //     });
-
-    //     it(`RSA key survives schema decode → encode → WebCrypto re-import`, async () => {
-    //         const pair = await generateRsaSsaKeyPair("RS256");
-    //         const jwk = await exportJwk(pair.publicKey);
-
-    //         const decoded = Schema.decodeUnknownSync(Jwk.RsaPublicKey)(jwk);
-    //         const encoded = Schema.encodeUnknownSync(Jwk.RsaPublicKey)(decoded);
-
-    //         const reimported = await crypto.subtle.importKey(
-    //             "jwk",
-    //             encoded as JsonWebKey,
-    //             { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
-    //             true,
-    //             ["verify"],
-    //         );
-    //         expect(reimported.type).toBe("public");
-    //     });
-
-    //     it(`HMAC key survives schema decode → encode → WebCrypto re-import`, async () => {
-    //         const key = await generateHmacKey("HS256");
-    //         const jwk = await exportJwk(key);
-
-    //         const decoded = Schema.decodeUnknownSync(Jwk.OctKey)(jwk);
-    //         const encoded = Schema.encodeUnknownSync(Jwk.OctKey)(decoded);
-
-    //         const reimported = await crypto.subtle.importKey(
-    //             "jwk",
-    //             encoded as JsonWebKey,
-    //             { name: "HMAC", hash: "SHA-256" },
-    //             true,
-    //             ["sign", "verify"],
-    //         );
-    //         expect(reimported.type).toBe("secret");
-    //     });
-
-    //     it(`RSA private key can sign after schema round-trip (no base64url transform on public params)`, async () => {
-    //         const pair = await generateRsaSsaKeyPair("RS256");
-    //         const publicJwk = await exportJwk(pair.publicKey);
-
-    //         // RsaPublicKey uses Schema.String (no transform), so round-trip is lossless
-    //         const decoded = Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk);
-    //         const encoded = Schema.encodeUnknownSync(Jwk.RsaPublicKey)(decoded);
-
-    //         // Re-import and verify a signature made with the original private key
-    //         const payload = new TextEncoder().encode("test message");
-    //         const signature = await crypto.subtle.sign({ name: "RSASSA-PKCS1-v1_5" }, pair.privateKey, payload);
-
-    //         const reimportedPublic = await crypto.subtle.importKey(
-    //             "jwk",
-    //             encoded as JsonWebKey,
-    //             { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
-    //             true,
-    //             ["verify"],
-    //         );
-
-    //         const valid = await crypto.subtle.verify(
-    //             { name: "RSASSA-PKCS1-v1_5" },
-    //             reimportedPublic,
-    //             signature,
-    //             payload,
-    //         );
-    //         expect(valid).toBe(true);
-    //     });
-
-    //     it(`EC public key can verify after schema round-trip`, async () => {
-    //         const pair = await generateEcdsaKeyPair("ES256");
-    //         const publicJwk = await exportJwk(pair.publicKey);
-
-    //         // EcPublicKey uses Schema.String for x,y (no transform), so round-trip is lossless
-    //         const decoded = Schema.decodeUnknownSync(Jwk.EcPublicKey)(publicJwk);
-    //         const encoded = Schema.encodeUnknownSync(Jwk.EcPublicKey)(decoded);
-
-    //         const payload = new TextEncoder().encode("test message");
-    //         const signature = await crypto.subtle.sign({ name: "ECDSA", hash: "SHA-256" }, pair.privateKey, payload);
-
-    //         const reimportedPublic = await crypto.subtle.importKey(
-    //             "jwk",
-    //             encoded as JsonWebKey,
-    //             { name: "ECDSA", namedCurve: "P-256" },
-    //             true,
-    //             ["verify"],
-    //         );
-
-    //         const valid = await crypto.subtle.verify(
-    //             { name: "ECDSA", hash: "SHA-256" },
-    //             reimportedPublic,
-    //             signature,
-    //             payload,
-    //         );
-    //         expect(valid).toBe(true);
-    //     });
-    // });
-
-    // describe("rejects structurally invalid JWKs", () => {
-    //     it(`rejects missing "kty"`, () => {
-    //         expect(() => Schema.decodeUnknownSync(Jwk.Jwk)({ n: "abc", e: "AQAB" })).toThrow();
-    //     });
-
-    //     it(`rejects unknown "kty"`, () => {
-    //         expect(() => Schema.decodeUnknownSync(Jwk.Jwk)({ kty: "OKP" })).toThrow();
-    //     });
-
-    //     it(`rejects EC key missing "x"`, () => {
-    //         expect(() => Schema.decodeUnknownSync(Jwk.EcPublicKey)({ kty: "EC", crv: "P-256", y: "abc" })).toThrow();
-    //     });
-
-    //     it(`rejects EC key missing "y"`, () => {
-    //         expect(() => Schema.decodeUnknownSync(Jwk.EcPublicKey)({ kty: "EC", crv: "P-256", x: "abc" })).toThrow();
-    //     });
-
-    //     it(`rejects EC key with unknown curve`, () => {
-    //         expect(() =>
-    //             Schema.decodeUnknownSync(Jwk.EcPublicKey)({ kty: "EC", crv: "secp256k1", x: "abc", y: "def" }),
-    //         ).toThrow();
-    //     });
-
-    //     it(`rejects RSA key missing "n"`, () => {
-    //         expect(() => Schema.decodeUnknownSync(Jwk.RsaPublicKey)({ kty: "RSA", e: "AQAB" })).toThrow();
-    //     });
-
-    //     it(`rejects RSA key missing "e"`, () => {
-    //         expect(() => Schema.decodeUnknownSync(Jwk.RsaPublicKey)({ kty: "RSA", n: "abc" })).toThrow();
-    //     });
-
-    //     it(`rejects oct key missing "k"`, () => {
-    //         expect(() => Schema.decodeUnknownSync(Jwk.OctKey)({ kty: "oct" })).toThrow();
-    //     });
-
-    //     it(`rejects EC key with wrong kty for RsaPublicKey schema`, async () => {
-    //         const { publicJwk } = await exportKeyPair(await generateEcdsaKeyPair("ES256"));
-    //         expect(() => Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk)).toThrow();
-    //     });
-
-    //     it(`rejects RSA key with wrong kty for EcPublicKey schema`, async () => {
-    //         const { publicJwk } = await exportKeyPair(await generateRsaSsaKeyPair("RS256"));
-    //         expect(() => Schema.decodeUnknownSync(Jwk.EcPublicKey)(publicJwk)).toThrow();
-    //     });
-    // });
+    describe.each(["RS256", "RS384", "RS512"] as const)("RSASSA-PKCS1-v1_5 %s keys generated via WebCrypto", (alg) => {
+        it.effect("public key decodes as RsaPublicKey", () =>
+            Effect.gen(function* () {
+                const { publicJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair(alg));
+                const decoded = Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk);
+                expect(decoded.kty).toBe("RSA");
+                expect(decoded.n).toBeTypeOf("string");
+                expect(decoded.e).toBeTypeOf("string");
+            }),
+        );
+
+        it.effect("private key decodes as RsaPrivateKey", () =>
+            Effect.gen(function* () {
+                const { privateJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair(alg));
+                const decoded = Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk);
+                expect(decoded.kty).toBe("RSA");
+            }),
+        );
+
+        it.effect("private key includes CRT parameters", () =>
+            Effect.gen(function* () {
+                const { privateJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair(alg));
+                // WebCrypto always exports with CRT parameters
+                expect(privateJwk).toHaveProperty("p");
+                expect(privateJwk).toHaveProperty("q");
+                expect(privateJwk).toHaveProperty("dp");
+                expect(privateJwk).toHaveProperty("dq");
+                expect(privateJwk).toHaveProperty("qi");
+                // Should still decode fine
+                expect(() => Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk)).not.toThrow();
+            }),
+        );
+
+        it.effect("public key does NOT decode as RsaPrivateKey", () =>
+            Effect.gen(function* () {
+                const { publicJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair(alg));
+                expect(() => Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(publicJwk)).toThrow();
+            }),
+        );
+    });
+
+    describe.each(["PS256", "PS384", "PS512"] as const)("RSA-PSS %s keys generated via WebCrypto", (alg) => {
+        it.effect("public key decodes as RsaPublicKey", () =>
+            Effect.gen(function* () {
+                const { publicJwk } = yield* exportKeyPair(yield* generateRsaPssKeyPair(alg));
+                expect(() => Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk)).not.toThrow();
+            }),
+        );
+
+        it.effect("private key decodes as RsaPrivateKey", () =>
+            Effect.gen(function* () {
+                const { privateJwk } = yield* exportKeyPair(yield* generateRsaPssKeyPair(alg));
+                expect(() => Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk)).not.toThrow();
+            }),
+        );
+    });
+
+    describe.each(["SHA-1", "SHA-256"] as const)("RSA-OAEP with %s generated via WebCrypto", (hash) => {
+        it.effect("public key decodes as RsaPublicKey", () =>
+            Effect.gen(function* () {
+                const { publicJwk } = yield* exportKeyPair(yield* generateRsaOaepKeyPair(hash));
+                expect(() => Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk)).not.toThrow();
+            }),
+        );
+
+        it.effect("private key decodes as RsaPrivateKey", () =>
+            Effect.gen(function* () {
+                const { privateJwk } = yield* exportKeyPair(yield* generateRsaOaepKeyPair(hash));
+                expect(() => Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk)).not.toThrow();
+            }),
+        );
+    });
+
+    it.effect("RSA private key round-trips through encode/decode", () =>
+        Effect.gen(function* () {
+            const { privateJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair("RS256"));
+            const decoded = Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk);
+            const encoded = Schema.encodeUnknownSync(Jwk.RsaPrivateKey)(decoded);
+            const redecoded = Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(encoded);
+            expect(redecoded.kty).toBe("RSA");
+        }),
+    );
+
+    describe.each(["HS256", "HS384", "HS512"] as const)("HMAC %s keys generated via WebCrypto", (alg) => {
+        it.effect("key decodes as OctKey", () =>
+            Effect.gen(function* () {
+                const key = yield* generateHmacKey(alg);
+                const jwk = yield* exportJwk(key);
+                const decoded = Schema.decodeUnknownSync(Jwk.OctKey)(jwk);
+                expect(decoded.kty).toBe("oct");
+                expect(decoded.k).toBeDefined();
+            }),
+        );
+
+        it.effect("key round-trips through encode/decode", () =>
+            Effect.gen(function* () {
+                const key = yield* generateHmacKey(alg);
+                const jwk = yield* exportJwk(key);
+                const decoded = Schema.decodeUnknownSync(Jwk.OctKey)(jwk);
+                const encoded = Schema.encodeUnknownSync(Jwk.OctKey)(decoded);
+                const redecoded = Schema.decodeUnknownSync(Jwk.OctKey)(encoded);
+                expect(redecoded.kty).toBe("oct");
+            }),
+        );
+    });
+
+    describe.each([128, 192, 256] as const)("AES-%i keys generated via WebCrypto", (bits) => {
+        it.effect("key decodes as OctKey", () =>
+            Effect.gen(function* () {
+                const key = yield* generateAesKey(bits, "gcm");
+                const jwk = yield* exportJwk(key);
+                const decoded = Schema.decodeUnknownSync(Jwk.OctKey)(jwk);
+                expect(decoded.kty).toBe("oct");
+                expect(decoded.k).toBeDefined();
+            }),
+        );
+    });
+
+    it.effect("oct key decodes through the top-level Jwk union", () =>
+        Effect.gen(function* () {
+            const key = yield* generateHmacKey("HS256");
+            const jwk = yield* exportJwk(key);
+            expect(() => Schema.decodeUnknownSync(Jwk.Jwk)(jwk)).not.toThrow();
+        }),
+    );
+
+    describe("JWK with optional common fields", () => {
+        it.effect('accepts an EC key with "kid" and "use" fields', () =>
+            Effect.gen(function* () {
+                const { publicJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const jwkWithMeta = { ...publicJwk, kid: "my-key-1", use: "sig" };
+                const decoded = Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwkWithMeta);
+                expect(decoded.kid).toBe("my-key-1");
+                expect(decoded.use).toBe("sig");
+            }),
+        );
+
+        it.effect('accepts an EC key with "key_ops"', () =>
+            Effect.gen(function* () {
+                const { publicJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const jwkWithOps = { ...publicJwk, key_ops: ["verify"] };
+                const decoded = Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwkWithOps);
+                expect(decoded.key_ops).toEqual(["verify"]);
+            }),
+        );
+
+        it.effect('accepts an RSA key with "alg" field', () =>
+            Effect.gen(function* () {
+                const { publicJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair("RS256"));
+                const jwkWithAlg = { ...publicJwk, alg: "RS256" };
+                const decoded = Schema.decodeUnknownSync(Jwk.RsaPublicKey)(jwkWithAlg);
+                expect(decoded.alg).toBe("RS256");
+            }),
+        );
+
+        it.effect('rejects an unknown "use" value', () =>
+            Effect.gen(function* () {
+                const { publicJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const jwkBadUse = { ...publicJwk, use: "bad" };
+                expect(() => Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwkBadUse)).toThrow();
+            }),
+        );
+
+        it.effect('rejects an unknown "key_ops" value', () =>
+            Effect.gen(function* () {
+                const { publicJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const jwkBadOps = { ...publicJwk, key_ops: ["launch_missiles"] };
+                expect(() => Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwkBadOps)).toThrow();
+            }),
+        );
+    });
+
+    describe("JwkSet", () => {
+        it.effect("decodes a set with mixed key types", () =>
+            Effect.gen(function* () {
+                const ecPair = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const rsaPair = yield* exportKeyPair(yield* generateRsaSsaKeyPair("RS256"));
+                const hmacJwk = yield* exportJwk(yield* generateHmacKey("HS256"));
+
+                const jwkSet = {
+                    keys: [ecPair.publicJwk, rsaPair.publicJwk, hmacJwk],
+                };
+
+                const decoded = Schema.decodeUnknownSync(Jwk.JwkSet)(jwkSet);
+                expect(decoded.keys).toHaveLength(3);
+            }),
+        );
+
+        it.effect("decodes a set containing both public and private keys", () =>
+            Effect.gen(function* () {
+                const ecPair = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES384"));
+                const rsaPair = yield* exportKeyPair(yield* generateRsaSsaKeyPair("RS512"));
+
+                const jwkSet = {
+                    keys: [ecPair.publicJwk, ecPair.privateJwk, rsaPair.publicJwk, rsaPair.privateJwk],
+                };
+
+                const decoded = Schema.decodeUnknownSync(Jwk.JwkSet)(jwkSet);
+                expect(decoded.keys).toHaveLength(4);
+            }),
+        );
+
+        it.effect("decodes an empty key set", () =>
+            Effect.gen(function* () {
+                const decoded = Schema.decodeUnknownSync(Jwk.JwkSet)({ keys: [] });
+                expect(decoded.keys).toHaveLength(0);
+            }),
+        );
+
+        it.effect("rejects a set with an invalid key", () =>
+            Effect.gen(function* () {
+                const ecPair = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const badKey = { kty: "FAKE", n: "abc" };
+                const jwkSet = { keys: [ecPair.publicJwk, badKey] };
+                expect(() => Schema.decodeUnknownSync(Jwk.JwkSet)(jwkSet)).toThrow();
+            }),
+        );
+
+        it.effect('rejects a jwk set missing the "keys" member', () =>
+            Effect.gen(function* () {
+                expect(() => Schema.decodeUnknownSync(Jwk.JwkSet)({})).toThrow();
+            }),
+        );
+
+        it.effect("round-trips a key set through encode/decode", () =>
+            Effect.gen(function* () {
+                const ecPair = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const hmacJwk = yield* exportJwk(yield* generateHmacKey("HS512"));
+
+                const jwkSet = { keys: [ecPair.publicJwk, hmacJwk] };
+                const decoded = Schema.decodeUnknownSync(Jwk.JwkSet)(jwkSet);
+                const encoded = Schema.encodeUnknownSync(Jwk.JwkSet)(decoded);
+                const redecoded = Schema.decodeUnknownSync(Jwk.JwkSet)(encoded);
+                expect(redecoded.keys).toHaveLength(2);
+            }),
+        );
+    });
+
+    describe("Jwk union discrimination", () => {
+        it.effect("correctly discriminates EC vs RSA vs oct from real keys", () =>
+            Effect.gen(function* () {
+                const ec = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const rsa = yield* exportKeyPair(yield* generateRsaSsaKeyPair("RS256"));
+                const oct = yield* exportJwk(yield* generateHmacKey("HS256"));
+
+                const decodedEc = Schema.decodeUnknownSync(Jwk.Jwk)(ec.publicJwk);
+                const decodedRsa = Schema.decodeUnknownSync(Jwk.Jwk)(rsa.publicJwk);
+                const decodedOct = Schema.decodeUnknownSync(Jwk.Jwk)(oct);
+
+                expect(decodedEc.kty).toBe("EC");
+                expect(decodedRsa.kty).toBe("RSA");
+                expect(decodedOct.kty).toBe("oct");
+            }),
+        );
+    });
+
+    describe("WebCrypto round-trip interoperability", () => {
+        it.effect("EC key survives schema decode → encode → WebCrypto re-import", () =>
+            Effect.gen(function* () {
+                const pair = yield* generateEcdsaKeyPair("ES256");
+                const jwk = yield* exportJwk(pair.publicKey);
+
+                // Decode through schema, encode back
+                const decoded = Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwk);
+                const encoded = Schema.encodeUnknownSync(Jwk.EcPublicKey)(decoded);
+
+                // Re-import into WebCrypto — this would fail if the schema mangled any fields
+                const reimported = yield* Effect.promise(() =>
+                    crypto.subtle.importKey(
+                        "jwk",
+                        encoded as JsonWebKey,
+                        { name: "ECDSA", namedCurve: "P-256" },
+                        true,
+                        ["verify"],
+                    ),
+                );
+                expect(reimported.type).toBe("public");
+            }),
+        );
+
+        it.effect("RSA key survives schema decode → encode → WebCrypto re-import", () =>
+            Effect.gen(function* () {
+                const pair = yield* generateRsaSsaKeyPair("RS256");
+                const jwk = yield* exportJwk(pair.publicKey);
+
+                const decoded = Schema.decodeUnknownSync(Jwk.RsaPublicKey)(jwk);
+                const encoded = Schema.encodeUnknownSync(Jwk.RsaPublicKey)(decoded);
+
+                const reimported = yield* Effect.promise(() =>
+                    crypto.subtle.importKey(
+                        "jwk",
+                        encoded as JsonWebKey,
+                        { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+                        true,
+                        ["verify"],
+                    ),
+                );
+                expect(reimported.type).toBe("public");
+            }),
+        );
+
+        it.effect("HMAC key survives schema decode → encode → WebCrypto re-import", () =>
+            Effect.gen(function* () {
+                const key = yield* generateHmacKey("HS256");
+                const jwk = yield* exportJwk(key);
+
+                const decoded = Schema.decodeUnknownSync(Jwk.OctKey)(jwk);
+                const encoded = Schema.encodeUnknownSync(Jwk.OctKey)(decoded);
+
+                const reimported = yield* Effect.promise(() =>
+                    crypto.subtle.importKey(
+                        "jwk",
+                        encoded as JsonWebKey,
+                        {
+                            name: "HMAC",
+                            hash: "SHA-256",
+                        },
+                        true,
+                        ["sign", "verify"],
+                    ),
+                );
+                expect(reimported.type).toBe("secret");
+            }),
+        );
+
+        it.effect("RSA public key can verify after schema round-trip", () =>
+            Effect.gen(function* () {
+                const pair = yield* generateRsaSsaKeyPair("RS256");
+                const publicJwk = yield* exportJwk(pair.publicKey);
+
+                // RsaPublicKey uses Schema.String (no transform), so round-trip is lossless
+                const decoded = Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk);
+                const encoded = Schema.encodeUnknownSync(Jwk.RsaPublicKey)(decoded);
+
+                // Re-import and verify a signature made with the original private key
+                const payload = new TextEncoder().encode("test message");
+                const signature = yield* Effect.promise(() =>
+                    crypto.subtle.sign({ name: "RSASSA-PKCS1-v1_5" }, pair.privateKey, payload),
+                );
+
+                const reimportedPublic = yield* Effect.promise(() =>
+                    crypto.subtle.importKey(
+                        "jwk",
+                        encoded as JsonWebKey,
+                        { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+                        true,
+                        ["verify"],
+                    ),
+                );
+
+                const valid = yield* Effect.promise(() =>
+                    crypto.subtle.verify(
+                        {
+                            name: "RSASSA-PKCS1-v1_5",
+                        },
+                        reimportedPublic,
+                        signature,
+                        payload,
+                    ),
+                );
+                expect(valid).toBe(true);
+            }),
+        );
+
+        it.effect("EC public key can verify after schema round-trip", () =>
+            Effect.gen(function* () {
+                const pair = yield* generateEcdsaKeyPair("ES256");
+                const publicJwk = yield* exportJwk(pair.publicKey);
+
+                // EcPublicKey uses Schema.String for x,y (no transform), so round-trip is lossless
+                const decoded = Schema.decodeUnknownSync(Jwk.EcPublicKey)(publicJwk);
+                const encoded = Schema.encodeUnknownSync(Jwk.EcPublicKey)(decoded);
+
+                const payload = new TextEncoder().encode("test message");
+                const signature = yield* Effect.promise(() =>
+                    crypto.subtle.sign({ name: "ECDSA", hash: "SHA-256" }, pair.privateKey, payload),
+                );
+
+                const reimportedPublic = yield* Effect.promise(() =>
+                    crypto.subtle.importKey(
+                        "jwk",
+                        encoded as JsonWebKey,
+                        { name: "ECDSA", namedCurve: "P-256" },
+                        true,
+                        ["verify"],
+                    ),
+                );
+
+                const valid = yield* Effect.promise(() =>
+                    crypto.subtle.verify(
+                        {
+                            name: "ECDSA",
+                            hash: "SHA-256",
+                        },
+                        reimportedPublic,
+                        signature,
+                        payload,
+                    ),
+                );
+                expect(valid).toBe(true);
+            }),
+        );
+    });
+
+    describe("rejects structurally invalid JWKs", () => {
+        it.effect('rejects missing "kty"', () =>
+            Effect.gen(function* () {
+                expect(() => Schema.decodeUnknownSync(Jwk.Jwk)({ n: "abc", e: "AQAB" })).toThrow();
+            }),
+        );
+
+        it.effect('rejects unknown "kty"', () =>
+            Effect.gen(function* () {
+                expect(() => Schema.decodeUnknownSync(Jwk.Jwk)({ kty: "OKP" })).toThrow();
+            }),
+        );
+
+        it.effect('rejects EC key missing "x"', () =>
+            Effect.gen(function* () {
+                expect(() =>
+                    Schema.decodeUnknownSync(Jwk.EcPublicKey)({ kty: "EC", crv: "P-256", y: "abc" }),
+                ).toThrow();
+            }),
+        );
+
+        it.effect('rejects EC key missing "y"', () =>
+            Effect.gen(function* () {
+                expect(() =>
+                    Schema.decodeUnknownSync(Jwk.EcPublicKey)({ kty: "EC", crv: "P-256", x: "abc" }),
+                ).toThrow();
+            }),
+        );
+
+        it.effect("rejects EC key with unknown curve", () =>
+            Effect.gen(function* () {
+                expect(() =>
+                    Schema.decodeUnknownSync(Jwk.EcPublicKey)({
+                        kty: "EC",
+                        crv: "secp256k1",
+                        x: "abc",
+                        y: "def",
+                    }),
+                ).toThrow();
+            }),
+        );
+
+        it.effect('rejects RSA key missing "n"', () =>
+            Effect.gen(function* () {
+                expect(() => Schema.decodeUnknownSync(Jwk.RsaPublicKey)({ kty: "RSA", e: "AQAB" })).toThrow();
+            }),
+        );
+
+        it.effect('rejects RSA key missing "e"', () =>
+            Effect.gen(function* () {
+                expect(() => Schema.decodeUnknownSync(Jwk.RsaPublicKey)({ kty: "RSA", n: "abc" })).toThrow();
+            }),
+        );
+
+        it.effect('rejects oct key missing "k"', () =>
+            Effect.gen(function* () {
+                expect(() => Schema.decodeUnknownSync(Jwk.OctKey)({ kty: "oct" })).toThrow();
+            }),
+        );
+
+        it.effect("rejects EC key with wrong kty for RsaPublicKey schema", () =>
+            Effect.gen(function* () {
+                const { publicJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                expect(() => Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk)).toThrow();
+            }),
+        );
+
+        it.effect("rejects RSA key with wrong kty for EcPublicKey schema", () =>
+            Effect.gen(function* () {
+                const { publicJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair("RS256"));
+                expect(() => Schema.decodeUnknownSync(Jwk.EcPublicKey)(publicJwk)).toThrow();
+            }),
+        );
+    });
 });
