@@ -119,21 +119,21 @@ describe("Jwk", () => {
     describe.each(["ES256", "ES384", "ES512"] as const)("EC %s keys generated via WebCrypto", (algorithm) => {
         it.effect("public key decodes as EcPublicKey", () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair(algorithm));
+                const { publicJwk } = yield* Effect.flatMap(generateEcdsaKeyPair(algorithm), exportKeyPair);
                 expect(() => Schema.decodeUnknownSync(Jwk.EcPublicKey)(publicJwk)).not.toThrow();
             }),
         );
 
         it.effect("private key decodes as EcPrivateKey", () =>
             Effect.gen(function* () {
-                const { privateJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair(algorithm));
+                const { privateJwk } = yield* Effect.flatMap(generateEcdsaKeyPair(algorithm), exportKeyPair);
                 expect(() => Schema.decodeUnknownSync(Jwk.EcPrivateKey)(privateJwk)).not.toThrow();
             }),
         );
 
         it.effect("public key has expected kty and crv", () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair(algorithm));
+                const { publicJwk } = yield* Effect.flatMap(generateEcdsaKeyPair(algorithm), exportKeyPair);
                 const decoded = Schema.decodeUnknownSync(Jwk.EcPublicKey)(publicJwk);
                 expect(decoded.kty).toBe("EC");
                 expect(decoded.x).toBeTypeOf("string");
@@ -143,7 +143,7 @@ describe("Jwk", () => {
 
         it.effect('private key includes "d" parameter', () =>
             Effect.gen(function* () {
-                const { privateJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair(algorithm));
+                const { privateJwk } = yield* Effect.flatMap(generateEcdsaKeyPair(algorithm), exportKeyPair);
                 const decoded = Schema.decodeUnknownSync(Jwk.EcPrivateKey)(privateJwk);
                 expect(decoded.kty).toBe("EC");
                 expect(decoded.d).toBeDefined();
@@ -152,14 +152,14 @@ describe("Jwk", () => {
 
         it.effect("public key does NOT decode as EcPrivateKey", () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair(algorithm));
+                const { publicJwk } = yield* Effect.flatMap(generateEcdsaKeyPair(algorithm), exportKeyPair);
                 expect(() => Schema.decodeUnknownSync(Jwk.EcPrivateKey)(publicJwk)).toThrow();
             }),
         );
 
         it.effect("private key round-trips through encode/decode", () =>
             Effect.gen(function* () {
-                const { privateJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair(algorithm));
+                const { privateJwk } = yield* Effect.flatMap(generateEcdsaKeyPair(algorithm), exportKeyPair);
                 const decoded = Schema.decodeUnknownSync(Jwk.EcPrivateKey)(privateJwk);
                 const encoded = Schema.encodeUnknownSync(Jwk.EcPrivateKey)(decoded);
                 const redecoded = Schema.decodeUnknownSync(Jwk.EcPrivateKey)(encoded);
@@ -170,7 +170,7 @@ describe("Jwk", () => {
 
         it.effect("decodes through the top-level Jwk union", () =>
             Effect.gen(function* () {
-                const { publicJwk, privateJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair(algorithm));
+                const { publicJwk, privateJwk } = yield* Effect.flatMap(generateEcdsaKeyPair(algorithm), exportKeyPair);
                 expect(() => Schema.decodeUnknownSync(Jwk.Jwk)(publicJwk)).not.toThrow();
                 expect(() => Schema.decodeUnknownSync(Jwk.Jwk)(privateJwk)).not.toThrow();
             }),
@@ -180,7 +180,7 @@ describe("Jwk", () => {
     describe.each(["RS256", "RS384", "RS512"] as const)("RSASSA-PKCS1-v1_5 %s keys generated via WebCrypto", (alg) => {
         it.effect("public key decodes as RsaPublicKey", () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair(alg));
+                const { publicJwk } = yield* Effect.flatMap(generateRsaSsaKeyPair(alg), exportKeyPair);
                 const decoded = Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk);
                 expect(decoded.kty).toBe("RSA");
                 expect(decoded.n).toBeTypeOf("string");
@@ -190,7 +190,7 @@ describe("Jwk", () => {
 
         it.effect("private key decodes as RsaPrivateKey", () =>
             Effect.gen(function* () {
-                const { privateJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair(alg));
+                const { privateJwk } = yield* Effect.flatMap(generateRsaSsaKeyPair(alg), exportKeyPair);
                 const decoded = Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk);
                 expect(decoded.kty).toBe("RSA");
             }),
@@ -198,7 +198,7 @@ describe("Jwk", () => {
 
         it.effect("private key includes CRT parameters", () =>
             Effect.gen(function* () {
-                const { privateJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair(alg));
+                const { privateJwk } = yield* Effect.flatMap(generateRsaSsaKeyPair(alg), exportKeyPair);
                 // WebCrypto always exports with CRT parameters
                 expect(privateJwk).toHaveProperty("p");
                 expect(privateJwk).toHaveProperty("q");
@@ -212,7 +212,7 @@ describe("Jwk", () => {
 
         it.effect("public key does NOT decode as RsaPrivateKey", () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair(alg));
+                const { publicJwk } = yield* Effect.flatMap(generateRsaSsaKeyPair(alg), exportKeyPair);
                 expect(() => Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(publicJwk)).toThrow();
             }),
         );
@@ -221,14 +221,14 @@ describe("Jwk", () => {
     describe.each(["PS256", "PS384", "PS512"] as const)("RSA-PSS %s keys generated via WebCrypto", (alg) => {
         it.effect("public key decodes as RsaPublicKey", () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateRsaPssKeyPair(alg));
+                const { publicJwk } = yield* Effect.flatMap(generateRsaPssKeyPair(alg), exportKeyPair);
                 expect(() => Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk)).not.toThrow();
             }),
         );
 
         it.effect("private key decodes as RsaPrivateKey", () =>
             Effect.gen(function* () {
-                const { privateJwk } = yield* exportKeyPair(yield* generateRsaPssKeyPair(alg));
+                const { privateJwk } = yield* Effect.flatMap(generateRsaPssKeyPair(alg), exportKeyPair);
                 expect(() => Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk)).not.toThrow();
             }),
         );
@@ -237,14 +237,14 @@ describe("Jwk", () => {
     describe.each(["SHA-1", "SHA-256"] as const)("RSA-OAEP with %s generated via WebCrypto", (hash) => {
         it.effect("public key decodes as RsaPublicKey", () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateRsaOaepKeyPair(hash));
+                const { publicJwk } = yield* Effect.flatMap(generateRsaOaepKeyPair(hash), exportKeyPair);
                 expect(() => Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk)).not.toThrow();
             }),
         );
 
         it.effect("private key decodes as RsaPrivateKey", () =>
             Effect.gen(function* () {
-                const { privateJwk } = yield* exportKeyPair(yield* generateRsaOaepKeyPair(hash));
+                const { privateJwk } = yield* Effect.flatMap(generateRsaOaepKeyPair(hash), exportKeyPair);
                 expect(() => Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk)).not.toThrow();
             }),
         );
@@ -252,7 +252,7 @@ describe("Jwk", () => {
 
     it.effect("RSA private key round-trips through encode/decode", () =>
         Effect.gen(function* () {
-            const { privateJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair("RS256"));
+            const { privateJwk } = yield* Effect.flatMap(generateRsaSsaKeyPair("RS256"), exportKeyPair);
             const decoded = Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(privateJwk);
             const encoded = Schema.encodeUnknownSync(Jwk.RsaPrivateKey)(decoded);
             const redecoded = Schema.decodeUnknownSync(Jwk.RsaPrivateKey)(encoded);
@@ -306,7 +306,7 @@ describe("Jwk", () => {
     describe("JWK with optional common fields", () => {
         it.effect('accepts an EC key with "kid" and "use" fields', () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const { publicJwk } = yield* Effect.flatMap(generateEcdsaKeyPair("ES256"), exportKeyPair);
                 const jwkWithMeta = { ...publicJwk, kid: "my-key-1", use: "sig" };
                 const decoded = Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwkWithMeta);
                 expect(decoded.kid).toBe("my-key-1");
@@ -316,7 +316,7 @@ describe("Jwk", () => {
 
         it.effect('accepts an EC key with "key_ops"', () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const { publicJwk } = yield* Effect.flatMap(generateEcdsaKeyPair("ES256"), exportKeyPair);
                 const jwkWithOps = { ...publicJwk, key_ops: ["verify"] };
                 const decoded = Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwkWithOps);
                 expect(decoded.key_ops).toEqual(["verify"]);
@@ -325,7 +325,7 @@ describe("Jwk", () => {
 
         it.effect('accepts an RSA key with "alg" field', () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair("RS256"));
+                const { publicJwk } = yield* Effect.flatMap(generateRsaSsaKeyPair("RS256"), exportKeyPair);
                 const jwkWithAlg = { ...publicJwk, alg: "RS256" };
                 const decoded = Schema.decodeUnknownSync(Jwk.RsaPublicKey)(jwkWithAlg);
                 expect(decoded.alg).toBe("RS256");
@@ -334,7 +334,7 @@ describe("Jwk", () => {
 
         it.effect('rejects an unknown "use" value', () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const { publicJwk } = yield* Effect.flatMap(generateEcdsaKeyPair("ES256"), exportKeyPair);
                 const jwkBadUse = { ...publicJwk, use: "bad" };
                 expect(() => Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwkBadUse)).toThrow();
             }),
@@ -342,7 +342,7 @@ describe("Jwk", () => {
 
         it.effect('rejects an unknown "key_ops" value', () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const { publicJwk } = yield* Effect.flatMap(generateEcdsaKeyPair("ES256"), exportKeyPair);
                 const jwkBadOps = { ...publicJwk, key_ops: ["launch_missiles"] };
                 expect(() => Schema.decodeUnknownSync(Jwk.EcPublicKey)(jwkBadOps)).toThrow();
             }),
@@ -352,9 +352,9 @@ describe("Jwk", () => {
     describe("JwkSet", () => {
         it.effect("decodes a set with mixed key types", () =>
             Effect.gen(function* () {
-                const ecPair = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
-                const rsaPair = yield* exportKeyPair(yield* generateRsaSsaKeyPair("RS256"));
-                const hmacJwk = yield* exportJwk(yield* generateHmacKey("HS256"));
+                const ecPair = yield* Effect.flatMap(generateEcdsaKeyPair("ES256"), exportKeyPair);
+                const rsaPair = yield* Effect.flatMap(generateRsaSsaKeyPair("RS256"), exportKeyPair);
+                const hmacJwk = yield* Effect.flatMap(generateHmacKey("HS256"), exportJwk);
 
                 const jwkSet = {
                     keys: [ecPair.publicJwk, rsaPair.publicJwk, hmacJwk],
@@ -367,8 +367,8 @@ describe("Jwk", () => {
 
         it.effect("decodes a set containing both public and private keys", () =>
             Effect.gen(function* () {
-                const ecPair = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES384"));
-                const rsaPair = yield* exportKeyPair(yield* generateRsaSsaKeyPair("RS512"));
+                const ecPair = yield* Effect.flatMap(generateEcdsaKeyPair("ES384"), exportKeyPair);
+                const rsaPair = yield* Effect.flatMap(generateRsaSsaKeyPair("RS512"), exportKeyPair);
 
                 const jwkSet = {
                     keys: [ecPair.publicJwk, ecPair.privateJwk, rsaPair.publicJwk, rsaPair.privateJwk],
@@ -388,7 +388,7 @@ describe("Jwk", () => {
 
         it.effect("rejects a set with an invalid key", () =>
             Effect.gen(function* () {
-                const ecPair = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const ecPair = yield* Effect.flatMap(generateEcdsaKeyPair("ES256"), exportKeyPair);
                 const badKey = { kty: "FAKE", n: "abc" };
                 const jwkSet = { keys: [ecPair.publicJwk, badKey] };
                 expect(() => Schema.decodeUnknownSync(Jwk.JwkSet)(jwkSet)).toThrow();
@@ -403,8 +403,8 @@ describe("Jwk", () => {
 
         it.effect("round-trips a key set through encode/decode", () =>
             Effect.gen(function* () {
-                const ecPair = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
-                const hmacJwk = yield* exportJwk(yield* generateHmacKey("HS512"));
+                const ecPair = yield* Effect.flatMap(generateEcdsaKeyPair("ES256"), exportKeyPair);
+                const hmacJwk = yield* Effect.flatMap(generateHmacKey("HS512"), exportJwk);
 
                 const jwkSet = { keys: [ecPair.publicJwk, hmacJwk] };
                 const decoded = Schema.decodeUnknownSync(Jwk.JwkSet)(jwkSet);
@@ -418,9 +418,10 @@ describe("Jwk", () => {
     describe("Jwk union discrimination", () => {
         it.effect("correctly discriminates EC vs RSA vs oct from real keys", () =>
             Effect.gen(function* () {
-                const ec = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
-                const rsa = yield* exportKeyPair(yield* generateRsaSsaKeyPair("RS256"));
-                const oct = yield* exportJwk(yield* generateHmacKey("HS256"));
+                // const ec = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const ec = yield* Effect.flatMap(generateEcdsaKeyPair("ES256"), exportKeyPair);
+                const rsa = yield* Effect.flatMap(generateRsaSsaKeyPair("RS256"), exportKeyPair);
+                const oct = yield* Effect.flatMap(generateHmacKey("HS256"), exportJwk);
 
                 const decodedEc = Schema.decodeUnknownSync(Jwk.Jwk)(ec.publicJwk);
                 const decodedRsa = Schema.decodeUnknownSync(Jwk.Jwk)(rsa.publicJwk);
@@ -514,7 +515,13 @@ describe("Jwk", () => {
                 // Re-import and verify a signature made with the original private key
                 const payload = new TextEncoder().encode("test message");
                 const signature = yield* Effect.promise(() =>
-                    crypto.subtle.sign({ name: "RSASSA-PKCS1-v1_5" }, pair.privateKey, payload),
+                    crypto.subtle.sign(
+                        {
+                            name: "RSASSA-PKCS1-v1_5",
+                        },
+                        pair.privateKey,
+                        payload,
+                    ),
                 );
 
                 const reimportedPublic = yield* Effect.promise(() =>
@@ -643,14 +650,14 @@ describe("Jwk", () => {
 
         it.effect("rejects EC key with wrong kty for RsaPublicKey schema", () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateEcdsaKeyPair("ES256"));
+                const { publicJwk } = yield* Effect.flatMap(generateEcdsaKeyPair("ES256"), exportKeyPair);
                 expect(() => Schema.decodeUnknownSync(Jwk.RsaPublicKey)(publicJwk)).toThrow();
             }),
         );
 
         it.effect("rejects RSA key with wrong kty for EcPublicKey schema", () =>
             Effect.gen(function* () {
-                const { publicJwk } = yield* exportKeyPair(yield* generateRsaSsaKeyPair("RS256"));
+                const { publicJwk } = yield* Effect.flatMap(generateRsaSsaKeyPair("RS256"), exportKeyPair);
                 expect(() => Schema.decodeUnknownSync(Jwk.EcPublicKey)(publicJwk)).toThrow();
             }),
         );
