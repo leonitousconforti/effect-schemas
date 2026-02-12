@@ -10,7 +10,7 @@
  * @see https://www.rfc-editor.org/rfc/rfc7518 - JSON Web Algorithms (JWA)
  */
 
-import { Schema } from "effect";
+import { Effect, Schema } from "effect";
 
 /**
  * JWS algorithm values as defined in RFC 7518 Section 3.1. These algorithms are
@@ -114,9 +114,282 @@ export class JweContentEncryptionAlgorithm extends Schema.Literal(
     "A128GCM", // AES GCM using 128-bit key - Recommended
     "A192GCM", // AES GCM using 192-bit key - Optional
     "A256GCM", // AES GCM using 256-bit key - Recommended
-).annotations({
-    identifier: "JweContentEncryptionAlgorithm",
-    title: "JWE Content Encryption Algorithm",
-    description:
-        "Authenticated encryption algorithm used to encrypt the plaintext and produce the ciphertext and Authentication Tag as defined in RFC 7518 Section 5.1",
-}) {}
+) {
+    private static readonly makeAesGcm = (keyBits: 128 | 192 | 256) => {
+        const cekByteLength = keyBits / 8;
+        const ivByteLength = 12; // 96 bits for AES-GCM
+        const tagByteLength = 16; // 128-bit authentication tag
+
+        return {
+            cekByteLength,
+            ivByteLength,
+            tagByteLength,
+
+            generateIv: () => crypto.getRandomValues(new Uint8Array(ivByteLength)),
+            generateCek: () => crypto.getRandomValues(new Uint8Array(cekByteLength)),
+
+            encrypt: Effect.fnUntraced(function* (
+                cek: ArrayBuffer,
+                iv: ArrayBuffer,
+                plaintext: ArrayBuffer,
+                aad: ArrayBuffer,
+            ): Effect.fn.Return<
+                {
+                    ciphertext: ArrayBuffer;
+                    tag: ArrayBuffer;
+                    iv: ArrayBuffer;
+                },
+                never,
+                never
+            > {
+                const key = yield* Effect.promise(() =>
+                    crypto.subtle.importKey("raw", cek, "AES-GCM", false, ["encrypt", "decrypt"]),
+                );
+                const encrypted = yield* Effect.promise(() =>
+                    crypto.subtle.encrypt(
+                        {
+                            iv,
+                            name: "AES-GCM",
+                            additionalData: aad,
+                            tagLength: tagByteLength * 8,
+                        },
+                        key,
+                        plaintext,
+                    ),
+                );
+                const ciphertext = encrypted.slice(0, -tagByteLength);
+                const tag = encrypted.slice(-tagByteLength);
+                return { ciphertext, tag, iv };
+            }),
+            decrypt: Effect.fnUntraced(function* (
+                cek: ArrayBuffer,
+                iv: ArrayBuffer,
+                ciphertext: ArrayBuffer,
+                tag: ArrayBuffer,
+                aad: ArrayBuffer,
+            ): Effect.fn.Return<ArrayBuffer, never, never> {
+                const key = yield* Effect.promise(() =>
+                    crypto.subtle.importKey("raw", cek, "AES-GCM", false, ["encrypt", "decrypt"]),
+                );
+                const input = new Uint8Array(ciphertext.byteLength + tag.byteLength);
+                input.set(new Uint8Array(ciphertext), 0);
+                input.set(new Uint8Array(tag), ciphertext.byteLength);
+                const decrypted = yield* Effect.promise(() =>
+                    crypto.subtle.decrypt(
+                        {
+                            iv,
+                            name: "AES-GCM",
+                            additionalData: aad,
+                            tagLength: tagByteLength * 8,
+                        },
+                        key,
+                        input,
+                    ),
+                );
+                return decrypted;
+            }),
+        };
+    };
+
+    private static readonly makeAesCbcHmac = (
+        encKeyBits: 128 | 192 | 256,
+        hmacHash: "SHA-256" | "SHA-384" | "SHA-512",
+        tagByteLength: number,
+    ) => {
+        const encKeyByteLength = encKeyBits / 8;
+        const macKeyByteLength = tagByteLength; // MAC key length = tag length per RFC 7518
+        const cekByteLength = encKeyByteLength + macKeyByteLength;
+        const ivByteLength = 16; // 128 bits for AES-CBC
+
+        /**
+         * Compute the AL (Associated Data Length) value per RFC 7518 Section 5.2.2.1:
+         * AAD length in bits as a 64-bit unsigned big-endian integer.
+         */
+        const computeAl = (aad: ArrayBuffer): Uint8Array => {
+            const al = new Uint8Array(8);
+            const alView = new DataView(al.buffer);
+            const aadBitLength = aad.byteLength * 8;
+            alView.setUint32(0, Math.floor(aadBitLength / 0x100000000), false);
+            alView.setUint32(4, aadBitLength >>> 0, false);
+            return al;
+        };
+
+        /** Constant-time comparison to prevent timing attacks. */
+        const constantTimeEqual = (a: Uint8Array, b: Uint8Array): boolean => {
+            if (a.byteLength !== b.byteLength) return false;
+            let result = 0;
+            for (let i = 0; i < a.byteLength; i++) {
+                result |= a[i] ^ b[i];
+            }
+            return result === 0;
+        };
+
+        const importCbcKey = (encKey: ArrayBuffer, usages: Array<KeyUsage>) =>
+            Effect.promise(() => crypto.subtle.importKey("raw", encKey, "AES-CBC", false, usages));
+
+        const importHmacKey = (macKey: ArrayBuffer) =>
+            Effect.promise(() =>
+                crypto.subtle.importKey(
+                    "raw",
+                    macKey,
+                    {
+                        name: "HMAC",
+                        hash: hmacHash,
+                    },
+                    false,
+                    ["sign"],
+                ),
+            );
+
+        return {
+            cekByteLength,
+            ivByteLength,
+            tagByteLength,
+
+            generateIv: () => crypto.getRandomValues(new Uint8Array(ivByteLength)),
+            generateCek: () => crypto.getRandomValues(new Uint8Array(cekByteLength)),
+
+            encrypt: Effect.fnUntraced(function* (
+                cek: ArrayBuffer,
+                iv: ArrayBuffer,
+                plaintext: ArrayBuffer,
+                aad: ArrayBuffer,
+            ): Effect.fn.Return<
+                {
+                    ciphertext: ArrayBuffer;
+                    tag: ArrayBuffer;
+                    iv: ArrayBuffer;
+                },
+                never,
+                never
+            > {
+                // Split CEK into MAC key and encryption key
+                const macKey = cek.slice(0, macKeyByteLength);
+                const encKey = cek.slice(macKeyByteLength);
+
+                // AES-CBC encrypt with PKCS#7 padding (Web Crypto default)
+                const cbcKey = yield* importCbcKey(encKey, ["encrypt"]);
+                const ciphertext = yield* Effect.promise(() =>
+                    crypto.subtle.encrypt(
+                        {
+                            iv,
+                            name: "AES-CBC",
+                        },
+                        cbcKey,
+                        plaintext,
+                    ),
+                );
+
+                // HMAC over AAD || IV || ciphertext || AL
+                const al = computeAl(aad);
+                const hmacKey = yield* importHmacKey(macKey);
+                const hmacInput = new Uint8Array([
+                    ...new Uint8Array(aad),
+                    ...new Uint8Array(iv),
+                    ...new Uint8Array(ciphertext),
+                    ...al,
+                ]);
+                const fullMac = yield* Effect.promise(() => crypto.subtle.sign("HMAC", hmacKey, hmacInput));
+
+                // Tag = first T_LEN bytes of HMAC output
+                const tag = fullMac.slice(0, tagByteLength);
+                return { ciphertext, tag, iv };
+            }),
+            decrypt: Effect.fnUntraced(function* (
+                cek: ArrayBuffer,
+                iv: ArrayBuffer,
+                ciphertext: ArrayBuffer,
+                tag: ArrayBuffer,
+                aad: ArrayBuffer,
+            ): Effect.fn.Return<ArrayBuffer, never, never> {
+                // Split CEK into MAC key and encryption key
+                const macKey = cek.slice(0, macKeyByteLength);
+                const encKey = cek.slice(macKeyByteLength);
+
+                // Recompute HMAC over AAD || IV || ciphertext || AL
+                const al = computeAl(aad);
+                const hmacKey = yield* importHmacKey(macKey);
+                const hmacInput = new Uint8Array([
+                    ...new Uint8Array(aad),
+                    ...new Uint8Array(iv),
+                    ...new Uint8Array(ciphertext),
+                    ...al,
+                ]);
+                const fullMac = yield* Effect.promise(() => crypto.subtle.sign("HMAC", hmacKey, hmacInput));
+                const computedTag = new Uint8Array(fullMac.slice(0, tagByteLength));
+
+                // Constant-time comparison to prevent timing attacks
+                if (!constantTimeEqual(new Uint8Array(tag), computedTag)) {
+                    throw new Error("Authentication tag verification failed");
+                }
+
+                // AES-CBC decrypt (automatically removes PKCS#7 padding)
+                const cbcKey = yield* importCbcKey(encKey, ["decrypt"]);
+                const decrypted = yield* Effect.promise(() =>
+                    crypto.subtle.decrypt(
+                        {
+                            iv,
+                            name: "AES-CBC",
+                        },
+                        cbcKey,
+                        ciphertext,
+                    ),
+                );
+                return decrypted;
+            }),
+        };
+    };
+
+    private static readonly aesGcm128 = JweContentEncryptionAlgorithm.makeAesGcm(128);
+    private static readonly aesGcm192 = JweContentEncryptionAlgorithm.makeAesGcm(192);
+    private static readonly aesGcm256 = JweContentEncryptionAlgorithm.makeAesGcm(256);
+    private static readonly aesCbcHmac256 = JweContentEncryptionAlgorithm.makeAesCbcHmac(128, "SHA-256", 16);
+    private static readonly aesCbcHmac384 = JweContentEncryptionAlgorithm.makeAesCbcHmac(192, "SHA-384", 24);
+    private static readonly aesCbcHmac512 = JweContentEncryptionAlgorithm.makeAesCbcHmac(256, "SHA-512", 32);
+
+    public static readonly fromAlgorithm = (
+        algorithm: Schema.Schema.Type<JweContentEncryptionAlgorithm>,
+    ): {
+        cekByteLength: number;
+        ivByteLength: number;
+        tagByteLength: number;
+        generateIv: () => Uint8Array<ArrayBuffer>;
+        generateCek: () => Uint8Array<ArrayBuffer>;
+        encrypt: (
+            cek: ArrayBuffer,
+            iv: ArrayBuffer,
+            plaintext: ArrayBuffer,
+            aad: ArrayBuffer,
+        ) => Effect.Effect<
+            {
+                ciphertext: ArrayBuffer;
+                tag: ArrayBuffer;
+                iv: ArrayBuffer;
+            },
+            never,
+            never
+        >;
+        decrypt: (
+            cek: ArrayBuffer,
+            iv: ArrayBuffer,
+            ciphertext: ArrayBuffer,
+            tag: ArrayBuffer,
+            aad: ArrayBuffer,
+        ) => Effect.Effect<ArrayBuffer, never, never>;
+    } => {
+        switch (algorithm) {
+            case "A128GCM":
+                return JweContentEncryptionAlgorithm.aesGcm128;
+            case "A192GCM":
+                return JweContentEncryptionAlgorithm.aesGcm192;
+            case "A256GCM":
+                return JweContentEncryptionAlgorithm.aesGcm256;
+            case "A128CBC-HS256":
+                return JweContentEncryptionAlgorithm.aesCbcHmac256;
+            case "A192CBC-HS384":
+                return JweContentEncryptionAlgorithm.aesCbcHmac384;
+            case "A256CBC-HS512":
+                return JweContentEncryptionAlgorithm.aesCbcHmac512;
+        }
+    };
+}
