@@ -9,13 +9,16 @@
             "type-import",
             ["value-builtin", "value-external"],
             "effect",
-            "type-internal",
-            "value-internal",
+            ["type-internal", "value-internal"],
             ["type-parent", "type-sibling", "type-index"],
             ["value-parent", "value-sibling", "value-index"],
             "unknown"
         ],
         "customGroups": [
+            {
+                "groupName": "value-external",
+                "elementNamePattern": ["effect/unstable", "@effect/"]
+            },
             {
                 "groupName": "effect",
                 "elementNamePattern": ["effect"]
