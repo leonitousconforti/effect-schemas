@@ -10,7 +10,7 @@
  * @see https://www.rfc-editor.org/rfc/rfc7518 - JSON Web Algorithms (JWA)
  */
 
-import { Effect, Schema } from "effect";
+import { Effect, Function, Schema } from "effect";
 
 /**
  * JWS algorithm values as defined in RFC 7518 Section 3.1. These algorithms are
@@ -93,7 +93,68 @@ export class JweKeyManagementAlgorithm extends Schema.Literal(
     title: "JWE Key Management Algorithm",
     description:
         "Algorithm used to encrypt or determine the Content Encryption Key (CEK) as defined in RFC 7518 Section 4.1",
-}) {}
+}) {
+    /**
+     * The CEK import algorithm used for wrapKey/unwrapKey. We use HMAC because
+     * it accepts arbitrary key lengths, which is needed for AES-CBC-HMAC
+     * composite CEKs (32, 48, or 64 bytes).
+     */
+    private static readonly cekImportAlg = { name: "HMAC", hash: "SHA-256" } as const;
+
+    private static readonly makeRsaOaep = (hash: "SHA-1" | "SHA-256") => ({
+        encryptCek: Effect.fnUntraced(function* (
+            publicKey: CryptoKey,
+            cek: ArrayBuffer,
+        ): Effect.fn.Return<ArrayBuffer, never, never> {
+            // Import the raw CEK as a CryptoKey so we can use wrapKey
+            const cekKey = yield* Effect.promise(() =>
+                crypto.subtle.importKey("raw", cek, JweKeyManagementAlgorithm.cekImportAlg, true, ["sign"]),
+            );
+            return yield* Effect.promise(() => crypto.subtle.wrapKey("raw", cekKey, publicKey, "RSA-OAEP"));
+        }),
+        decryptCek: Effect.fnUntraced(function* (
+            privateKey: CryptoKey,
+            encryptedKey: ArrayBuffer,
+            cekByteLength: number,
+        ): Effect.fn.Return<ArrayBuffer, never, never> {
+            const cekKey = yield* Effect.promise(() =>
+                crypto.subtle.unwrapKey(
+                    "raw",
+                    encryptedKey,
+                    privateKey,
+                    "RSA-OAEP",
+                    { ...JweKeyManagementAlgorithm.cekImportAlg, length: cekByteLength * 8 },
+                    true,
+                    ["sign"],
+                ),
+            );
+            return yield* Effect.promise(() => crypto.subtle.exportKey("raw", cekKey));
+        }),
+    });
+
+    private static readonly rsaOaep = JweKeyManagementAlgorithm.makeRsaOaep("SHA-1");
+    private static readonly rsaOaep256 = JweKeyManagementAlgorithm.makeRsaOaep("SHA-256");
+
+    public static readonly fromAlgorithm = (
+        algorithm: Schema.Schema.Type<JweKeyManagementAlgorithm>,
+    ): {
+        encryptCek: (publicKey: CryptoKey, cek: ArrayBuffer) => Effect.Effect<ArrayBuffer, never, never>;
+        decryptCek: (
+            privateKey: CryptoKey,
+            encryptedKey: ArrayBuffer,
+            cekByteLength: number,
+        ) => Effect.Effect<ArrayBuffer, never, never>;
+    } => {
+        switch (algorithm) {
+            case "RSA-OAEP":
+                return JweKeyManagementAlgorithm.rsaOaep;
+            case "RSA-OAEP-256":
+                return JweKeyManagementAlgorithm.rsaOaep256;
+            default:
+                return Function.absurd<never>(algorithm as never);
+        }
+    };
+}
 
 /**
  * JWE encryption algorithm values as defined in RFC 7518 Section 5.1. These
@@ -137,7 +198,6 @@ export class JweContentEncryptionAlgorithm extends Schema.Literal(
                 {
                     ciphertext: ArrayBuffer;
                     tag: ArrayBuffer;
-                    iv: ArrayBuffer;
                 },
                 never,
                 never
@@ -159,7 +219,7 @@ export class JweContentEncryptionAlgorithm extends Schema.Literal(
                 );
                 const ciphertext = encrypted.slice(0, -tagByteLength);
                 const tag = encrypted.slice(-tagByteLength);
-                return { ciphertext, tag, iv };
+                return { ciphertext, tag };
             }),
             decrypt: Effect.fnUntraced(function* (
                 cek: ArrayBuffer,
@@ -174,7 +234,7 @@ export class JweContentEncryptionAlgorithm extends Schema.Literal(
                 const input = new Uint8Array(ciphertext.byteLength + tag.byteLength);
                 input.set(new Uint8Array(ciphertext), 0);
                 input.set(new Uint8Array(tag), ciphertext.byteLength);
-                const decrypted = yield* Effect.promise(() =>
+                return yield* Effect.promise(() =>
                     crypto.subtle.decrypt(
                         {
                             iv,
@@ -186,7 +246,6 @@ export class JweContentEncryptionAlgorithm extends Schema.Literal(
                         input,
                     ),
                 );
-                return decrypted;
             }),
         };
     };
@@ -258,7 +317,6 @@ export class JweContentEncryptionAlgorithm extends Schema.Literal(
                 {
                     ciphertext: ArrayBuffer;
                     tag: ArrayBuffer;
-                    iv: ArrayBuffer;
                 },
                 never,
                 never
@@ -293,7 +351,7 @@ export class JweContentEncryptionAlgorithm extends Schema.Literal(
 
                 // Tag = first T_LEN bytes of HMAC output
                 const tag = fullMac.slice(0, tagByteLength);
-                return { ciphertext, tag, iv };
+                return { ciphertext, tag };
             }),
             decrypt: Effect.fnUntraced(function* (
                 cek: ArrayBuffer,
@@ -335,17 +393,18 @@ export class JweContentEncryptionAlgorithm extends Schema.Literal(
                         ciphertext,
                     ),
                 );
+
                 return decrypted;
             }),
         };
     };
 
-    private static readonly aesGcm128 = JweContentEncryptionAlgorithm.makeAesGcm(128);
-    private static readonly aesGcm192 = JweContentEncryptionAlgorithm.makeAesGcm(192);
-    private static readonly aesGcm256 = JweContentEncryptionAlgorithm.makeAesGcm(256);
-    private static readonly aesCbcHmac256 = JweContentEncryptionAlgorithm.makeAesCbcHmac(128, "SHA-256", 16);
-    private static readonly aesCbcHmac384 = JweContentEncryptionAlgorithm.makeAesCbcHmac(192, "SHA-384", 24);
-    private static readonly aesCbcHmac512 = JweContentEncryptionAlgorithm.makeAesCbcHmac(256, "SHA-512", 32);
+    protected static readonly aesGcm128 = JweContentEncryptionAlgorithm.makeAesGcm(128);
+    protected static readonly aesGcm192 = JweContentEncryptionAlgorithm.makeAesGcm(192);
+    protected static readonly aesGcm256 = JweContentEncryptionAlgorithm.makeAesGcm(256);
+    protected static readonly aesCbcHmac256 = JweContentEncryptionAlgorithm.makeAesCbcHmac(128, "SHA-256", 16);
+    protected static readonly aesCbcHmac384 = JweContentEncryptionAlgorithm.makeAesCbcHmac(192, "SHA-384", 24);
+    protected static readonly aesCbcHmac512 = JweContentEncryptionAlgorithm.makeAesCbcHmac(256, "SHA-512", 32);
 
     public static readonly fromAlgorithm = (
         algorithm: Schema.Schema.Type<JweContentEncryptionAlgorithm>,
@@ -364,7 +423,6 @@ export class JweContentEncryptionAlgorithm extends Schema.Literal(
             {
                 ciphertext: ArrayBuffer;
                 tag: ArrayBuffer;
-                iv: ArrayBuffer;
             },
             never,
             never
