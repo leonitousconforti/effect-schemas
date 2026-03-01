@@ -4,38 +4,24 @@
  * @since 1.0.0
  */
 
-import { Function, Schema } from "effect";
+import { Schema } from "effect";
 
 /**
  * @since 1.0.0
  * @category Math schemas
  */
-export class Operation extends Function.pipe(
-    Schema.Literal("addition", "subtraction", "multiplication", "division"),
-    Schema.annotations({
-        title: "Operation",
-        description: "A mathematical operation",
-        arbitrary: () => (fc) =>
-            fc.constantFrom(
-                "addition" as const,
-                "subtraction" as const,
-                "multiplication" as const,
-                "division" as const,
-            ),
-    }),
-) {}
+export const Operation = Schema.Literals(["addition", "subtraction", "multiplication", "division"]).annotate({
+    title: "Operation",
+    expected: "a mathematical operation",
+    description: "A mathematical operation",
+});
 
 /**
  * @since 1.0.0
  * @category Math schemas
  */
-export class Operator extends Schema.transformLiterals(
-    ["addition", "+"],
-    ["subtraction", "-"],
-    ["multiplication", "*"],
-    ["division", "/"],
-).annotations({
+export const Operator = Operation.transform(["+", "-", "*", "/"]).annotate({
     title: "Operator",
+    expected: "a mathematical operator",
     description: "A mathematical operator",
-    arbitrary: () => (fc) => fc.constantFrom("+" as const, "-" as const, "*" as const, "/" as const),
-}) {}
+});
