@@ -4,7 +4,7 @@
  * @since 1.0.0
  */
 
-import { Chunk, Effect, Option, Schema, SchemaGetter, SchemaIssue, SchemaTransformation, type SchemaAST } from "effect";
+import { Chunk, Effect, Option, Schema, SchemaGetter, SchemaIssue, type SchemaAST } from "effect";
 
 declare module "effect/Schema" {
     namespace Annotations {
@@ -128,32 +128,24 @@ export interface PostalCode extends Schema.brand<Schema.String, "PostalCode"> {}
 /** @since 1.0.0 */
 export const PostalCode: PostalCode = Schema.String.pipe(Schema.check(isPostalCode()), Schema.brand("PostalCode"));
 
-/**
- * @since 1.0.0
- * @category Geography checks
- */
-export function isAlphanumericGeocode(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
-    const regExp = /^[A-Z0-9]{1,10}$/i;
-    return Schema.isPattern(regExp, {
-        title: "AlphanumericGeocode",
-        expected: "an alphanumeric geocode containing only letters and numbers",
-        description: "An alphanumeric geocode containing only letters and numbers",
-        meta: { _tag: "isAlphanumericGeocode", regExp },
-        ...annotations,
-    });
-}
-
 /** @since 1.0.0 */
 export const AlphaNumericGeocode = Schema.suspend(() => {
     const Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const AlphabetBase = BigInt(Alphabet.length);
 
-    const decode = SchemaGetter.transformOrFail<(typeof LatLon)["Encoded"], string, never>((geocode) =>
-        Effect.fail(
-            new SchemaIssue.Forbidden(Option.some(geocode), {
-                message: "Decoding from alphanumeric geocode is not implemented yet",
-            }),
-        ),
+    function isAlphanumericGeocode(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+        const regExp = /^[A-Z0-9]{1,10}$/i;
+        return Schema.isPattern(regExp, {
+            title: "AlphanumericGeocode",
+            expected: "an alphanumeric geocode containing only letters and numbers",
+            description: "An alphanumeric geocode containing only letters and numbers",
+            meta: { _tag: "isAlphanumericGeocode", regExp },
+            ...annotations,
+        });
+    }
+
+    const decode = SchemaGetter.forbidden<(typeof LatLon)["Encoded"], string>(
+        (_geocode) => "Decoding from alphanumeric geocode is not implemented yet",
     );
 
     const encode = SchemaGetter.transformOrFail<string, (typeof LatLon)["Encoded"], never>(
@@ -199,12 +191,9 @@ export const AlphaNumericGeocode = Schema.suspend(() => {
 
     return Schema.String.pipe(
         Schema.check(isAlphanumericGeocode()),
-        Schema.decodeTo(
-            LatLon,
-            SchemaTransformation.make<(typeof LatLon)["Encoded"], string, never, never>({
-                decode,
-                encode,
-            }),
-        ),
+        Schema.decodeTo(LatLon, {
+            decode,
+            encode,
+        }),
     );
 });
