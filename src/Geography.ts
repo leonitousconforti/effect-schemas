@@ -4,7 +4,7 @@
  * @since 1.0.0
  */
 
-import { Chunk, Effect, Option, Schema, SchemaIssue, SchemaTransformation, type SchemaAST } from "effect";
+import { Chunk, Effect, Option, Schema, SchemaGetter, SchemaIssue, SchemaTransformation, type SchemaAST } from "effect";
 
 declare module "effect/Schema" {
     namespace Annotations {
@@ -144,59 +144,67 @@ export function isAlphanumericGeocode(annotations?: Schema.Annotations.Filter | 
 }
 
 /** @since 1.0.0 */
-export const AlphaNumericGeocode = Schema.String.pipe(
-    Schema.check(isAlphanumericGeocode()),
-    Schema.decodeTo(
-        LatLon,
-        SchemaTransformation.transformOrFail({
-            decode: (geocode): Effect.Effect<(typeof LatLon)["Encoded"], SchemaIssue.Issue, never> =>
-                Effect.fail(
-                    new SchemaIssue.Forbidden(Option.some(geocode), {
-                        message: "Decoding from alphanumeric geocode is not supported",
-                    }),
-                ),
-            encode: ({ latitude, longitude }) => {
-                const Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                const AlphabetBase = BigInt(Alphabet.length);
+export const AlphaNumericGeocode = Schema.suspend(() => {
+    const Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const AlphabetBase = BigInt(Alphabet.length);
 
-                const x = BigInt(Math.round(latitude * 100_000));
-                const y = BigInt(Math.round(longitude * 100_000));
+    const decode = SchemaGetter.transformOrFail<(typeof LatLon)["Encoded"], string, never>((geocode) =>
+        Effect.fail(
+            new SchemaIssue.Forbidden(Option.some(geocode), {
+                message: "Decoding from alphanumeric geocode is not implemented yet",
+            }),
+        ),
+    );
 
-                const xy = x + y;
-                const yx = -y + x;
-                const coefficient = 27_000_000n;
-                const xyBits = (xy + coefficient).toString(2).split("");
-                const yxBits = (yx + coefficient).toString(2).split("");
+    const encode = SchemaGetter.transformOrFail<string, (typeof LatLon)["Encoded"], never>(
+        ({ latitude, longitude }) => {
+            const x = BigInt(Math.round(latitude * 100_000));
+            const y = BigInt(Math.round(longitude * 100_000));
 
-                let combinedBitString = "";
-                while (xyBits.length > 0 || yxBits.length > 0) {
-                    const bit1 = xyBits.pop() ?? "0";
-                    const bit2 = yxBits.pop() ?? "0";
-                    combinedBitString = bit1 + bit2 + combinedBitString;
+            const xy = x + y;
+            const yx = -y + x;
+            const coefficient = 27_000_000n;
+            const xyBits = (xy + coefficient).toString(2).split("");
+            const yxBits = (yx + coefficient).toString(2).split("");
+
+            let combinedBitString = "";
+            while (xyBits.length > 0 || yxBits.length > 0) {
+                const bit1 = xyBits.pop() ?? "0";
+                const bit2 = yxBits.pop() ?? "0";
+                combinedBitString = bit1 + bit2 + combinedBitString;
+            }
+
+            const PAD = 282_699_884_614_999n;
+            let quotient,
+                remainder,
+                dividend = BigInt(`0b${combinedBitString}`) - PAD,
+                chars = Chunk.empty<string>();
+
+            do {
+                quotient = dividend / AlphabetBase;
+                remainder = dividend % AlphabetBase;
+                dividend = (dividend - remainder) / AlphabetBase;
+                chars = Chunk.prepend(chars, Alphabet[Number(remainder)]);
+                if (chars.length > 10) {
+                    const data = Option.some(`${latitude},${longitude}`);
+                    const message = "Exceeded maximum iterations for alphanumeric geocode";
+                    return Effect.fail(new SchemaIssue.Forbidden(data, { message }));
                 }
+            } while (quotient > 0n);
 
-                const PAD = 282_699_884_614_999n;
-                let quotient,
-                    remainder,
-                    dividend = BigInt(`0b${combinedBitString}`) - PAD,
-                    chars = Chunk.empty<string>();
+            const str = Chunk.join(chars, "");
+            return Effect.succeed(str);
+        },
+    );
 
-                do {
-                    quotient = dividend / AlphabetBase;
-                    remainder = dividend % AlphabetBase;
-                    dividend = (dividend - remainder) / AlphabetBase;
-                    chars = Chunk.prepend(chars, Alphabet[Number(remainder)]);
-                    if (chars.length > 10) {
-                        const message = "Exceeded maximum iterations for alphanumeric geocode";
-                        return Effect.fail(
-                            new SchemaIssue.Forbidden(Option.some(`${latitude},${longitude}`), { message }),
-                        );
-                    }
-                } while (quotient > 0n);
-
-                const str = Chunk.join(chars, "");
-                return Effect.succeed(str);
-            },
-        }),
-    ),
-);
+    return Schema.String.pipe(
+        Schema.check(isAlphanumericGeocode()),
+        Schema.decodeTo(
+            LatLon,
+            SchemaTransformation.make<(typeof LatLon)["Encoded"], string, never, never>({
+                decode,
+                encode,
+            }),
+        ),
+    );
+});
