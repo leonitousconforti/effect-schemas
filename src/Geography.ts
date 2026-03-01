@@ -4,196 +4,93 @@
  * @since 1.0.0
  */
 
-import { Chunk, Function, ParseResult, Schema, type Brand } from "effect";
+import { Chunk, Effect, Option, Schema, SchemaIssue, SchemaTransformation, type SchemaAST } from "effect";
+
+declare module "effect/Schema" {
+    namespace Annotations {
+        interface MetaDefinitions {
+            readonly isUsPostalCode: {
+                readonly _tag: "isPostalCode";
+                readonly regExp: globalThis.RegExp;
+            };
+            readonly isAlphanumericGeocode: {
+                readonly _tag: "isAlphanumericGeocode";
+                readonly regExp: globalThis.RegExp;
+            };
+        }
+    }
+}
 
 /**
  * @since 1.0.0
- * @category Geography filters
+ * @category Geography checks
  */
-export const latitude = <S extends Schema.Schema.Any>(
-    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined,
-): (<A extends number>(
-    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>,
-) => Schema.filter<S>) =>
-    Schema.between(-90, 90, {
-        title: "latitude",
-        description: "A number between -90 and 90 (inclusive)",
-        message: () => `a latitude between -90 and 90 (inclusive)`,
-        ...annotations,
-    });
-
-/**
- * @since 1.0.0
- * @category Geography schemas
- */
-export class Latitude extends Function.pipe(
-    Schema.Number,
-    latitude({
-        arbitrary: () => (fc) =>
-            fc.double({
-                min: -90,
-                max: 90,
-                minExcluded: false,
-                maxExcluded: false,
-            }),
-    }),
-    Schema.brand("Latitude"),
-) {}
-
-/**
- * @since 1.0.0
- * @category Geography filters
- */
-export const longitude = <S extends Schema.Schema.Any>(
-    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined,
-): (<A extends number>(
-    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>,
-) => Schema.filter<S>) =>
-    Schema.between(-180, 180, {
-        title: "longitude",
-        description: "A number between -180 and 180 (inclusive)",
-        message: () => `a longitude between -180 and 180 (inclusive)`,
-        ...annotations,
-    });
-
-/**
- * @since 1.0.0
- * @category Geography schemas
- */
-export class Longitude extends Function.pipe(
-    Schema.Number,
-    longitude({
-        arbitrary: () => (fc) =>
-            fc.double({
-                min: -180,
-                max: 180,
-                minExcluded: false,
-                maxExcluded: false,
-            }),
-    }),
-    Schema.brand("Longitude"),
-) {}
-
-/**
- * @since 1.0.0
- * @category Geography schemas
- */
-export class LatLon extends Schema.Tuple(Latitude, Longitude) {}
-
-/**
- * @since 1.0.0
- * @category Geography schemas
- */
-export class PostalCode extends Function.pipe(
-    Schema.String,
-    Schema.pattern(/^\d{5}(-\d{4})?$/, {
-        title: "postalCode",
-        description: "A US postal code in the format 12345 or 12345-6789",
-        message: () => `a postal code in the format 12345 or 12345-6789`,
-        arbitrary: () => (fc) =>
-            fc.oneof(
-                fc.string({
-                    minLength: 5,
-                    maxLength: 5,
-                    unit: fc
-                        .integer({
-                            min: 0,
-                            max: 9,
-                        })
-                        .map((x) => `${x}`),
-                }),
-                fc
-                    .tuple(
-                        fc.string({
-                            minLength: 5,
-                            maxLength: 5,
-                            unit: fc
-                                .integer({
-                                    min: 0,
-                                    max: 9,
-                                })
-                                .map((x) => `${x}`),
-                        }),
-                        fc.string({
-                            minLength: 4,
-                            maxLength: 4,
-                            unit: fc
-                                .integer({
-                                    min: 0,
-                                    max: 9,
-                                })
-                                .map((x) => `${x}`),
-                        }),
-                    )
-                    .map(([part1, part2]) => `${part1}-${part2}`),
-            ),
-    }),
-    Schema.brand("PostalCode"),
-) {}
-
-/**
- * @since 1.0.0
- * @category Geography schemas
- */
-export class AlphanumericGeocode extends Schema.transformOrFail(
-    Schema.String.pipe(Schema.maxLength(10), Schema.brand("AlphanumericGeocode")),
-    LatLon,
-    {
-        decode: (geocode, _options, ast) => {
-            return ParseResult.fail(new ParseResult.Forbidden(ast, geocode, "Not implemented yet"));
+export function isLatitude(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<number> {
+    return Schema.isBetween(
+        {
+            minimum: -90,
+            maximum: 90,
+            exclusiveMinimum: false,
+            exclusiveMaximum: false,
         },
-        encode: ([latitude, longitude], _options, ast) => {
-            const x = BigInt(Math.round(latitude * 100_000));
-            const y = BigInt(Math.round(longitude * 100_000));
-
-            const xy = x + y;
-            const yx = -y + x;
-            const coefficient = 27_000_000n;
-            const xyBits = (xy + coefficient).toString(2).split("");
-            const yxBits = (yx + coefficient).toString(2).split("");
-
-            let combinedBitString = "";
-            while (xyBits.length > 0 || yxBits.length > 0) {
-                const bit1 = xyBits.pop() ?? "0";
-                const bit2 = yxBits.pop() ?? "0";
-                combinedBitString = bit1 + bit2 + combinedBitString;
-            }
-
-            const PAD = 282_699_884_614_999n;
-            let quotient,
-                remainder,
-                dividend = BigInt(`0b${combinedBitString}`) - PAD,
-                chars = Chunk.empty<string>();
-
-            do {
-                quotient = dividend / AlphanumericGeocode.AlphabetBase;
-                remainder = dividend % AlphanumericGeocode.AlphabetBase;
-                dividend = (dividend - remainder) / AlphanumericGeocode.AlphabetBase;
-                chars = Chunk.prepend(chars, AlphanumericGeocode.Alphabet[Number(remainder)]);
-                if (chars.length > 10) {
-                    const errorMessage = "Exceeded maximum iterations for alphanumeric geocode";
-                    return ParseResult.fail(new ParseResult.Type(ast, [latitude, longitude], errorMessage));
-                }
-            } while (quotient > 0n);
-
-            const str = Chunk.join(chars, "");
-            return ParseResult.succeed(str as string & Brand.Brand<"AlphanumericGeocode">);
+        {
+            title: "Latitude",
+            expected: "a latitude between -90 and 90 (inclusive)",
+            description: "A number between -90 and 90 (inclusive)",
+            ...annotations,
         },
-    },
+    );
+}
+
+/** @since 1.0.0 */
+export interface Latitude extends Schema.brand<Schema.Number, "Latitude"> {}
+
+/** @since 1.0.0 */
+export const Latitude: Latitude = Schema.Number.pipe(Schema.check(isLatitude()), Schema.brand("Latitude"));
+
+/**
+ * @since 1.0.0
+ * @category Geography checks
+ */
+export function isLongitude(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<number> {
+    return Schema.isBetween(
+        {
+            minimum: -180,
+            maximum: 180,
+            exclusiveMinimum: false,
+            exclusiveMaximum: false,
+        },
+        {
+            title: "Longitude",
+            expected: "a longitude between -180 and 180 (inclusive)",
+            description: "A number between -180 and 180 (inclusive)",
+            ...annotations,
+        },
+    );
+}
+
+/** @since 1.0.0 */
+export interface Longitude extends Schema.brand<Schema.Number, "Longitude"> {}
+
+/** @since 1.0.0 */
+export const Longitude: Longitude = Schema.Number.pipe(Schema.check(isLongitude()), Schema.brand("Longitude"));
+
+/** @since 1.0.0 */
+export class LatLon extends Schema.Opaque<LatLon>()(
+    Schema.Struct({
+        latitude: Latitude,
+        longitude: Longitude,
+    }),
 ) {
-    public static readonly Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    public static readonly AlphabetBase = BigInt(AlphanumericGeocode.Alphabet.length);
-
     /**
      * @since 1.0.0
      * @category Calculations
      */
-    public static DistanceBetween = (
-        self: Schema.Schema.Type<AlphanumericGeocode>,
-        other: Schema.Schema.Type<AlphanumericGeocode>,
-    ): number => {
-        const [lat1, lon1] = self;
-        const [lat2, lon2] = other;
+    public static DistanceBetween = (self: LatLon, other: LatLon): number => {
+        const lat1 = self.latitude;
+        const lon1 = self.longitude;
+        const lat2 = other.latitude;
+        const lon2 = other.longitude;
 
         const R = 6371e3; // Earth's radius in meters
         const φ1 = (lat1 * Math.PI) / 180; // latitude in radians
@@ -209,3 +106,97 @@ export class AlphanumericGeocode extends Schema.transformOrFail(
         return distance;
     };
 }
+
+/**
+ * @since 1.0.0
+ * @category Geography checks
+ */
+export function isPostalCode(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+    const regExp = /^\d{5}(-\d{4})?$/;
+    return Schema.isPattern(regExp, {
+        title: "PostalCode",
+        expected: "a postal code in the format 12345 or 12345-6789",
+        description: "A US postal code in the format 12345 or 12345-6789",
+        meta: { _tag: "isPostalCode", regExp },
+        ...annotations,
+    });
+}
+
+/** @since 1.0.0 */
+export interface PostalCode extends Schema.brand<Schema.String, "PostalCode"> {}
+
+/** @since 1.0.0 */
+export const PostalCode: PostalCode = Schema.String.pipe(Schema.check(isPostalCode()), Schema.brand("PostalCode"));
+
+/**
+ * @since 1.0.0
+ * @category Geography checks
+ */
+export function isAlphanumericGeocode(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+    const regExp = /^[A-Z0-9]{1,10}$/i;
+    return Schema.isPattern(regExp, {
+        title: "AlphanumericGeocode",
+        expected: "an alphanumeric geocode containing only letters and numbers",
+        description: "An alphanumeric geocode containing only letters and numbers",
+        meta: { _tag: "isAlphanumericGeocode", regExp },
+        ...annotations,
+    });
+}
+
+/** @since 1.0.0 */
+export const AlphaNumericGeocode = Schema.String.pipe(
+    Schema.check(isAlphanumericGeocode()),
+    Schema.decodeTo(
+        LatLon,
+        SchemaTransformation.transformOrFail({
+            decode: (geocode): Effect.Effect<(typeof LatLon)["Encoded"], SchemaIssue.Issue, never> =>
+                Effect.fail(
+                    new SchemaIssue.Forbidden(Option.some(geocode), {
+                        message: "Decoding from alphanumeric geocode is not supported",
+                    }),
+                ),
+            encode: ({ latitude, longitude }) => {
+                const Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                const AlphabetBase = BigInt(Alphabet.length);
+
+                const x = BigInt(Math.round(latitude * 100_000));
+                const y = BigInt(Math.round(longitude * 100_000));
+
+                const xy = x + y;
+                const yx = -y + x;
+                const coefficient = 27_000_000n;
+                const xyBits = (xy + coefficient).toString(2).split("");
+                const yxBits = (yx + coefficient).toString(2).split("");
+
+                let combinedBitString = "";
+                while (xyBits.length > 0 || yxBits.length > 0) {
+                    const bit1 = xyBits.pop() ?? "0";
+                    const bit2 = yxBits.pop() ?? "0";
+                    combinedBitString = bit1 + bit2 + combinedBitString;
+                }
+
+                const PAD = 282_699_884_614_999n;
+                let quotient,
+                    remainder,
+                    dividend = BigInt(`0b${combinedBitString}`) - PAD,
+                    chars = Chunk.empty<string>();
+
+                do {
+                    quotient = dividend / AlphabetBase;
+                    remainder = dividend % AlphabetBase;
+                    dividend = (dividend - remainder) / AlphabetBase;
+                    chars = Chunk.prepend(chars, Alphabet[Number(remainder)]);
+                    if (chars.length > 10) {
+                        const message = "Exceeded maximum iterations for alphanumeric geocode";
+                        return Effect.fail(
+                            new SchemaIssue.Forbidden(Option.some(`${latitude},${longitude}`), { message }),
+                        );
+                    }
+                } while (quotient > 0n);
+
+                const str = Chunk.join(chars, "");
+                return Effect.succeed(str);
+            },
+        }),
+    ),
+);
