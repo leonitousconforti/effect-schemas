@@ -4,98 +4,88 @@
  * @since 1.0.0
  */
 
-import { Function, Schema } from "effect";
+import { Schema, type SchemaAST } from "effect";
+
+declare module "effect/Schema" {
+    namespace Annotations {
+        interface MetaDefinitions {
+            readonly isAscii: {
+                readonly _tag: "isAscii";
+                readonly regExp: globalThis.RegExp;
+            };
+            readonly isAlphanumeric: {
+                readonly _tag: "isAlphanumeric";
+                readonly regExp: globalThis.RegExp;
+            };
+            readonly isHexadecimal: {
+                readonly _tag: "isHexadecimal";
+                readonly regExp: globalThis.RegExp;
+            };
+            readonly isOctal: {
+                readonly _tag: "isOctal";
+                readonly regExp: globalThis.RegExp;
+            };
+        }
+    }
+}
 
 /**
  * @since 1.0.0
- * @category String filters
+ * @category String checks
  */
-export const ascii = <S extends Schema.Schema.Any>(
-    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined,
-): (<A extends string>(
-    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>,
-) => Schema.filter<S>) =>
+export function isAscii(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
     // eslint-disable-next-line no-control-regex
-    Schema.pattern(/^[\x00-\x7F]+$/, {
+    const regExp = /^[\x00-\x7F]+$/;
+    return Schema.isPattern(regExp, {
         title: "ascii",
+        expected: "a string containing only ascii characters",
         description: "A string containing only ascii characters",
-        message: () => `an ascii string`,
+        meta: { _tag: "isAscii", regExp },
         ...annotations,
     });
+}
 
 /**
  * @since 1.0.0
- * @category Strings
+ * @category String checks
  */
-export class Ascii extends Function.pipe(
-    Schema.String,
-    ascii({
-        arbitrary: () => (fc) =>
-            fc.string({
-                unit: "binary-ascii",
-            }),
-    }),
-    Schema.brand("Ascii"),
-) {}
+export function isAlphanumeric(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+    const regExp = /^[a-z0-9]+$/i;
+    return Schema.isPattern(regExp, {
+        title: "alphanumeric",
+        expected: "a string containing only alphanumeric characters",
+        description: "A string containing only alphanumeric characters",
+        meta: { _tag: "isAlphanumeric", regExp },
+        ...annotations,
+    });
+}
 
 /**
  * @since 1.0.0
- * @category String filters
+ * @category String checks
  */
-export const hexadecimal = <S extends Schema.Schema.Any>(
-    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined,
-): (<A extends string>(
-    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>,
-) => Schema.filter<S>) =>
-    Schema.pattern(/^(0x|0h)?[0-9A-F]+$/i, {
+export function isHexadecimal(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+    const regExp = /^(0x|0h)?[0-9A-F]+$/i;
+    return Schema.isPattern(regExp, {
         title: "hexadecimal",
+        expected: "a string containing only hexadecimal characters",
         description: "A string containing only hexadecimal characters",
-        message: () => `a hexadecimal string`,
+        meta: { _tag: "isHexadecimal", regExp },
         ...annotations,
     });
+}
 
 /**
  * @since 1.0.0
- * @category Strings
+ * @category String checks
  */
-export class Hexadecimal extends Function.pipe(
-    Schema.String,
-    hexadecimal({
-        arbitrary: () => (fc) =>
-            fc.string({
-                unit: fc.constantFrom(..."0123456789abcdef"),
-            }),
-    }),
-    Schema.brand("Hexadecimal"),
-) {}
-
-/**
- * @since 1.0.0
- * @category String filters
- */
-export const octal = <S extends Schema.Schema.Any>(
-    annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined,
-): (<A extends string>(
-    self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>,
-) => Schema.filter<S>) =>
-    Schema.pattern(/^(0o)?[0-7]+$/i, {
+export function isOctal(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+    const regExp = /^(0o)?[0-7]+$/i;
+    return Schema.isPattern(regExp, {
         title: "octal",
+        expected: "a string containing only octal characters",
         description: "A string containing only octal characters",
-        message: () => `an octal string`,
+        meta: { _tag: "isOctal", regExp },
         ...annotations,
     });
-
-/**
- * @since 1.0.0
- * @category Strings
- */
-export class Octal extends Function.pipe(
-    Schema.String,
-    octal({
-        arbitrary: () => (fc) =>
-            fc.string({
-                unit: fc.constantFrom(..."01234567"),
-            }),
-    }),
-    Schema.brand("Octal"),
-) {}
+}

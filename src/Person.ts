@@ -4,69 +4,58 @@
  * @since 1.0.0
  */
 
-import { Function, Schema } from "effect";
+import { Schema } from "effect";
 
 /**
  * @since 1.0.0
  * @category Person Schemas
  */
-export class Sex extends Function.pipe(
-    Schema.Literal("male", "female"),
-    Schema.annotations({
-        title: "Sex",
-        arbitrary: () => (fc) => fc.constantFrom("male" as const, "female" as const),
-    }),
-    Schema.brand("Sex"),
-) {}
+export const Sex = Schema.Literals(["male", "female"]);
 
 /**
  * @since 1.0.0
  * @category Person Schemas
  */
-export class FirstName extends Function.pipe(
-    Schema.String,
-    Schema.annotations({
+export const FirstName = Schema.String.pipe(
+    Schema.annotate({
         title: "FirstName",
         description: "A person's first name",
     }),
     Schema.brand("FirstName"),
-) {}
+);
 
 /**
  * @since 1.0.0
  * @category Person Schemas
  */
-export class MiddleName extends Function.pipe(
-    Schema.String,
-    Schema.annotations({
+export const MiddleName = Schema.String.pipe(
+    Schema.annotate({
         title: "MiddleName",
         description: "A person's middle name",
     }),
     Schema.brand("MiddleName"),
-) {}
+);
 
 /**
  * @since 1.0.0
  * @category Person Schemas
  */
-export class LastName extends Function.pipe(
-    Schema.String,
-    Schema.annotations({
+export const LastName = Schema.String.pipe(
+    Schema.annotate({
         title: "LastName",
         description: "A person's last name",
     }),
     Schema.brand("LastName"),
-) {}
+);
 
 /**
  * @since 1.0.0
  * @category Person Schemas
  */
-export class Name extends Function.pipe(
-    Schema.String,
-    Schema.annotations({
+export const Name = Schema.String.pipe(
+    Schema.annotate({
         title: "Name",
         description: "A person's full name",
     }),
     Schema.brand("Name"),
-) {}
+);
