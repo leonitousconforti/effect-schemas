@@ -1,7 +1,10 @@
 {
     "name": "effect-schemas",
-    "version": "0.0.12",
-    "description": "GNU ustar tar implementation written using effect-ts",
+    "version": "0.0.13",
+    "description": "Shared schemas for Effect-TS",
+    "keywords": [
+        "effect-ts"
+    ],
     "homepage": "https://github.com/leonitousconforti/effect-schemas",
     "bugs": {
         "url": "https://github.com/leonitousconforti/effect-schemas/issues",
