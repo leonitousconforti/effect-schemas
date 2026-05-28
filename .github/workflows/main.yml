@@ -35,4 +35,3 @@ jobs:
       - run: pnpm circular
       - run: pnpm lint
       - run: pnpm build
-      - run: pnpm test

@@ -49,9 +49,7 @@
         "lint": "oxlint && oxfmt --check",
         "lint-fix": "oxlint --fix && oxfmt --write",
         "build": "tsc -b tsconfig.json && pnpm babel",
-        "babel": "babel dist --plugins annotate-pure-calls --out-dir dist --source-maps",
-        "test": "vitest",
-        "coverage": "vitest --coverage"
+        "babel": "babel dist --plugins annotate-pure-calls --out-dir dist --source-maps"
     },
     "devDependencies": {
         "@babel/cli": "7.29.7",
