@@ -12,6 +12,7 @@
         "target": "ES2022",
         "rewriteRelativeImportExtensions": true,
         "allowImportingTsExtensions": true,
+        "types": ["node"],
         "paths": {
             "@leonitousconforti/effect-schemas": ["../../src/index.ts"],
             "@leonitousconforti/effect-schemas/*": ["../../src/*.ts"]
