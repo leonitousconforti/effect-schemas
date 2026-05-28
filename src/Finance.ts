@@ -70,7 +70,7 @@ export interface EthereumAddress extends Schema.brand<Schema.String, "EthereumAd
 /** @since 1.0.0 */
 export const EthereumAddress: EthereumAddress = Schema.String.pipe(
     Schema.check(isEthereumAddress()),
-    Schema.brand("EthereumAddress"),
+    Schema.brand("EthereumAddress")
 );
 
 /**
@@ -94,5 +94,5 @@ export interface BitcoinAddress extends Schema.brand<Schema.String, "BitcoinAddr
 /** @since 1.0.0 */
 export const BitcoinAddress: BitcoinAddress = Schema.String.pipe(
     Schema.check(isBitcoinAddress()),
-    Schema.brand("BitcoinAddress"),
+    Schema.brand("BitcoinAddress")
 );

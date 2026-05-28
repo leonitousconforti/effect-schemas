@@ -14,20 +14,23 @@ Since v1.0.0
 
 ## Exports Grouped by Category
 
-- [Finance filters](#finance-filters)
-  - [bic](#bic)
-  - [bitcoinAddress](#bitcoinaddress)
-  - [ethereumAddress](#ethereumaddress)
-- [Finance schemas](#finance-schemas)
-  - [BIC (class)](#bic-class)
-  - [BitcoinAddress (class)](#bitcoinaddress-class)
-  - [EthereumAddress (class)](#ethereumaddress-class)
+- [Finance checks](#finance-checks)
+  - [isBic](#isbic)
+  - [isBitcoinAddress](#isbitcoinaddress)
+  - [isEthereumAddress](#isethereumaddress)
+- [utils](#utils)
+  - [Bic](#bic)
+  - [Bic (interface)](#bic-interface)
+  - [BitcoinAddress](#bitcoinaddress)
+  - [BitcoinAddress (interface)](#bitcoinaddress-interface)
+  - [EthereumAddress](#ethereumaddress)
+  - [EthereumAddress (interface)](#ethereumaddress-interface)
 
 ---
 
-# Finance filters
+# Finance checks
 
-## bic
+## isBic
 
 A Business Identifier Code (BIC)
 
@@ -38,89 +41,107 @@ A Business Identifier Code (BIC)
 **Signature**
 
 ```ts
-declare const bic: <S extends Schema.Schema.Any>(
-  annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
-) => <A extends string>(
-  self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
-) => Schema.filter<S>
-```
-
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L16)
-
-Since v1.0.0
-
-## bitcoinAddress
-
-**Signature**
-
-```ts
-declare const bitcoinAddress: <S extends Schema.Schema.Any>(
-  annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
-) => <A extends string>(
-  self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
-) => Schema.filter<S>
-```
-
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L63)
-
-Since v1.0.0
-
-## ethereumAddress
-
-**Signature**
-
-```ts
-declare const ethereumAddress: <S extends Schema.Schema.Any>(
-  annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
-) => <A extends string>(
-  self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
-) => Schema.filter<S>
-```
-
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L41)
-
-Since v1.0.0
-
-# Finance schemas
-
-## BIC (class)
-
-A Business Identifier Code (BIC).
-
-**See**
-
-- https://en.wikipedia.org/wiki/ISO_9362
-
-**Signature**
-
-```ts
-declare class BIC
+declare const isBic: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L35)
 
 Since v1.0.0
 
-## BitcoinAddress (class)
+## isBitcoinAddress
 
 **Signature**
 
 ```ts
-declare class BitcoinAddress
+declare const isBitcoinAddress: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L79)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L80)
 
 Since v1.0.0
 
-## EthereumAddress (class)
+## isEthereumAddress
 
 **Signature**
 
 ```ts
-declare class EthereumAddress
+declare const isEthereumAddress: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L57)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L56)
+
+Since v1.0.0
+
+# utils
+
+## Bic
+
+**Signature**
+
+```ts
+declare const Bic: Bic
+```
+
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L50)
+
+Since v1.0.0
+
+## Bic (interface)
+
+**Signature**
+
+```ts
+export interface Bic extends Schema.brand<Schema.String, "Bic"> {}
+```
+
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L47)
+
+Since v1.0.0
+
+## BitcoinAddress
+
+**Signature**
+
+```ts
+declare const BitcoinAddress: BitcoinAddress
+```
+
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L95)
+
+Since v1.0.0
+
+## BitcoinAddress (interface)
+
+**Signature**
+
+```ts
+export interface BitcoinAddress extends Schema.brand<Schema.String, "BitcoinAddress"> {}
+```
+
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L92)
+
+Since v1.0.0
+
+## EthereumAddress
+
+**Signature**
+
+```ts
+declare const EthereumAddress: EthereumAddress
+```
+
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L71)
+
+Since v1.0.0
+
+## EthereumAddress (interface)
+
+**Signature**
+
+```ts
+export interface EthereumAddress extends Schema.brand<Schema.String, "EthereumAddress"> {}
+```
+
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L68)
 
 Since v1.0.0

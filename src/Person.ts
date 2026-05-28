@@ -21,7 +21,7 @@ export const FirstName = Schema.String.pipe(
         title: "FirstName",
         description: "A person's first name",
     }),
-    Schema.brand("FirstName"),
+    Schema.brand("FirstName")
 );
 
 /**
@@ -33,7 +33,7 @@ export const MiddleName = Schema.String.pipe(
         title: "MiddleName",
         description: "A person's middle name",
     }),
-    Schema.brand("MiddleName"),
+    Schema.brand("MiddleName")
 );
 
 /**
@@ -45,7 +45,7 @@ export const LastName = Schema.String.pipe(
         title: "LastName",
         description: "A person's last name",
     }),
-    Schema.brand("LastName"),
+    Schema.brand("LastName")
 );
 
 /**
@@ -57,5 +57,5 @@ export const Name = Schema.String.pipe(
         title: "Name",
         description: "A person's full name",
     }),
-    Schema.brand("Name"),
+    Schema.brand("Name")
 );

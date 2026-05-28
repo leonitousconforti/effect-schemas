@@ -1,6 +1,6 @@
 ---
 title: Temperature.ts
-nav_order: 9
+nav_order: 8
 parent: Modules
 ---
 
@@ -15,111 +15,100 @@ Since v1.0.0
 ## Exports Grouped by Category
 
 - [Temperature Schemas](#temperature-schemas)
-  - [Celsius (class)](#celsius-class)
-  - [CelsiusFromString (class)](#celsiusfromstring-class)
-  - [Fahrenheit (class)](#fahrenheit-class)
-  - [FahrenheitFromString (class)](#fahrenheitfromstring-class)
-  - [Kelvin (class)](#kelvin-class)
-  - [KelvinFromString (class)](#kelvinfromstring-class)
-  - [Temperature (class)](#temperature-class)
-  - [TemperatureFromString (class)](#temperaturefromstring-class)
+  - [Celsius](#celsius)
+  - [CelsiusFromString](#celsiusfromstring)
+  - [Fahrenheit](#fahrenheit)
+  - [FahrenheitFromString](#fahrenheitfromstring)
+  - [Kelvin](#kelvin)
+  - [KelvinFromString](#kelvinfromstring)
 
 ---
 
 # Temperature Schemas
 
-## Celsius (class)
+## Celsius
 
 **Signature**
 
 ```ts
-declare class Celsius
+declare const Celsius: Schema.brand<Schema.Finite, "Celsius">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L32)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L19)
 
 Since v1.0.0
 
-## CelsiusFromString (class)
+## CelsiusFromString
 
 **Signature**
 
 ```ts
-declare class CelsiusFromString
+declare const CelsiusFromString: Schema.decodeTo<
+  Schema.brand<Schema.Finite, "Celsius">,
+  Schema.TemplateLiteralParser<readonly [Schema.Finite, Schema.Literal<"c">]>,
+  never,
+  never
+>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L108)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L51)
 
 Since v1.0.0
 
-## Fahrenheit (class)
+## Fahrenheit
 
 **Signature**
 
 ```ts
-declare class Fahrenheit
+declare const Fahrenheit: Schema.brand<Schema.Finite, "Fahrenheit">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L38)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L28)
 
 Since v1.0.0
 
-## FahrenheitFromString (class)
+## FahrenheitFromString
 
 **Signature**
 
 ```ts
-declare class FahrenheitFromString
+declare const FahrenheitFromString: Schema.decodeTo<
+  Schema.brand<Schema.Finite, "Fahrenheit">,
+  Schema.TemplateLiteralParser<readonly [Schema.Finite, Schema.Literal<"f">]>,
+  never,
+  never
+>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L124)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L65)
 
 Since v1.0.0
 
-## Kelvin (class)
+## Kelvin
 
 **Signature**
 
 ```ts
-declare class Kelvin
+declare const Kelvin: Schema.brand<Schema.Finite, "Kelvin">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L26)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L13)
 
 Since v1.0.0
 
-## KelvinFromString (class)
+## KelvinFromString
 
 **Signature**
 
 ```ts
-declare class KelvinFromString
+declare const KelvinFromString: Schema.decodeTo<
+  Schema.brand<Schema.Finite, "Kelvin">,
+  Schema.TemplateLiteralParser<readonly [Schema.Finite, Schema.Literal<"k">]>,
+  never,
+  never
+>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L92)
-
-Since v1.0.0
-
-## Temperature (class)
-
-**Signature**
-
-```ts
-declare class Temperature
-```
-
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L44)
-
-Since v1.0.0
-
-## TemperatureFromString (class)
-
-**Signature**
-
-```ts
-declare class TemperatureFromString
-```
-
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L140)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L37)
 
 Since v1.0.0

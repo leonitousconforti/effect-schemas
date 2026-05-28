@@ -15,33 +15,40 @@ Since v1.0.0
 ## Exports Grouped by Category
 
 - [Math schemas](#math-schemas)
-  - [Operation (class)](#operation-class)
-  - [Operator (class)](#operator-class)
+  - [Operation](#operation)
+  - [Operator](#operator)
 
 ---
 
 # Math schemas
 
-## Operation (class)
+## Operation
 
 **Signature**
 
 ```ts
-declare class Operation
+declare const Operation: Schema.Literals<readonly ["addition", "subtraction", "multiplication", "division"]>
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Math.ts#L13)
 
 Since v1.0.0
 
-## Operator (class)
+## Operator
 
 **Signature**
 
 ```ts
-declare class Operator
+declare const Operator: Schema.Union<
+  readonly [
+    Schema.decodeTo<Schema.Literal<"+">, Schema.Literal<"addition">, never, never>,
+    Schema.decodeTo<Schema.Literal<"-">, Schema.Literal<"subtraction">, never, never>,
+    Schema.decodeTo<Schema.Literal<"*">, Schema.Literal<"multiplication">, never, never>,
+    Schema.decodeTo<Schema.Literal<"/">, Schema.Literal<"division">, never, never>
+  ]
+>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Math.ts#L32)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Math.ts#L23)
 
 Since v1.0.0

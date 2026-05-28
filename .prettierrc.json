@@ -1,5 +1,0 @@
-{
-    "$schema": "https://json.schemastore.org/prettierrc",
-    "plugins": ["prettier-plugin-jsdoc"],
-    "jsdocPrintWidth": 80
-}

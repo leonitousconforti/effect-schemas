@@ -1,6 +1,6 @@
 ---
 title: String.ts
-nav_order: 8
+nav_order: 7
 parent: Modules
 ---
 
@@ -14,101 +14,60 @@ Since v1.0.0
 
 ## Exports Grouped by Category
 
-- [String filters](#string-filters)
-  - [ascii](#ascii)
-  - [hexadecimal](#hexadecimal)
-  - [octal](#octal)
-- [Strings](#strings)
-  - [Ascii (class)](#ascii-class)
-  - [Hexadecimal (class)](#hexadecimal-class)
-  - [Octal (class)](#octal-class)
+- [String checks](#string-checks)
+  - [isAlphanumeric](#isalphanumeric)
+  - [isAscii](#isascii)
+  - [isHexadecimal](#ishexadecimal)
+  - [isOctal](#isoctal)
 
 ---
 
-# String filters
+# String checks
 
-## ascii
+## isAlphanumeric
 
 **Signature**
 
 ```ts
-declare const ascii: <S extends Schema.Schema.Any>(
-  annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
-) => <A extends string>(
-  self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
-) => Schema.filter<S>
+declare const isAlphanumeric: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L13)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L52)
 
 Since v1.0.0
 
-## hexadecimal
+## isAscii
 
 **Signature**
 
 ```ts
-declare const hexadecimal: <S extends Schema.Schema.Any>(
-  annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
-) => <A extends string>(
-  self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
-) => Schema.filter<S>
+declare const isAscii: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L45)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L36)
 
 Since v1.0.0
 
-## octal
+## isHexadecimal
 
 **Signature**
 
 ```ts
-declare const octal: <S extends Schema.Schema.Any>(
-  annotations?: Schema.Annotations.Filter<Schema.Schema.Type<S>> | undefined
-) => <A extends string>(
-  self: S & Schema.Schema<A, Schema.Schema.Encoded<S>, Schema.Schema.Context<S>>
-) => Schema.filter<S>
+declare const isHexadecimal: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L76)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L67)
 
 Since v1.0.0
 
-# Strings
-
-## Ascii (class)
+## isOctal
 
 **Signature**
 
 ```ts
-declare class Ascii
+declare const isOctal: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L30)
-
-Since v1.0.0
-
-## Hexadecimal (class)
-
-**Signature**
-
-```ts
-declare class Hexadecimal
-```
-
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L61)
-
-Since v1.0.0
-
-## Octal (class)
-
-**Signature**
-
-```ts
-declare class Octal
-```
-
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L92)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L82)
 
 Since v1.0.0

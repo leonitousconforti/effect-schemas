@@ -1,6 +1,6 @@
 ---
 title: Person.ts
-nav_order: 7
+nav_order: 6
 parent: Modules
 ---
 
@@ -15,70 +15,70 @@ Since v1.0.0
 ## Exports Grouped by Category
 
 - [Person Schemas](#person-schemas)
-  - [FirstName (class)](#firstname-class)
-  - [LastName (class)](#lastname-class)
-  - [MiddleName (class)](#middlename-class)
-  - [Name (class)](#name-class)
-  - [Sex (class)](#sex-class)
+  - [FirstName](#firstname)
+  - [LastName](#lastname)
+  - [MiddleName](#middlename)
+  - [Name](#name)
+  - [Sex](#sex)
 
 ---
 
 # Person Schemas
 
-## FirstName (class)
+## FirstName
 
 **Signature**
 
 ```ts
-declare class FirstName
+declare const FirstName: Schema.brand<Schema.String, "FirstName">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L26)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L19)
 
 Since v1.0.0
 
-## LastName (class)
+## LastName
 
 **Signature**
 
 ```ts
-declare class LastName
+declare const LastName: Schema.brand<Schema.String, "LastName">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L52)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L43)
 
 Since v1.0.0
 
-## MiddleName (class)
+## MiddleName
 
 **Signature**
 
 ```ts
-declare class MiddleName
+declare const MiddleName: Schema.brand<Schema.String, "MiddleName">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L39)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L31)
 
 Since v1.0.0
 
-## Name (class)
+## Name
 
 **Signature**
 
 ```ts
-declare class Name
+declare const Name: Schema.brand<Schema.String, "Name">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L65)
+[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L55)
 
 Since v1.0.0
 
-## Sex (class)
+## Sex
 
 **Signature**
 
 ```ts
-declare class Sex
+declare const Sex: Schema.Literals<readonly ["male", "female"]>
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L13)

@@ -1,6 +1,15 @@
 {
     "$schema": "./node_modules/oxlint/configuration_schema.json",
-    "ignorePatterns": ["**/dist", "**/build", "**/docs", "**/.tsbuildinfo", "!scratchpad/**/*", ".agents/**/*"],
+    "ignorePatterns": [
+        "**/dist",
+        "**/build",
+        "**/docs",
+        "**/.tsbuildinfo",
+        "**/generated/**",
+        "!scratchpad/**/*",
+        ".agents/**/*",
+        "repos/**"
+    ],
     "plugins": ["typescript", "import", "oxc", "eslint", "unicorn", "node"],
     "categories": {
         "correctness": "error",
@@ -9,7 +18,7 @@
     },
     "overrides": [
         {
-            "files": ["**/{test,dtslint,examples,benchmark,bundle,scripts,scratchpad}/**"],
+            "files": ["**/{test,typetest,examples,ai-docs,benchmark,bundle,scripts,scratchpad}/**"],
             "rules": {
                 "eslint/no-console": "off"
             }
@@ -44,6 +53,7 @@
         "unicorn/no-accessor-recursion": "error",
         "oxc/no-map-spread": "off",
         "eslint/object-shorthand": "off",
+        "eslint/no-shadow": "off",
         "eslint/no-unused-vars": "off",
         "eslint/require-yield": "off",
         "eslint/no-fallthrough": "off",
@@ -79,6 +89,8 @@
                 "argsIgnorePattern": "^_",
                 "varsIgnorePattern": "^_"
             }
-        ]
+        ],
+        "import/no-unassigned-import": "off",
+        "eslint/no-underscore-dangle": "off"
     }
 }

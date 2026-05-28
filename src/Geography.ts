@@ -38,7 +38,7 @@ export function isLatitude(annotations?: Schema.Annotations.Filter | undefined):
             expected: "a latitude between -90 and 90 (inclusive)",
             description: "A number between -90 and 90 (inclusive)",
             ...annotations,
-        },
+        }
     );
 }
 
@@ -65,7 +65,7 @@ export function isLongitude(annotations?: Schema.Annotations.Filter | undefined)
             expected: "a longitude between -180 and 180 (inclusive)",
             description: "A number between -180 and 180 (inclusive)",
             ...annotations,
-        },
+        }
     );
 }
 
@@ -80,7 +80,7 @@ export class LatLon extends Schema.Opaque<LatLon>()(
     Schema.Struct({
         latitude: Latitude,
         longitude: Longitude,
-    }),
+    })
 ) {
     /**
      * @since 1.0.0
@@ -145,7 +145,7 @@ export const AlphaNumericGeocode = Schema.suspend(() => {
     }
 
     const decode = SchemaGetter.forbidden<(typeof LatLon)["Encoded"], string>(
-        (_geocode) => "Decoding from alphanumeric geocode is not implemented yet",
+        (_geocode) => "Decoding from alphanumeric geocode is not implemented yet"
     );
 
     const encode = SchemaGetter.transformOrFail<string, (typeof LatLon)["Encoded"], never>(
@@ -186,7 +186,7 @@ export const AlphaNumericGeocode = Schema.suspend(() => {
 
             const str = Chunk.join(chars, "");
             return Effect.succeed(str);
-        },
+        }
     );
 
     return Schema.String.pipe(
@@ -194,6 +194,6 @@ export const AlphaNumericGeocode = Schema.suspend(() => {
         Schema.decodeTo(LatLon, {
             decode,
             encode,
-        }),
+        })
     );
 });
