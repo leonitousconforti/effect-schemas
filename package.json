@@ -38,7 +38,7 @@
             "./*/index": null
         },
         "access": "public",
-        "provenance": true
+        "provenance": false
     },
     "scripts": {
         "prepare": "effect-language-service patch",
