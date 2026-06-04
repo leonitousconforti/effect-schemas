@@ -51,8 +51,10 @@
         "check": "tsc -b tsconfig.json",
         "lint": "oxlint && oxfmt --check",
         "lint-fix": "oxlint --fix && oxfmt --write",
-        "build": "tsc -b tsconfig.json && pnpm babel",
-        "babel": "babel dist --plugins annotate-pure-calls --out-dir dist --source-maps"
+        "build": "tsc -b tsconfig.build.json && pnpm babel",
+        "babel": "babel dist --plugins annotate-pure-calls --out-dir dist --source-maps",
+        "changeset-version": "changeset version",
+        "changeset-publish": "pnpm build && changeset publish"
     },
     "devDependencies": {
         "@babel/cli": "7.29.7",
