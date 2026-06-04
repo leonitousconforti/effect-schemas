@@ -1,6 +1,6 @@
 {
     "name": "effect-schemas",
-    "version": "0.0.13",
+    "version": "0.0.14",
     "description": "Shared schemas for Effect-TS",
     "keywords": [
         "effect-ts"
