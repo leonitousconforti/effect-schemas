@@ -5,13 +5,9 @@
         "**/build",
         "**/docs",
         "**/.tsbuildinfo",
-        "**/generated/**",
         ".agents/**/*",
         "**/index.ts",
-        "repos/**",
-        "**/CHANGELOG.md",
-        "!packages/polyfills/src/index.ts",
-        "!packages/vitest-pool/src/index.ts"
+        "**/CHANGELOG.md"
     ],
     "sortPackageJson": true,
     "trailingComma": "es5",
