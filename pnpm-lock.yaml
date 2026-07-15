@@ -46,8 +46,8 @@ importers:
         specifier: 0.5.0
         version: 0.5.0(@babel/core@7.29.7)
       effect:
-        specifier: 4.0.0-beta.69
-        version: 4.0.0-beta.69
+        specifier: 4.0.0-beta.98
+        version: 4.0.0-beta.98
       madge:
         specifier: 8.0.0
         version: 8.0.0(typescript@6.0.3)
@@ -1040,8 +1040,8 @@ packages:
     resolution: {integrity: sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==}
     engines: {node: '>=6.0.0'}
 
-  effect@4.0.0-beta.69:
-    resolution: {integrity: sha512-o6og4Dkh0/esTnCJq7UwQ5PZhuQQYCxNCrEYPVk5Z2Fo7oPTHj0/AAVi5kF2Dln53+jEVxA7quXMC/+jPnATuw==}
+  effect@4.0.0-beta.98:
+    resolution: {integrity: sha512-oz+bsG5h+6RNrw4t5GMfQrk/xBS8ROoqkYsuvRhBr5O7mCOrpvH/hbw+QrDzvKIpX4HJClwm86F94c87W0sJxg==}
 
   electron-to-chromium@1.5.389:
     resolution: {integrity: sha512-cEto7aeOqBfU1D+c5py5pE+ooscKE75JifxLBdFUZsqAxRS6y7kebtxAZvICszSl05gPjYHDTjY+lXpyGvpJbg==}
@@ -2908,7 +2908,7 @@ snapshots:
     dependencies:
       esutils: 2.0.3
 
-  effect@4.0.0-beta.69:
+  effect@4.0.0-beta.98:
     dependencies:
       '@standard-schema/spec': 1.1.0
       fast-check: 4.9.0
