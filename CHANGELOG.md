@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.16
+
+### Patch Changes
+
+- dac3880: Update dependency effect to v4.0.0-beta.99
+
 ## 0.0.15
 
 ### Patch Changes
