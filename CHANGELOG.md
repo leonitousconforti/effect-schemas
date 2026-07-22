@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.17
+
+### Patch Changes
+
+- 144e50c: Update dependency effect to v4.0.0-beta.100
+
 ## 0.0.16
 
 ### Patch Changes
