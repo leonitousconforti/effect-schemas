@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.18
+
+### Patch Changes
+
+- 52af81d: update deps
+
 ## 0.0.17
 
 ### Patch Changes
