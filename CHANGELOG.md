@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.19
+
+### Patch Changes
+
+- a5b5550: Update effect deps
+
 ## 0.0.18
 
 ### Patch Changes
