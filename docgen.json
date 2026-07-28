@@ -1,8 +1,9 @@
 {
     "$schema": "./node_modules/@effect/docgen/schema.json",
-    "srcLink": "https://github.com/leonitousconforti/effect-schemas/tree/main/src/",
+    "srcLink": "https://github.com/leonitousconforti/effect-schemas/blob/main/src/",
     "exclude": ["src/internal/**/*.ts"],
     "runExamples": true,
+    "projectHomepage": "https://github.com/leonitousconforti/effect-schemas/",
     "examplesCompilerOptions": {
         "noEmit": true,
         "strict": true,

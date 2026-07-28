@@ -44,7 +44,7 @@ A Business Identifier Code (BIC)
 declare const isBic: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L35)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Finance.ts#L35)
 
 Since v1.0.0
 
@@ -56,7 +56,7 @@ Since v1.0.0
 declare const isBitcoinAddress: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L80)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Finance.ts#L80)
 
 Since v1.0.0
 
@@ -68,7 +68,7 @@ Since v1.0.0
 declare const isEthereumAddress: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L56)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Finance.ts#L56)
 
 Since v1.0.0
 
@@ -82,7 +82,7 @@ Since v1.0.0
 declare const Bic: Bic
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L50)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Finance.ts#L50)
 
 Since v1.0.0
 
@@ -94,7 +94,7 @@ Since v1.0.0
 export interface Bic extends Schema.brand<Schema.String, "Bic"> {}
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L47)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Finance.ts#L47)
 
 Since v1.0.0
 
@@ -106,7 +106,7 @@ Since v1.0.0
 declare const BitcoinAddress: BitcoinAddress
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L95)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Finance.ts#L95)
 
 Since v1.0.0
 
@@ -118,7 +118,7 @@ Since v1.0.0
 export interface BitcoinAddress extends Schema.brand<Schema.String, "BitcoinAddress"> {}
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L92)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Finance.ts#L92)
 
 Since v1.0.0
 
@@ -130,7 +130,7 @@ Since v1.0.0
 declare const EthereumAddress: EthereumAddress
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L71)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Finance.ts#L71)
 
 Since v1.0.0
 
@@ -142,6 +142,6 @@ Since v1.0.0
 export interface EthereumAddress extends Schema.brand<Schema.String, "EthereumAddress"> {}
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Finance.ts#L68)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Finance.ts#L68)
 
 Since v1.0.0

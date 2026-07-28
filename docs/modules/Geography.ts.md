@@ -40,7 +40,7 @@ Since v1.0.0
 declare const isLatitude: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<number>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L28)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L28)
 
 Since v1.0.0
 
@@ -52,7 +52,7 @@ Since v1.0.0
 declare const isLongitude: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<number>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L55)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L55)
 
 Since v1.0.0
 
@@ -64,7 +64,7 @@ Since v1.0.0
 declare const isPostalCode: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L114)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L114)
 
 Since v1.0.0
 
@@ -78,7 +78,7 @@ Since v1.0.0
 declare const AlphaNumericGeocode: Schema.suspend<Schema.decodeTo<typeof LatLon, Schema.String, never, never>>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L132)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L132)
 
 Since v1.0.0
 
@@ -90,7 +90,7 @@ Since v1.0.0
 declare class LatLon
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L79)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L79)
 
 Since v1.0.0
 
@@ -102,7 +102,7 @@ Since v1.0.0
 declare const Latitude: Latitude
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L49)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L49)
 
 Since v1.0.0
 
@@ -114,7 +114,7 @@ Since v1.0.0
 export interface Latitude extends Schema.brand<Schema.Number, "Latitude"> {}
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L46)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L46)
 
 Since v1.0.0
 
@@ -126,7 +126,7 @@ Since v1.0.0
 declare const Longitude: Longitude
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L76)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L76)
 
 Since v1.0.0
 
@@ -138,7 +138,7 @@ Since v1.0.0
 export interface Longitude extends Schema.brand<Schema.Number, "Longitude"> {}
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L73)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L73)
 
 Since v1.0.0
 
@@ -150,7 +150,7 @@ Since v1.0.0
 declare const PostalCode: PostalCode
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L129)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L129)
 
 Since v1.0.0
 
@@ -162,6 +162,6 @@ Since v1.0.0
 export interface PostalCode extends Schema.brand<Schema.String, "PostalCode"> {}
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Geography.ts#L126)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L126)
 
 Since v1.0.0

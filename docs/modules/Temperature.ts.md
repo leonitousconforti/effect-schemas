@@ -34,7 +34,7 @@ Since v1.0.0
 declare const Celsius: Schema.brand<Schema.Finite, "Celsius">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L19)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Temperature.ts#L19)
 
 Since v1.0.0
 
@@ -51,7 +51,7 @@ declare const CelsiusFromString: Schema.decodeTo<
 >
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L51)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Temperature.ts#L51)
 
 Since v1.0.0
 
@@ -63,7 +63,7 @@ Since v1.0.0
 declare const Fahrenheit: Schema.brand<Schema.Finite, "Fahrenheit">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L28)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Temperature.ts#L28)
 
 Since v1.0.0
 
@@ -80,7 +80,7 @@ declare const FahrenheitFromString: Schema.decodeTo<
 >
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L65)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Temperature.ts#L65)
 
 Since v1.0.0
 
@@ -92,7 +92,7 @@ Since v1.0.0
 declare const Kelvin: Schema.brand<Schema.Finite, "Kelvin">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L13)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Temperature.ts#L13)
 
 Since v1.0.0
 
@@ -109,6 +109,6 @@ declare const KelvinFromString: Schema.decodeTo<
 >
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Temperature.ts#L37)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Temperature.ts#L37)
 
 Since v1.0.0

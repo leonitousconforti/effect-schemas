@@ -33,7 +33,7 @@ Since v1.0.0
 declare const FirstName: Schema.brand<Schema.String, "FirstName">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L19)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Person.ts#L19)
 
 Since v1.0.0
 
@@ -45,7 +45,7 @@ Since v1.0.0
 declare const LastName: Schema.brand<Schema.String, "LastName">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L43)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Person.ts#L43)
 
 Since v1.0.0
 
@@ -57,7 +57,7 @@ Since v1.0.0
 declare const MiddleName: Schema.brand<Schema.String, "MiddleName">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L31)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Person.ts#L31)
 
 Since v1.0.0
 
@@ -69,7 +69,7 @@ Since v1.0.0
 declare const Name: Schema.brand<Schema.String, "Name">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L55)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Person.ts#L55)
 
 Since v1.0.0
 
@@ -81,6 +81,6 @@ Since v1.0.0
 declare const Sex: Schema.Literals<readonly ["male", "female"]>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Person.ts#L13)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Person.ts#L13)
 
 Since v1.0.0

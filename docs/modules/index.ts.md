@@ -37,7 +37,7 @@ Re-exports all named exports from the "./Finance.ts" module as `Finance`.
 export * as Finance from "./Finance.ts"
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/index.ts#L10)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/index.ts#L10)
 
 Since v1.0.0
 
@@ -51,7 +51,7 @@ Re-exports all named exports from the "./Geography.ts" module as `Geography`.
 export * as Geography from "./Geography.ts"
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/index.ts#L17)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/index.ts#L17)
 
 Since v1.0.0
 
@@ -65,7 +65,7 @@ Re-exports all named exports from the "./Internet.ts" module as `Internet`.
 export * as Internet from "./Internet.ts"
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/index.ts#L24)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/index.ts#L24)
 
 Since v1.0.0
 
@@ -79,7 +79,7 @@ Re-exports all named exports from the "./Math.ts" module as `Math`.
 export * as Math from "./Math.ts"
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/index.ts#L31)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/index.ts#L31)
 
 Since v1.0.0
 
@@ -93,7 +93,7 @@ Re-exports all named exports from the "./Person.ts" module as `Person`.
 export * as Person from "./Person.ts"
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/index.ts#L38)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/index.ts#L38)
 
 Since v1.0.0
 
@@ -107,7 +107,7 @@ Re-exports all named exports from the "./String.ts" module as `String`.
 export * as String from "./String.ts"
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/index.ts#L45)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/index.ts#L45)
 
 Since v1.0.0
 
@@ -121,6 +121,6 @@ Re-exports all named exports from the "./Temperature.ts" module as `Temperature`
 export * as Temperature from "./Temperature.ts"
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/index.ts#L52)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/index.ts#L52)
 
 Since v1.0.0

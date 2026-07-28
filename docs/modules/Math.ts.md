@@ -30,7 +30,7 @@ Since v1.0.0
 declare const Operation: Schema.Literals<readonly ["addition", "subtraction", "multiplication", "division"]>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Math.ts#L13)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Math.ts#L13)
 
 Since v1.0.0
 
@@ -49,6 +49,6 @@ declare const Operator: Schema.Union<
 >
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/Math.ts#L23)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Math.ts#L23)
 
 Since v1.0.0

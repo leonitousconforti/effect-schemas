@@ -32,7 +32,7 @@ Since v1.0.0
 declare const isAlphanumeric: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L52)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/String.ts#L52)
 
 Since v1.0.0
 
@@ -44,7 +44,7 @@ Since v1.0.0
 declare const isAscii: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L36)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/String.ts#L36)
 
 Since v1.0.0
 
@@ -56,7 +56,7 @@ Since v1.0.0
 declare const isHexadecimal: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L67)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/String.ts#L67)
 
 Since v1.0.0
 
@@ -68,6 +68,6 @@ Since v1.0.0
 declare const isOctal: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/tree/main/src/String.ts#L82)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/String.ts#L82)
 
 Since v1.0.0
