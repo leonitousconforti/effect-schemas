@@ -4,17 +4,7 @@
  * @since 1.0.0
  */
 
-import {
-    Array,
-    Effect,
-    String,
-    Function,
-    Order,
-    Schema,
-    SchemaIssue,
-    SchemaTransformation,
-    Stream,
-} from "effect";
+import { Array, Effect, String, Function, Order, Schema, SchemaIssue, SchemaTransformation, Stream } from "effect";
 
 /** @internal */
 type Split<Str extends string, Delimiter extends string> = string extends Str | ""
