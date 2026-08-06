@@ -4,18 +4,7 @@
  * @since 1.0.0
  */
 
-import {
-    Array,
-    Effect,
-    String,
-    Function,
-    Option,
-    Order,
-    Schema,
-    SchemaIssue,
-    SchemaTransformation,
-    Stream,
-} from "effect";
+import { Array, Effect, String, Function, Order, Schema, SchemaIssue, SchemaTransformation, Stream } from "effect";
 
 /** @internal */
 type Split<Str extends string, Delimiter extends string> = string extends Str | ""
@@ -379,11 +368,7 @@ export const IPv6Bigint = IPv6.pipe(
 
                     const remaining = 8 - (first.length + last.length);
                     if (!remaining && first.length + last.length !== 8) {
-                        return Effect.fail(
-                            new SchemaIssue.Forbidden(Option.some(ip), {
-                                message: "Error parsing IPv6 groups",
-                            })
-                        );
+                        return Effect.fail(new SchemaIssue.Forbidden({ message: "Error parsing IPv6 groups" }));
                     }
 
                     groups = groups.concat(first);
@@ -394,18 +379,12 @@ export const IPv6Bigint = IPv6.pipe(
                 } else if (halves.length === 1) {
                     groups = ip.split(":");
                 } else {
-                    return Effect.fail(
-                        new SchemaIssue.Forbidden(Option.some(ip), {
-                            message: "Too many :: groups found",
-                        })
-                    );
+                    return Effect.fail(new SchemaIssue.Forbidden({ message: "Too many :: groups found" }));
                 }
 
                 groups = groups.map((group) => parseInt(group, 16).toString(16));
                 if (groups.length !== 8) {
-                    return Effect.fail(
-                        new SchemaIssue.Forbidden(Option.some(ip), { message: "Invalid number of IPv6 groups" })
-                    );
+                    return Effect.fail(new SchemaIssue.Forbidden({ message: "Invalid number of IPv6 groups" }));
                 }
 
                 return Effect.succeed({

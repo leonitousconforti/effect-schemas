@@ -4,7 +4,7 @@
  * @since 1.0.0
  */
 
-import { Chunk, Effect, Option, Schema, SchemaGetter, SchemaIssue, type SchemaAST } from "effect";
+import { Chunk, Effect, Schema, SchemaGetter, SchemaIssue, type SchemaAST } from "effect";
 
 declare module "effect/Schema" {
     namespace Annotations {
@@ -178,9 +178,8 @@ export const AlphaNumericGeocode = Schema.suspend(() => {
                 dividend = (dividend - remainder) / AlphabetBase;
                 chars = Chunk.prepend(chars, Alphabet[Number(remainder)]);
                 if (chars.length > 10) {
-                    const data = Option.some(`${latitude},${longitude}`);
                     const message = "Exceeded maximum iterations for alphanumeric geocode";
-                    return Effect.fail(new SchemaIssue.Forbidden(data, { message }));
+                    return Effect.fail(new SchemaIssue.Forbidden({ message }));
                 }
             } while (quotient > 0n);
 
