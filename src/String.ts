@@ -33,7 +33,7 @@ declare module "effect/Schema" {
  * @since 1.0.0
  * @category String checks
  */
-export function isAscii(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+export function isAscii(annotations?: Schema.Annotations.Filter): SchemaAST.Filter<string> {
     // eslint-disable-next-line no-control-regex
     const regExp = /^[\x00-\x7F]+$/;
     return Schema.isPattern(regExp, {
@@ -49,7 +49,7 @@ export function isAscii(annotations?: Schema.Annotations.Filter | undefined): Sc
  * @since 1.0.0
  * @category String checks
  */
-export function isAlphanumeric(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+export function isAlphanumeric(annotations?: Schema.Annotations.Filter): SchemaAST.Filter<string> {
     const regExp = /^[a-z0-9]+$/i;
     return Schema.isPattern(regExp, {
         title: "alphanumeric",
@@ -64,7 +64,7 @@ export function isAlphanumeric(annotations?: Schema.Annotations.Filter | undefin
  * @since 1.0.0
  * @category String checks
  */
-export function isHexadecimal(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+export function isHexadecimal(annotations?: Schema.Annotations.Filter): SchemaAST.Filter<string> {
     const regExp = /^(0x|0h)?[0-9A-F]+$/i;
     return Schema.isPattern(regExp, {
         title: "hexadecimal",
@@ -79,7 +79,7 @@ export function isHexadecimal(annotations?: Schema.Annotations.Filter | undefine
  * @since 1.0.0
  * @category String checks
  */
-export function isOctal(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+export function isOctal(annotations?: Schema.Annotations.Filter): SchemaAST.Filter<string> {
     const regExp = /^(0o)?[0-7]+$/i;
     return Schema.isPattern(regExp, {
         title: "octal",

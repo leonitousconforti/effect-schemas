@@ -17,7 +17,11 @@ type Split<Str extends string, Delimiter extends string> = string extends Str | 
 const splitLiteral = <const Str extends string, const Delimiter extends string>(
     str: Str,
     delimiter: Delimiter
-): Split<Str, Delimiter> => str.split(delimiter) as Split<Str, Delimiter>;
+): Split<Str, Delimiter> =>
+    // `String.prototype.split` is typed as returning `Array<string>`, so the literal tuple that
+    // `Split` computes has to be asserted. This is the whole point of the helper.
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+    str.split(delimiter) as Split<Str, Delimiter>;
 
 /**
  * An operating system port number.
@@ -69,15 +73,18 @@ export const PortWithMaybeProtocol = Schema.Union([
         }),
         SchemaTransformation.transformOrFail({
             decode: (str, options) => {
-                const [portStr, protocol] = splitLiteral(str as string, "/");
+                const [portStr, protocol] = splitLiteral(str, "/");
                 const portNum = parseInt(portStr, 10);
                 return Schema.decodeEffect(Port)(portNum, options).pipe(
-                    Effect.map((port) => ({ port, protocol: protocol as "tcp" | "udp" | undefined })),
+                    Effect.map((port) => ({ port, protocol })),
                     Effect.mapError((e) => e.issue)
                 );
             },
             encode: ({ port, protocol }: { port: number; protocol?: "tcp" | "udp" | undefined }) =>
                 Effect.succeed(
+                    // The assertion is load-bearing: without it the template literal widens to
+                    // `string` and no longer satisfies the encoded side of the transformation.
+                    // oxlint-disable-next-line typescript/no-unnecessary-type-assertion
                     (protocol ? `${port}/${protocol}` : `${port}`) as `${number}` | `${number}/tcp` | `${number}/udp`
                 ),
         })
@@ -360,8 +367,8 @@ export const IPv6Bigint = IPv6.pipe(
                 const halves = ip.split("::");
 
                 if (halves.length === 2) {
-                    let first = halves[0]!.split(":");
-                    let last = halves[1]!.split(":");
+                    let first = halves[0].split(":");
+                    let last = halves[1].split(":");
 
                     if (first.length === 1 && first[0] === "") first = [];
                     if (last.length === 1 && last[0] === "") last = [];
@@ -526,10 +533,15 @@ const onFamily = Function.dual<
             onIPv6: (self: IPv6CidrBlock) => OnIPv6;
         }
     ): Input extends IPv4CidrBlock ? OnIPv4 : Input extends IPv6CidrBlock ? OnIPv6 : never => {
+        // TypeScript cannot narrow the generic `Input` against the conditional return type from
+        // inside the implementation, so each branch is asserted. The overloads above are what
+        // callers actually see, and those stay precise.
         switch (input.address.family) {
             case "ipv4":
+                // oxlint-disable-next-line typescript/no-unsafe-type-assertion
                 return onIPv4(input as any) as any;
             case "ipv6":
+                // oxlint-disable-next-line typescript/no-unsafe-type-assertion
                 return onIPv6(input as any) as any;
             default:
                 return Function.absurd<any>(input.address);
@@ -687,12 +699,10 @@ export const total = (input: IPv4CidrBlock | IPv6CidrBlock): bigint => {
  *
  * @since 1.0.0
  */
-export const cidrBlockForRange = <
-    Input extends
+export const cidrBlockForRange = (
+    inputs:
         | Array.NonEmptyReadonlyArray<Schema.Schema.Type<typeof IPv4>>
-        | Array.NonEmptyReadonlyArray<Schema.Schema.Type<typeof IPv6>>,
->(
-    inputs: Input
+        | Array.NonEmptyReadonlyArray<Schema.Schema.Type<typeof IPv6>>
 ) => {
     const AddressBigintOrder = Order.make(
         (a: Schema.Schema.Type<typeof AddressBigint>, b: Schema.Schema.Type<typeof AddressBigint>) => {
