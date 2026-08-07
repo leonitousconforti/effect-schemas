@@ -62,9 +62,9 @@ export const Port = Function.pipe(
  * @category Schemas
  */
 export const PortWithMaybeProtocol = Schema.Union([
-    Schema.TemplateLiteral([Schema.Number]),
-    Schema.TemplateLiteral([Schema.Number, "/", Schema.Literal("tcp")]),
-    Schema.TemplateLiteral([Schema.Number, "/", Schema.Literal("udp")]),
+    Schema.TemplateLiteral([Schema.Finite]),
+    Schema.TemplateLiteral([Schema.Finite, "/", Schema.Literal("tcp")]),
+    Schema.TemplateLiteral([Schema.Finite, "/", Schema.Literal("udp")]),
 ]).pipe(
     Schema.decodeTo(
         Schema.Struct({
@@ -803,7 +803,7 @@ export class IPv4CidrBlock extends Schema.Class<IPv4CidrBlock>("IPv4CidrBlock")(
  * @since 1.0.0
  * @category Schemas
  */
-export const IPv4CidrBlockFromString = Schema.TemplateLiteral([Schema.String, "/", Schema.Number]).pipe(
+export const IPv4CidrBlockFromString = Schema.TemplateLiteral([Schema.String, "/", Schema.Finite]).pipe(
     Schema.decodeTo(
         IPv4CidrBlock,
         SchemaTransformation.transform({
@@ -885,7 +885,7 @@ export class IPv6CidrBlock extends Schema.Class<IPv6CidrBlock>("IPv6CidrBlock")(
  * @since 1.0.0
  * @category Schemas
  */
-export const IPv6CidrBlockFromString = Schema.TemplateLiteral([Schema.String, "/", Schema.Number]).pipe(
+export const IPv6CidrBlockFromString = Schema.TemplateLiteral([Schema.String, "/", Schema.Finite]).pipe(
     Schema.decodeTo(
         IPv6CidrBlock,
         SchemaTransformation.transform({
@@ -913,7 +913,7 @@ export const CidrBlock = Schema.Union([IPv4CidrBlock, IPv6CidrBlock]);
  * @since 1.0.0
  * @category Schemas
  */
-export const CidrBlockFromString = Schema.TemplateLiteral([Schema.String, "/", Schema.Number]).pipe(
+export const CidrBlockFromString = Schema.TemplateLiteral([Schema.String, "/", Schema.Finite]).pipe(
     Schema.decodeTo(
         CidrBlock,
         SchemaTransformation.transform({
