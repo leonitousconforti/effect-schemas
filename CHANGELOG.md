@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.21
+
+### Patch Changes
+
+- a3fcb41: Update Effect-TS packages to v4.0.0-beta.104
+
 ## 0.0.20
 
 ### Patch Changes
