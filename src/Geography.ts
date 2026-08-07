@@ -25,7 +25,7 @@ declare module "effect/Schema" {
  * @since 1.0.0
  * @category Geography checks
  */
-export function isLatitude(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<number> {
+export function isLatitude(annotations?: Schema.Annotations.Filter): SchemaAST.Filter<number> {
     return Schema.isBetween(
         {
             minimum: -90,
@@ -52,7 +52,7 @@ export const Latitude: Latitude = Schema.Number.pipe(Schema.check(isLatitude()),
  * @since 1.0.0
  * @category Geography checks
  */
-export function isLongitude(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<number> {
+export function isLongitude(annotations?: Schema.Annotations.Filter): SchemaAST.Filter<number> {
     return Schema.isBetween(
         {
             minimum: -180,
@@ -111,7 +111,7 @@ export class LatLon extends Schema.Opaque<LatLon>()(
  * @since 1.0.0
  * @category Geography checks
  */
-export function isPostalCode(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+export function isPostalCode(annotations?: Schema.Annotations.Filter): SchemaAST.Filter<string> {
     const regExp = /^\d{5}(-\d{4})?$/;
     return Schema.isPattern(regExp, {
         title: "PostalCode",
@@ -133,7 +133,7 @@ export const AlphaNumericGeocode = Schema.suspend(() => {
     const Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const AlphabetBase = BigInt(Alphabet.length);
 
-    function isAlphanumericGeocode(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+    function isAlphanumericGeocode(annotations?: Schema.Annotations.Filter): SchemaAST.Filter<string> {
         const regExp = /^[A-Z0-9]{1,10}$/i;
         return Schema.isPattern(regExp, {
             title: "AlphanumericGeocode",

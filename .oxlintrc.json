@@ -1,7 +1,10 @@
 {
-    "$schema": "./node_modules/oxlint/configuration_schema.json",
+    "$schema": "./node_modules/@effect/tsgo/oxlint-schema.json",
     "ignorePatterns": ["**/dist", "**/build", "**/docs", "**/.tsbuildinfo", ".agents/**/*"],
-    "plugins": ["typescript", "import", "oxc", "eslint", "unicorn", "node"],
+    "plugins": ["typescript", "import", "oxc", "eslint", "unicorn", "node", "effecttsgo"],
+    "options": {
+        "typeAware": true
+    },
     "categories": {
         "correctness": "error",
         "suspicious": "error",
@@ -11,7 +14,9 @@
         {
             "files": ["**/{test,typetest,examples,ai-docs,benchmark,bundle,scripts,scratchpad}/**"],
             "rules": {
-                "eslint/no-console": "off"
+                "eslint/no-console": "off",
+                // These are application entry points, so composing and providing layers here is correct.
+                "effecttsgo/strict-effect-provide": "off"
             }
         }
     ],
@@ -31,6 +36,9 @@
         "typescript/no-unnecessary-type-assertion": "error",
         "typescript/no-unnecessary-type-constraint": "error",
         "typescript/no-useless-empty-export": "error",
+        // Writing out the defaulted `never` channels keeps the public Schema/Stream signatures
+        // readable side by side, so this one stays off.
+        "typescript/no-unnecessary-type-arguments": "off",
         // Code quality
         "eslint/no-console": "error",
         "eslint/no-var": "error",

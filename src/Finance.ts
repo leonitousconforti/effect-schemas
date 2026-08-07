@@ -32,7 +32,7 @@ declare module "effect/Schema" {
  * @category Finance checks
  * @see https://en.wikipedia.org/wiki/ISO_9362
  */
-export function isBic(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+export function isBic(annotations?: Schema.Annotations.Filter): SchemaAST.Filter<string> {
     const regExp = /^[A-Za-z]{6}[A-Za-z0-9]{2}([A-Za-z0-9]{3})?$/;
     return Schema.isPattern(regExp, {
         title: "BIC",
@@ -53,7 +53,7 @@ export const Bic: Bic = Schema.String.pipe(Schema.check(isBic()), Schema.brand("
  * @since 1.0.0
  * @category Finance checks
  */
-export function isEthereumAddress(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+export function isEthereumAddress(annotations?: Schema.Annotations.Filter): SchemaAST.Filter<string> {
     const regExp = /^(0x)[0-9a-f]{40}$/i;
     return Schema.isPattern(regExp, {
         title: "EthereumAddress",
@@ -77,7 +77,7 @@ export const EthereumAddress: EthereumAddress = Schema.String.pipe(
  * @since 1.0.0
  * @category Finance checks
  */
-export function isBitcoinAddress(annotations?: Schema.Annotations.Filter | undefined): SchemaAST.Filter<string> {
+export function isBitcoinAddress(annotations?: Schema.Annotations.Filter): SchemaAST.Filter<string> {
     const regExp = /^(bc1)[a-z0-9]{25,39}$|^(1|3)[A-HJ-NP-Za-km-z1-9]{25,39}$/;
     return Schema.isPattern(regExp, {
         title: "BitcoinAddress",
