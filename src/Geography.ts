@@ -43,10 +43,10 @@ export function isLatitude(annotations?: Schema.Annotations.Filter): SchemaAST.F
 }
 
 /** @since 1.0.0 */
-export interface Latitude extends Schema.brand<Schema.Number, "Latitude"> {}
+export interface Latitude extends Schema.brand<Schema.Finite, "Latitude"> {}
 
 /** @since 1.0.0 */
-export const Latitude: Latitude = Schema.Number.pipe(Schema.check(isLatitude()), Schema.brand("Latitude"));
+export const Latitude: Latitude = Schema.Finite.pipe(Schema.check(isLatitude()), Schema.brand("Latitude"));
 
 /**
  * @since 1.0.0
@@ -70,10 +70,10 @@ export function isLongitude(annotations?: Schema.Annotations.Filter): SchemaAST.
 }
 
 /** @since 1.0.0 */
-export interface Longitude extends Schema.brand<Schema.Number, "Longitude"> {}
+export interface Longitude extends Schema.brand<Schema.Finite, "Longitude"> {}
 
 /** @since 1.0.0 */
-export const Longitude: Longitude = Schema.Number.pipe(Schema.check(isLongitude()), Schema.brand("Longitude"));
+export const Longitude: Longitude = Schema.Finite.pipe(Schema.check(isLongitude()), Schema.brand("Longitude"));
 
 /** @since 1.0.0 */
 export class LatLon extends Schema.Opaque<LatLon>()(
