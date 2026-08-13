@@ -18,13 +18,13 @@
 
 - b1f5dd2: Reject non-finite numbers in Geography and Internet schemas
 
-  `Latitude` and `Longitude` are now branded off `Schema.Finite` instead of `Schema.Number`, and
-  the template literal schemas `PortWithMaybeProtocol`, `IPv4CidrBlockFromString`,
-  `IPv6CidrBlockFromString` and `CidrBlockFromString` interpolate `Schema.Finite` in their number
-  positions. This resolves the `effect(schemaNumber)` diagnostics from `pnpm check`.
+    `Latitude` and `Longitude` are now branded off `Schema.Finite` instead of `Schema.Number`, and
+    the template literal schemas `PortWithMaybeProtocol`, `IPv4CidrBlockFromString`,
+    `IPv6CidrBlockFromString` and `CidrBlockFromString` interpolate `Schema.Finite` in their number
+    positions. This resolves the `effect(schemaNumber)` diagnostics from `pnpm check`.
 
-  `NaN`, `Infinity` and `-Infinity` were already rejected by the range checks on `Latitude` and
-  `Longitude`, so no valid inputs are affected; the finiteness is now just explicit in the types.
+    `NaN`, `Infinity` and `-Infinity` were already rejected by the range checks on `Latitude` and
+    `Longitude`, so no valid inputs are affected; the finiteness is now just explicit in the types.
 
 ## 0.0.22
 
@@ -32,17 +32,17 @@
 
 - fc0e0a8: Tighten a few public type signatures
 
-  `cidrBlockForRange` no longer takes an `Input` type parameter. It was used once, in the
-  parameter position, and never referenced by the return type, so the union it was constrained to
-  is now spelled directly on `inputs`. Calls are unaffected.
+    `cidrBlockForRange` no longer takes an `Input` type parameter. It was used once, in the
+    parameter position, and never referenced by the return type, so the union it was constrained to
+    is now spelled directly on `inputs`. Calls are unaffected.
 
-  The `annotations` parameter of `isBic`, `isEthereumAddress`, `isBitcoinAddress`, `isLatitude`,
-  `isLongitude`, `isPostalCode`, `isAscii`, `isAlphanumeric`, `isHexadecimal` and `isOctal` is
-  declared `annotations?: Schema.Annotations.Filter` rather than
-  `annotations?: Schema.Annotations.Filter | undefined`. Passing `undefined` explicitly still
-  works; under `exactOptionalPropertyTypes` the two spellings already meant the same thing here.
+    The `annotations` parameter of `isBic`, `isEthereumAddress`, `isBitcoinAddress`, `isLatitude`,
+    `isLongitude`, `isPostalCode`, `isAscii`, `isAlphanumeric`, `isHexadecimal` and `isOctal` is
+    declared `annotations?: Schema.Annotations.Filter` rather than
+    `annotations?: Schema.Annotations.Filter | undefined`. Passing `undefined` explicitly still
+    works; under `exactOptionalPropertyTypes` the two spellings already meant the same thing here.
 
-  No runtime behaviour changed.
+    No runtime behaviour changed.
 
 ## 0.0.21
 

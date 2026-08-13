@@ -1,14 +1,6 @@
 {
     "$schema": "./node_modules/oxfmt/configuration_schema.json",
-    "ignorePatterns": [
-        "**/dist",
-        "**/build",
-        "**/docs",
-        "**/.tsbuildinfo",
-        ".agents/**/*",
-        "**/index.ts",
-        "**/CHANGELOG.md"
-    ],
+    "ignorePatterns": ["**/dist", "**/build", "**/docs", "**/.tsbuildinfo", ".agents/**/*", "**/index.ts"],
     "sortPackageJson": true,
     "trailingComma": "es5",
     "sortImports": {
