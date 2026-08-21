@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.27
+
+### Patch Changes
+
+- b466aac: Update Effect-TS packages to v4.0.0-rc.111
+
 ## 0.0.26
 
 ### Patch Changes
