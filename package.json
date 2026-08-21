@@ -64,11 +64,11 @@
         "@changesets/cli": "3.0.1",
         "@changesets/config": "4.0.0",
         "@effect/build-utils": "0.8.9",
-        "@effect/docgen": "4.0.0-rc.108",
+        "@effect/docgen": "4.0.0-rc.111",
         "@effect/tsgo": "0.36.5",
         "@types/node": "25.9.5",
         "babel-plugin-annotate-pure-calls": "0.5.0",
-        "effect": "4.0.0-rc.108",
+        "effect": "4.0.0-rc.111",
         "ioredis": "5.11.1",
         "madge": "8.0.0",
         "oxfmt": "0.63.0",
@@ -79,7 +79,7 @@
         "typescript": "7.0.2"
     },
     "peerDependencies": {
-        "effect": "4.0.0-rc.108"
+        "effect": "4.0.0-rc.111"
     },
     "engines": {
         "node": ">=18.0.0"
