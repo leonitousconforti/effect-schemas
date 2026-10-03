@@ -198,8 +198,8 @@ importers:
         specifier: 0.47.2
         version: 0.47.2
       '@types/node':
-        specifier: 25.9.8
-        version: 25.9.8
+        specifier: 25.9.9
+        version: 25.9.9
       babel-plugin-annotate-pure-calls:
         specifier: 0.5.0
         version: 0.5.0(@babel/core@8.0.1)
@@ -1045,8 +1045,8 @@ packages:
   '@types/node@25.9.5':
     resolution: {integrity: sha512-OScDchr2fwuUmWdf4kZ9h7PcJiYDVInhJizG/biAq3cAvqwYktuy/TYGGdZNMtNTFUP7rnb0NU4TUdm82kt4Rg==}
 
-  '@types/node@25.9.8':
-    resolution: {integrity: sha512-VfMrScDmMhUJQmd5hArdQnFvK0OIeD36uN2Va1FcpYaLB/BgkgM8Ulc50XtYISPMz7APJ30+N0T5EM0jlcdfRw==}
+  '@types/node@25.9.9':
+    resolution: {integrity: sha512-b4e2xxj/yMeT2hNlD6x7zNFiQK2Dlmkb9CQ6v3/1G2RezKN4YS2lcEv8lzGm1mhs4f2lM4yNAMI/zUDBZBBt7w==}
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
@@ -2849,7 +2849,7 @@ snapshots:
     dependencies:
       undici-types: 7.24.6
 
-  '@types/node@25.9.8':
+  '@types/node@25.9.9':
     dependencies:
       undici-types: 7.24.6
 
