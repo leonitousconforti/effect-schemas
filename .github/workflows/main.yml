@@ -28,10 +28,9 @@ jobs:
       - run: pnpm install
       - run: pnpm clean
       - run: pnpm codegen
+      - run: pnpm build
       - run: pnpm docgen
-      - run: git restore docs/_config.yml
       - run: git add src && git diff-index --cached HEAD --exit-code src
       - run: pnpm check
       - run: pnpm circular
       - run: pnpm lint
-      - run: pnpm build

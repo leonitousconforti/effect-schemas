@@ -37,7 +37,7 @@ Since v1.0.0
 **Signature**
 
 ```ts
-declare const isLatitude: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<number>
+declare const isLatitude: (annotations?: Schema.Annotations.Filter) => SchemaAST.Filter<number>
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L28)
@@ -49,7 +49,7 @@ Since v1.0.0
 **Signature**
 
 ```ts
-declare const isLongitude: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<number>
+declare const isLongitude: (annotations?: Schema.Annotations.Filter) => SchemaAST.Filter<number>
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L55)
@@ -61,7 +61,7 @@ Since v1.0.0
 **Signature**
 
 ```ts
-declare const isPostalCode: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
+declare const isPostalCode: (annotations?: Schema.Annotations.Filter) => SchemaAST.Filter<string>
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L114)
@@ -111,7 +111,7 @@ Since v1.0.0
 **Signature**
 
 ```ts
-export interface Latitude extends Schema.brand<Schema.Number, "Latitude"> {}
+export interface Latitude extends Schema.brand<Schema.Finite, "Latitude"> {}
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L46)
@@ -135,7 +135,7 @@ Since v1.0.0
 **Signature**
 
 ```ts
-export interface Longitude extends Schema.brand<Schema.Number, "Longitude"> {}
+export interface Longitude extends Schema.brand<Schema.Finite, "Longitude"> {}
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Geography.ts#L73)

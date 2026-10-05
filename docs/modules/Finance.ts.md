@@ -41,7 +41,7 @@ A Business Identifier Code (BIC)
 **Signature**
 
 ```ts
-declare const isBic: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
+declare const isBic: (annotations?: Schema.Annotations.Filter) => SchemaAST.Filter<string>
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Finance.ts#L35)
@@ -53,7 +53,7 @@ Since v1.0.0
 **Signature**
 
 ```ts
-declare const isBitcoinAddress: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
+declare const isBitcoinAddress: (annotations?: Schema.Annotations.Filter) => SchemaAST.Filter<string>
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Finance.ts#L80)
@@ -65,7 +65,7 @@ Since v1.0.0
 **Signature**
 
 ```ts
-declare const isEthereumAddress: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
+declare const isEthereumAddress: (annotations?: Schema.Annotations.Filter) => SchemaAST.Filter<string>
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Finance.ts#L56)

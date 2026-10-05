@@ -148,7 +148,7 @@ export const AlphaNumericGeocode = Schema.suspend(() => {
         (_geocode) => "Decoding from alphanumeric geocode is not implemented yet"
     );
 
-    const encode = SchemaGetter.transformOrFail<string, (typeof LatLon)["Encoded"], never>(
+    const encode = SchemaGetter.transformEffect<string, (typeof LatLon)["Encoded"], never>(
         ({ latitude, longitude }) => {
             const x = BigInt(Math.round(latitude * 100_000));
             const y = BigInt(Math.round(longitude * 100_000));

@@ -34,7 +34,7 @@ const splitLiteral = <const Str extends string, const Delimiter extends string>(
  *     import * as assert from "node:assert"
  *     import * as Schema from "effect/Schema";
  *
- *     import { Port } from "@leonitousconforti/effect-schemas/Internet";
+ *     import { Port } from "effect-schemas/Internet";
  *     const decodePort = Schema.decodeSync(Port);
  *
  *     assert.strictEqual(decodePort(8080), 8080);
@@ -71,7 +71,7 @@ export const PortWithMaybeProtocol = Schema.Union([
             port: Port,
             protocol: Schema.optional(Schema.Union([Schema.Literal("tcp"), Schema.Literal("udp")])),
         }),
-        SchemaTransformation.transformOrFail({
+        SchemaTransformation.transformEffect({
             decode: (str, options) => {
                 const [portStr, protocol] = splitLiteral(str, "/");
                 const portNum = parseInt(portStr, 10);
@@ -174,7 +174,7 @@ export const IPv4String = Schema.String.pipe(
  *     import * as assert from "node:assert"
  *     import * as Schema from "effect/Schema";
  *
- *     import { IPv4 } from "@leonitousconforti/effect-schemas/Internet";
+ *     import { IPv4 } from "effect-schemas/Internet";
  *     const decodeIPv4 = Schema.decodeSync(IPv4);
  *
  *     assert.deepEqual(decodeIPv4("1.1.1.1"), {
@@ -214,7 +214,7 @@ export const IPv4Bigint = IPv4.pipe(
             family: IPv4Family,
             value: Schema.BigInt.pipe(Schema.brand("IPv4Bigint")),
         }),
-        SchemaTransformation.transformOrFail({
+        SchemaTransformation.transformEffect({
             encode: ({ value }) => {
                 const padded = value.toString(16).padStart(8, "0");
                 const groups: Array<number> = [];
@@ -305,7 +305,7 @@ export const IPv6String = Schema.String.pipe(
  *     import * as assert from "node:assert"
  *     import * as Schema from "effect/Schema";
  *
- *     import { IPv6 } from "@leonitousconforti/effect-schemas/Internet";
+ *     import { IPv6 } from "effect-schemas/Internet";
  *     const decodeIPv6 = Schema.decodeSync(IPv6);
  *
  *     assert.deepEqual(decodeIPv6("2001:0db8:85a3:0000:0000:8a2e:0370:7334"), {
@@ -349,7 +349,7 @@ export const IPv6Bigint = IPv6.pipe(
             family: IPv6Family,
             value: Schema.BigInt.pipe(Schema.brand("IPv6Bigint")),
         }),
-        SchemaTransformation.transformOrFail({
+        SchemaTransformation.transformEffect({
             encode: ({ value }) => {
                 const hex = value.toString(16).padStart(32, "0");
                 const groups: Array<string> = [];
@@ -441,7 +441,7 @@ export const AddressString = Schema.Union([IPv4String, IPv6String]).pipe(
  *     import * as assert from "node:assert"
  *     import * as Schema from "effect/Schema";
  *
- *     import { Address } from "@leonitousconforti/effect-schemas/Internet";
+ *     import { Address } from "effect-schemas/Internet";
  *     const decodeAddress = Schema.decodeSync(Address);
  *
  *     assert.throws(() => decodeAddress("1.1.b.1"));

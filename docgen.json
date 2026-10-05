@@ -15,8 +15,8 @@
         "allowImportingTsExtensions": true,
         "types": ["node"],
         "paths": {
-            "@leonitousconforti/effect-schemas": ["../../src/index.ts"],
-            "@leonitousconforti/effect-schemas/*": ["../../src/*.ts"]
+            "effect-schemas": ["../../src/index.ts"],
+            "effect-schemas/*": ["../../src/*.ts"]
         }
     }
 }

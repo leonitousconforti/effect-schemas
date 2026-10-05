@@ -21,6 +21,11 @@
         }
     ],
     "rules": {
+        // Several public entry points are deliberately exposed as zero-argument functions returning
+        // an Effect, so that adding parameters later is not a breaking change. Worth seeing, not
+        // worth failing the build over.
+        "effecttsgo/lazy-effect": "warn",
+        "effecttsgo/unstable-api-usage": "off",
         // Import rules
         "typescript/consistent-type-imports": [
             "error",

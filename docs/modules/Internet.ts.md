@@ -75,7 +75,7 @@ An IP address, which is either an IPv4 or IPv6 address.
     import * as assert from "node:assert"
     import * as Schema from "effect/Schema";
 
-    import { Address } from "@leonitousconforti/effect-schemas/Internet";
+    import { Address } from "effect-schemas/Internet";
     const decodeAddress = Schema.decodeSync(Address);
 
     assert.throws(() => decodeAddress("1.1.b.1"));
@@ -96,7 +96,7 @@ An IP address, which is either an IPv4 or IPv6 address.
 declare const Address: Schema.Union<readonly [Schema.decodeTo<Schema.Struct<{ readonly family: Schema.Literal<"ipv4">; readonly ip: Schema.brand<Schema.String, "IPv4">; }>, Schema.String, never, never>, Schema.decodeTo<Schema.Struct<{ readonly family: Schema.Literal<"ipv6">; readonly ip: Schema.brand<Schema.String, "IPv6">; }>, Schema.String, never, never>]>
 ````
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L471)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L457)
 
 Since v1.0.0
 
@@ -141,7 +141,7 @@ declare const AddressBigint: Schema.Union<
 >
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L483)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L469)
 
 Since v1.0.0
 
@@ -155,7 +155,7 @@ An IP address in string format, which is either an IPv4 or IPv6 address.
 declare const AddressString: Schema.Union<readonly [Schema.String, Schema.String]>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L441)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L427)
 
 Since v1.0.0
 
@@ -167,7 +167,7 @@ Since v1.0.0
 declare const CidrBlock: Schema.Union<readonly [typeof IPv4CidrBlock, typeof IPv6CidrBlock]>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L919)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L908)
 
 Since v1.0.0
 
@@ -180,13 +180,13 @@ A schema that transforms a `string` into a `CidrBlock`.
 ```ts
 declare const CidrBlockFromString: Schema.decodeTo<
   Schema.Union<readonly [typeof IPv4CidrBlock, typeof IPv6CidrBlock]>,
-  Schema.TemplateLiteral<readonly [Schema.String, "/", Schema.Number]>,
+  Schema.TemplateLiteral<readonly [Schema.String, "/", Schema.Finite]>,
   never,
   never
 >
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L927)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L916)
 
 Since v1.0.0
 
@@ -203,7 +203,7 @@ Since v1.0.0
 declare const Family: Schema.Union<readonly [Schema.Literal<"ipv4">, Schema.Literal<"ipv6">]>
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L429)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L415)
 
 Since v1.0.0
 
@@ -218,7 +218,7 @@ An IPv4 address.
     import * as assert from "node:assert"
     import * as Schema from "effect/Schema";
 
-    import { IPv4 } from "@leonitousconforti/effect-schemas/Internet";
+    import { IPv4 } from "effect-schemas/Internet";
     const decodeIPv4 = Schema.decodeSync(IPv4);
 
     assert.deepEqual(decodeIPv4("1.1.1.1"), {
@@ -235,7 +235,7 @@ An IPv4 address.
 declare const IPv4: Schema.decodeTo<Schema.Struct<{ readonly family: Schema.Literal<"ipv4">; readonly ip: Schema.brand<Schema.String, "IPv4">; }>, Schema.String, never, never>
 ````
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L192)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L188)
 
 Since v1.0.0
 
@@ -259,7 +259,7 @@ declare const IPv4Bigint: Schema.decodeTo<
 >
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L215)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L211)
 
 Since v1.0.0
 
@@ -271,7 +271,7 @@ Since v1.0.0
 declare class IPv4CidrBlock
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L755)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L744)
 
 Since v1.0.0
 
@@ -286,7 +286,7 @@ referred to as the Network Address.
 networkAddressAsBigint: { readonly family: "ipv4"; readonly value: bigint & Brand<"IPv4Bigint">; }
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L770)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L759)
 
 Since v1.0.0
 
@@ -301,7 +301,7 @@ referred to as the Network Address.
 networkAddress: this extends IPv4CidrBlock ? { readonly family: "ipv4"; readonly ip: string & Brand<"IPv4">; } : this extends IPv6CidrBlock ? { readonly family: "ipv6"; readonly ip: string & Brand<"IPv6">; } : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L778)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L767)
 
 Since v1.0.0
 
@@ -316,7 +316,7 @@ referred to as the Broadcast Address.
 broadcastAddressAsBigint: this extends IPv4CidrBlock ? { readonly family: "ipv4"; readonly value: bigint & Brand<"IPv4Bigint">; } : this extends IPv6CidrBlock ? { readonly family: "ipv6"; readonly value: bigint & Brand<"IPv6Bigint">; } : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L786)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L775)
 
 Since v1.0.0
 
@@ -331,7 +331,7 @@ referred to as the Broadcast Address.
 broadcastAddress: this extends IPv4CidrBlock ? { readonly family: "ipv4"; readonly ip: string & Brand<"IPv4">; } : this extends IPv6CidrBlock ? { readonly family: "ipv6"; readonly ip: string & Brand<"IPv6">; } : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L794)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L783)
 
 Since v1.0.0
 
@@ -345,7 +345,7 @@ A stream of all addresses in the range given by this address' subnet.
 range: this extends IPv4CidrBlock ? Stream.Stream<{ readonly family: "ipv4"; readonly ip: string & Brand<"IPv4">; }, Schema.SchemaError, never> : this extends IPv6CidrBlock ? Stream.Stream<{ readonly family: "ipv6"; readonly ip: string & Brand<"IPv6">; }, Schema.SchemaError, never> : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L801)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L790)
 
 Since v1.0.0
 
@@ -359,7 +359,7 @@ The total number of addresses in the range given by this address' subnet.
 total: bigint
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L808)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L797)
 
 Since v1.0.0
 
@@ -372,13 +372,13 @@ A schema that transforms a `string` into an `IPv4CidrBlock`.
 ```ts
 declare const IPv4CidrBlockFromString: Schema.decodeTo<
   typeof IPv4CidrBlock,
-  Schema.TemplateLiteral<readonly [Schema.String, "/", Schema.Number]>,
+  Schema.TemplateLiteral<readonly [Schema.String, "/", Schema.Finite]>,
   never,
   never
 >
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L817)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L806)
 
 Since v1.0.0
 
@@ -392,7 +392,7 @@ An ipv4 cidr mask, which is a number between 0 and 32.
 declare const IPv4CidrMask: Schema.brand<Schema.Int, "IPv4CidrMask">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L495)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L481)
 
 Since v1.0.0
 
@@ -404,7 +404,7 @@ Since v1.0.0
 declare const IPv4Family: Schema.Literal<"ipv4">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L148)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L144)
 
 Since v1.0.0
 
@@ -418,7 +418,7 @@ An IPv4 address in dot-decimal notation with no leading zeros.
 declare const IPv4String: Schema.String
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L160)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L156)
 
 Since v1.0.0
 
@@ -433,7 +433,7 @@ An IPv6 address.
     import * as assert from "node:assert"
     import * as Schema from "effect/Schema";
 
-    import { IPv6 } from "@leonitousconforti/effect-schemas/Internet";
+    import { IPv6 } from "effect-schemas/Internet";
     const decodeIPv6 = Schema.decodeSync(IPv6);
 
     assert.deepEqual(decodeIPv6("2001:0db8:85a3:0000:0000:8a2e:0370:7334"), {
@@ -455,7 +455,7 @@ An IPv6 address.
 declare const IPv6: Schema.decodeTo<Schema.Struct<{ readonly family: Schema.Literal<"ipv6">; readonly ip: Schema.brand<Schema.String, "IPv6">; }>, Schema.String, never, never>
 ````
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L328)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L324)
 
 Since v1.0.0
 
@@ -479,7 +479,7 @@ declare const IPv6Bigint: Schema.decodeTo<
 >
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L350)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L346)
 
 Since v1.0.0
 
@@ -491,7 +491,7 @@ Since v1.0.0
 declare class IPv6CidrBlock
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L837)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L826)
 
 Since v1.0.0
 
@@ -506,7 +506,7 @@ referred to as the Network Address.
 networkAddressAsBigint: { readonly family: "ipv6"; readonly value: bigint & Brand<"IPv6Bigint">; }
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L852)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L841)
 
 Since v1.0.0
 
@@ -521,7 +521,7 @@ referred to as the Network Address.
 networkAddress: this extends IPv4CidrBlock ? { readonly family: "ipv4"; readonly ip: string & Brand<"IPv4">; } : this extends IPv6CidrBlock ? { readonly family: "ipv6"; readonly ip: string & Brand<"IPv6">; } : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L860)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L849)
 
 Since v1.0.0
 
@@ -536,7 +536,7 @@ referred to as the Broadcast Address.
 broadcastAddressAsBigint: this extends IPv4CidrBlock ? { readonly family: "ipv4"; readonly value: bigint & Brand<"IPv4Bigint">; } : this extends IPv6CidrBlock ? { readonly family: "ipv6"; readonly value: bigint & Brand<"IPv6Bigint">; } : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L868)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L857)
 
 Since v1.0.0
 
@@ -551,7 +551,7 @@ referred to as the Broadcast Address.
 broadcastAddress: this extends IPv4CidrBlock ? { readonly family: "ipv4"; readonly ip: string & Brand<"IPv4">; } : this extends IPv6CidrBlock ? { readonly family: "ipv6"; readonly ip: string & Brand<"IPv6">; } : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L876)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L865)
 
 Since v1.0.0
 
@@ -565,7 +565,7 @@ A stream of all addresses in the range given by this address' subnet.
 range: this extends IPv4CidrBlock ? Stream.Stream<{ readonly family: "ipv4"; readonly ip: string & Brand<"IPv4">; }, Schema.SchemaError, never> : this extends IPv6CidrBlock ? Stream.Stream<{ readonly family: "ipv6"; readonly ip: string & Brand<"IPv6">; }, Schema.SchemaError, never> : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L883)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L872)
 
 Since v1.0.0
 
@@ -579,7 +579,7 @@ The total number of addresses in the range given by this address' subnet.
 total: bigint
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L890)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L879)
 
 Since v1.0.0
 
@@ -592,13 +592,13 @@ A schema that transforms a `string` into an `IPv6CidrBlock`.
 ```ts
 declare const IPv6CidrBlockFromString: Schema.decodeTo<
   typeof IPv6CidrBlock,
-  Schema.TemplateLiteral<readonly [Schema.String, "/", Schema.Number]>,
+  Schema.TemplateLiteral<readonly [Schema.String, "/", Schema.Finite]>,
   never,
   never
 >
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L899)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L888)
 
 Since v1.0.0
 
@@ -612,7 +612,7 @@ An ipv6 cidr mask, which is a number between 0 and 128.
 declare const IPv6CidrMask: Schema.brand<Schema.Int, "IPv6CidrMask">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L509)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L495)
 
 Since v1.0.0
 
@@ -624,7 +624,7 @@ Since v1.0.0
 declare const IPv6Family: Schema.Literal<"ipv6">
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L279)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L275)
 
 Since v1.0.0
 
@@ -638,7 +638,7 @@ An IPv6 address in string format.
 declare const IPv6String: Schema.String
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L291)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L287)
 
 Since v1.0.0
 
@@ -652,7 +652,7 @@ A Mac Address.
 export interface MacAddress extends Schema.brand<Schema.String, "MacAddress"> {}
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L111)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L107)
 
 Since v1.0.0
 
@@ -667,7 +667,7 @@ An operating system port number.
     import * as assert from "node:assert"
     import * as Schema from "effect/Schema";
 
-    import { Port } from "@leonitousconforti/effect-schemas/Internet";
+    import { Port } from "effect-schemas/Internet";
     const decodePort = Schema.decodeSync(Port);
 
     assert.strictEqual(decodePort(8080), 8080);
@@ -680,7 +680,7 @@ An operating system port number.
 declare const Port: Schema.brand<Schema.Int, "Port">
 ````
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L51)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L44)
 
 Since v1.0.0
 
@@ -698,9 +698,9 @@ declare const PortWithMaybeProtocol: Schema.decodeTo<
   }>,
   Schema.Union<
     readonly [
-      Schema.TemplateLiteral<readonly [Schema.Number]>,
-      Schema.TemplateLiteral<readonly [Schema.Number, "/", Schema.Literal<"tcp">]>,
-      Schema.TemplateLiteral<readonly [Schema.Number, "/", Schema.Literal<"udp">]>
+      Schema.TemplateLiteral<readonly [Schema.Finite]>,
+      Schema.TemplateLiteral<readonly [Schema.Finite, "/", Schema.Literal<"tcp">]>,
+      Schema.TemplateLiteral<readonly [Schema.Finite, "/", Schema.Literal<"udp">]>
     ]
   >,
   never,
@@ -708,7 +708,7 @@ declare const PortWithMaybeProtocol: Schema.decodeTo<
 >
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L71)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L64)
 
 Since v1.0.0
 
@@ -722,7 +722,7 @@ Since v1.0.0
 declare const MacAddress: MacAddress
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L114)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L110)
 
 Since v1.0.0
 
@@ -743,7 +743,7 @@ declare const broadcastAddress: <Input extends IPv4CidrBlock | IPv6CidrBlock>(
     : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L650)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L641)
 
 Since v1.0.0
 
@@ -764,7 +764,7 @@ declare const broadcastAddressAsBigint: <Input extends IPv4CidrBlock | IPv6CidrB
     : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L617)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L608)
 
 Since v1.0.0
 
@@ -775,16 +775,14 @@ Finds the smallest CIDR block that contains all the given IP addresses.
 **Signature**
 
 ```ts
-declare const cidrBlockForRange: <
-  Input extends
+declare const cidrBlockForRange: (
+  inputs:
     | Array.NonEmptyReadonlyArray<Schema.Schema.Type<typeof IPv4>>
     | Array.NonEmptyReadonlyArray<Schema.Schema.Type<typeof IPv6>>
->(
-  inputs: Input
 ) => IPv4CidrBlock | IPv6CidrBlock
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L711)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L702)
 
 Since v1.0.0
 
@@ -805,7 +803,7 @@ declare const networkAddress: <Input extends IPv4CidrBlock | IPv6CidrBlock>(
     : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L600)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L591)
 
 Since v1.0.0
 
@@ -826,7 +824,7 @@ declare const networkAddressAsBigint: <Input extends IPv4CidrBlock | IPv6CidrBlo
     : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L567)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L558)
 
 Since v1.0.0
 
@@ -846,7 +844,7 @@ declare const range: <Input extends IPv4CidrBlock | IPv6CidrBlock>(
     : never
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L666)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L657)
 
 Since v1.0.0
 
@@ -860,6 +858,6 @@ The total number of addresses in the range given by this address' subnet.
 declare const total: (input: IPv4CidrBlock | IPv6CidrBlock) => bigint
 ```
 
-[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L700)
+[Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/Internet.ts#L691)
 
 Since v1.0.0

@@ -29,7 +29,7 @@ Since v1.0.0
 **Signature**
 
 ```ts
-declare const isAlphanumeric: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
+declare const isAlphanumeric: (annotations?: Schema.Annotations.Filter) => SchemaAST.Filter<string>
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/String.ts#L52)
@@ -41,7 +41,7 @@ Since v1.0.0
 **Signature**
 
 ```ts
-declare const isAscii: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
+declare const isAscii: (annotations?: Schema.Annotations.Filter) => SchemaAST.Filter<string>
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/String.ts#L36)
@@ -53,7 +53,7 @@ Since v1.0.0
 **Signature**
 
 ```ts
-declare const isHexadecimal: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
+declare const isHexadecimal: (annotations?: Schema.Annotations.Filter) => SchemaAST.Filter<string>
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/String.ts#L67)
@@ -65,7 +65,7 @@ Since v1.0.0
 **Signature**
 
 ```ts
-declare const isOctal: (annotations?: Schema.Annotations.Filter | undefined) => SchemaAST.Filter<string>
+declare const isOctal: (annotations?: Schema.Annotations.Filter) => SchemaAST.Filter<string>
 ```
 
 [Source](https://github.com/leonitousconforti/effect-schemas/blob/main/src/String.ts#L82)
