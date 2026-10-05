@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.28
+
+### Patch Changes
+
+- 65627bf: Update Effect-TS packages to v4.0.1
+
 ## 0.0.27
 
 ### Patch Changes
